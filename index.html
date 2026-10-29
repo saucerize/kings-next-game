@@ -77,6 +77,13 @@
     dt { color: var(--gold); font-size: 13px; padding-top: 2px; }
     dd { margin: 0; font-size: 17px; font-weight: 600; }
 
+    .official {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--gold);
+      text-decoration: none;
+    }
     .countdown {
       margin-top: 24px;
       padding-top: 20px;
@@ -170,8 +177,9 @@
           <dl>
             <dt>日付</dt><dd>${fmtDate.format(next.start)}</dd>
             <dt>時間</dt><dd>${fmtTime.format(next.start)} 試合開始</dd>
-            <dt>会場</dt><dd>${esc(next.venue)}</dd>
+            <dt>会場</dt><dd>${esc(next.venue || "未定")}</dd>
           </dl>
+          ${next.url ? `<a class="official" href="${esc(next.url)}" target="_blank" rel="noopener">B.LEAGUE 公式の試合ページ ›</a>` : ""}
           <div class="countdown">
             <div class="label">${started ? "試合開始から" : "試合開始まで"}</div>
             <div class="units">
