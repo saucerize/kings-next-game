@@ -26,7 +26,7 @@ DETAIL_URL = BASE + "/game_detail/?ScheduleKey={key}&tab=1"
 HEADERS = {"User-Agent": "kings-next-game (personal use)"}
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "schedule.json")
-MAX_KEYS = 12                 # 予定一覧の先頭から何試合ぶん詳細ページを読むか
+MAX_KEYS = 40                 # 予定一覧の先頭から最大何試合ぶん詳細ページを読むか
 MAX_GAMES = 5                 # schedule.json に書く試合数
 GAME_LENGTH = timedelta(hours=2, minutes=30)  # index.html の GAME_LENGTH_MS と同じ
 
@@ -147,15 +147,15 @@ def main():
     if not keys:
         sys.exit("予定一覧に試合が見つかりませんでした(ページの形が変わった可能性があります)")
 
-    games, errors = [], 0
+    games, parsed = [], 0
     for key in keys:
         time.sleep(1)
         try:
             g = parse_game(key, fetch(DETAIL_URL.format(key=key)))
         except Exception as e:
-            errors += 1
             print(f"[skip] {key}: {e}")
             continue
+        parsed += 1
         print(f"[read] {key}: {g['tipoff']} {'HOME' if g['home'] else 'AWAY'} "
               f"vs {g['opponent']} @ {g['venue'] or '(会場不明)'}")
         if g["tipoff"] is None:
@@ -163,7 +163,9 @@ def main():
             continue
         if g["tipoff"] + GAME_LENGTH > now:
             games.append(g)
-    if errors == len(keys):
+            if len(games) >= MAX_GAMES:
+                break
+    if parsed == 0:
         sys.exit("どの試合ページも読み取れませんでした(ページの形が変わった可能性があります)")
 
     old = load_old()
