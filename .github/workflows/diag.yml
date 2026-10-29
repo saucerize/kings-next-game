@@ -2,7 +2,6 @@ name: 調査(一時的)
 on:
   push:
     branches: [claude/ryukyu-kings-next-game-5n8x6r]
-    paths: [diag/**, .github/workflows/diag.yml]
 jobs:
   inspect:
     runs-on: ubuntu-latest
@@ -12,5 +11,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install requests playwright && python -m playwright install --with-deps chromium
-      - run: python diag/probe_schedule.py
+      - run: pip install -r requirements.txt
+      - name: 予定の読み取りを試す(コミットはしない)
+        run: python update_schedule.py && cat schedule.json
