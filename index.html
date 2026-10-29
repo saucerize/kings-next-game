@@ -108,6 +108,50 @@
     .unit small { font-size: 11px; color: var(--muted); }
 
     h2 { margin: 28px 0 10px; font-size: 14px; color: var(--gold); letter-spacing: .1em; }
+    h2.section:first-child { margin-top: 0; }
+
+    .live-card { margin-bottom: 8px; border-color: var(--gold); }
+    .final { font-size: 13px; font-weight: 700; color: var(--gold-soft); }
+    .score {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: end;
+      gap: 8px;
+      margin: 20px 0 4px;
+      text-align: center;
+    }
+    .side { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .tname { font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+    .pts {
+      font-size: 52px;
+      font-weight: 800;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .kings .pts { color: var(--gold-soft); }
+    .dash { font-size: 28px; color: var(--muted); padding-bottom: 8px; }
+    .quarters {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      font-size: 14px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .quarters th { color: var(--gold); font-weight: 600; font-size: 12px; padding: 4px 2px; }
+    .quarters td { padding: 6px 2px; border-top: 1px solid var(--line); }
+    .quarters td:first-child { text-align: left; color: var(--muted); font-size: 12px; }
+    .scorers { list-style: none; margin: 0; padding: 0; }
+    .scorers li {
+      display: flex; justify-content: space-between; gap: 12px;
+      padding: 8px 2px;
+      border-bottom: 1px solid var(--line);
+      font-size: 15px;
+    }
+    .spts { font-weight: 800; color: var(--gold-soft); font-variant-numeric: tabular-nums; }
+    .spts small { font-size: 11px; color: var(--muted); font-weight: 400; margin-left: 2px; }
+    .sub { margin: 14px 0 0; font-size: 12px; color: var(--muted); }
+    .sub .official { margin-top: 0; font-size: 12px; }
     .later { list-style: none; margin: 0; padding: 0; }
     .later li {
       display: flex; justify-content: space-between; gap: 12px;
@@ -136,8 +180,19 @@
     const GAME_LENGTH_MS = 2.5 * 60 * 60 * 1000;
     const TZ = "Asia/Tokyo";
 
+    // 試合中の速報(kings-notify の notifier.py が ntfy に流している)
+    const NTFY = "https://ntfy.sh";
+    const LIVE_TOPIC = "kings-live-a38853caea";
+    const LIVE_STALE_MS = 15 * 60 * 1000;       // この時間更新がなければ速報を隠す
+    const FINAL_SHOW_MS = 3 * 60 * 60 * 1000;    // 試合終了の結果を出しておく時間
+    const LIVE_WINDOW_BEFORE_MS = 30 * 60 * 1000;
+    const LIVE_WINDOW_AFTER_MS = 4 * 60 * 60 * 1000;
+
     const app = document.getElementById("app");
     let timer = null;
+    let games = [];
+    let live = null;
+    let source = null;
 
     const fmtDate = new Intl.DateTimeFormat("ja-JP", { timeZone: TZ, year: "numeric", month: "long", day: "numeric", weekday: "short" });
     const fmtTime = new Intl.DateTimeFormat("ja-JP", { timeZone: TZ, hour: "2-digit", minute: "2-digit" });
@@ -147,26 +202,125 @@
       return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
     }
 
-    function upcoming(games, now) {
+    function upcoming(now) {
       return games
         .map(g => ({ ...g, start: new Date(g.datetime) }))
         .filter(g => !isNaN(g.start) && g.start.getTime() + GAME_LENGTH_MS > now)
         .sort((a, b) => a.start - b.start);
     }
 
-    function render(games) {
+    // ---------------------------------------------------------------- 試合中の速報
+    function liveState(now) {
+      if (!live) return null;
+      const age = now - new Date(live.updated).getTime();
+      if (live.period === "FINAL") return age < FINAL_SHOW_MS ? "final" : null;
+      return age < LIVE_STALE_MS ? "live" : null;
+    }
+
+    function periodLabel(p) {
+      if (!p) return "試合中";
+      if (p === "HALF") return "ハーフタイム";
+      if (/^Q[1-4]$/.test(p)) return p[1] + "Q";
+      if (/^OT\d*$/.test(p)) return "延長" + (p.slice(2) || "1");
+      return p;
+    }
+
+    function acceptLive(m) {
+      if (!m || m.event !== "message" || !m.message) return;
+      let d;
+      try { d = JSON.parse(m.message); } catch { return; }
+      if (d.type !== "kings-live" || !Number.isFinite(d.kings) || !Number.isFinite(d.opp) ||
+          isNaN(new Date(d.updated))) return;
+      if (live && new Date(live.updated) > new Date(d.updated)) return;
+      live = d;
+      render();
+    }
+
+    function pollLive() {
+      return fetch(`${NTFY}/${LIVE_TOPIC}/json?poll=1&since=6h`, { cache: "no-store" })
+        .then(r => r.ok ? r.text() : "")
+        .then(t => t.split("\n").forEach(line => {
+          if (line.trim()) { try { acceptLive(JSON.parse(line)); } catch {} }
+        }))
+        .catch(() => {});
+    }
+
+    // 試合の前後だけ、速報の受信をつないでおく
+    function nearGame(now) {
+      return games.some(g => {
+        const t = new Date(g.datetime).getTime();
+        return t - LIVE_WINDOW_BEFORE_MS < now && now < t + LIVE_WINDOW_AFTER_MS;
+      }) || liveState(now) === "live";
+    }
+
+    function updateConnection() {
+      const near = nearGame(Date.now());
+      if (near && !source && "EventSource" in window) {
+        source = new EventSource(`${NTFY}/${LIVE_TOPIC}/sse`);
+        source.onmessage = e => { try { acceptLive(JSON.parse(e.data)); } catch {} };
+      } else if (!near && source) {
+        source.close();
+        source = null;
+      }
+      if (near) pollLive();   // 受信が切れていた間の取りこぼし対策
+    }
+
+    function liveCard(state) {
+      const d = live;
+      const win = d.kings > d.opp;
+      const status = state === "final"
+        ? `<span class="final">試合終了${d.kings === d.opp ? "" : win ? "・WIN" : "・LOSE"}</span>`
+        : `<span class="live">● LIVE ${esc(periodLabel(d.period))}</span>`;
+      const qs = Array.isArray(d.quarters) ? d.quarters.filter(q => Array.isArray(q) && q.length === 3) : [];
+      const scorers = Array.isArray(d.scorers) ? d.scorers.filter(s => Array.isArray(s) && Number.isFinite(s[1])) : [];
+      return `
+        <div class="card live-card">
+          <div class="top">
+            <span class="badge ${d.home ? "home" : "away"}">${d.home ? "HOME" : "AWAY"}</span>
+            ${status}
+          </div>
+          <div class="score">
+            <div class="side kings"><span class="tname">琉球</span><span class="pts">${d.kings}</span></div>
+            <span class="dash">-</span>
+            <div class="side"><span class="tname">${esc(d.opponent || "")}</span><span class="pts">${d.opp}</span></div>
+          </div>
+          ${qs.length ? `
+            <table class="quarters">
+              <tr><th></th>${qs.map(q => `<th>${esc(q[0])}</th>`).join("")}</tr>
+              <tr><td>琉球</td>${qs.map(q => `<td>${esc(q[1])}</td>`).join("")}</tr>
+              <tr><td>相手</td>${qs.map(q => `<td>${esc(q[2])}</td>`).join("")}</tr>
+            </table>` : ""}
+          <h2>キングスの得点</h2>
+          ${scorers.length ? `
+            <ol class="scorers">
+              ${scorers.map(s => `<li><span>${esc(s[0])}</span><span class="spts">${s[1]}<small>点</small></span></li>`).join("")}
+            </ol>` : '<p class="sub">選手ごとの得点はまだ読み取れていません</p>'}
+          <p class="sub">${fmtTime.format(new Date(d.updated))} 更新${d.key ? `・<a class="official" href="https://www.bleague.jp/game_detail/?ScheduleKey=${encodeURIComponent(d.key)}&tab=1" target="_blank" rel="noopener">B.LEAGUE 公式 ›</a>` : ""}</p>
+        </div>`;
+    }
+
+    // ---------------------------------------------------------------- 画面
+    function render() {
       const now = Date.now();
-      const list = upcoming(games, now);
+      const state = liveState(now);
+      let list = upcoming(now);
+      // 速報を出している試合は「次の試合」から外す
+      if (state) list = list.filter(g => new Date(g.datetime).getTime() !== new Date(live.datetime).getTime());
+
+      const liveHtml = state ? liveCard(state) : "";
+      clearInterval(timer);
 
       if (list.length === 0) {
-        app.innerHTML = '<div class="card"><p class="message">登録されている次の試合はありません。<br>schedule.json に予定を追加してください。</p></div>';
+        app.innerHTML = liveHtml + (state ? "" : '<div class="card"><p class="message">登録されている次の試合はありません。</p></div>');
+        timer = setInterval(() => { if (liveState(Date.now()) !== state) render(); }, 30000);
         return;
       }
 
       const [next, ...rest] = list;
       const started = next.start.getTime() <= now;
 
-      app.innerHTML = `
+      app.innerHTML = liveHtml + `
+        ${state ? '<h2 class="section">次の試合</h2>' : ""}
         <div class="card">
           <div class="top">
             <span class="badge ${next.home ? "home" : "away"}">${next.home ? "HOME" : "AWAY"}</span>
@@ -191,7 +345,7 @@
           </div>
         </div>
         ${rest.length ? `
-          <h2>その後の予定</h2>
+          <h2 class="section">その後の予定</h2>
           <ul class="later">
             ${rest.map(g => `
               <li>
@@ -201,12 +355,12 @@
           </ul>` : ""}
       `;
 
-      clearInterval(timer);
       const tick = () => {
         const t = Date.now();
-        // 試合が終わる時刻を過ぎたら描き直して次の試合へ
-        if (t >= next.start.getTime() + GAME_LENGTH_MS) return render(games);
-        if (!started && t >= next.start.getTime()) return render(games);
+        // 試合が終わる時刻を過ぎた・試合が始まった・速報の表示が変わったら描き直す
+        if (t >= next.start.getTime() + GAME_LENGTH_MS) return render();
+        if (!started && t >= next.start.getTime()) return render();
+        if (liveState(t) !== state) return render();
 
         const diff = Math.abs(next.start.getTime() - t);
         const sec = Math.floor(diff / 1000);
@@ -226,7 +380,11 @@
       })
       .then(data => {
         if (data.note) document.getElementById("note").textContent = data.note;
-        render(Array.isArray(data.games) ? data.games : []);
+        games = Array.isArray(data.games) ? data.games : [];
+        render();
+        pollLive();   // 直近の試合結果があれば表示する
+        updateConnection();
+        setInterval(updateConnection, 60000);
       })
       .catch(() => {
         app.innerHTML = '<div class="card"><p class="message">schedule.json を読み込めませんでした。</p></div>';
