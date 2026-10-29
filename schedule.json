@@ -1,24 +1,13 @@
 {
   "team": "琉球ゴールデンキングス",
-  "note": "仮の試合予定です。実際の日程に合わせて書き換えてください。",
+  "note": "B.LEAGUE 公式サイトから自動で更新しています（最終更新 2026/10/30 07:35）",
   "games": [
     {
-      "datetime": "2026-11-01T15:05:00+09:00",
-      "opponent": "千葉ジェッツ",
+      "datetime": "2026-10-31T18:05:00+09:00",
+      "opponent": "三遠ネオフェニックス",
       "venue": "沖縄サントリーアリーナ",
-      "home": true
-    },
-    {
-      "datetime": "2026-11-08T14:05:00+09:00",
-      "opponent": "宇都宮ブレックス",
-      "venue": "日環アリーナ栃木",
-      "home": false
-    },
-    {
-      "datetime": "2026-11-15T15:05:00+09:00",
-      "opponent": "島根スサノオマジック",
-      "venue": "沖縄サントリーアリーナ",
-      "home": true
+      "home": true,
+      "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506531&tab=1"
     }
   ]
 }
