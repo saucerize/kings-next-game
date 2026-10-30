@@ -101,6 +101,8 @@ DTEND:20261031T110500Z
 SUMMARY:🏀 キングス vs 三遠ネオフェニックス（HOME）
 LOCATION:沖縄サントリーアリーナ
 URL:https://www.bleague.jp/game_detail/?ScheduleKey=506531&tab=1
+DESCRIPTION:チケット: https://ticket.bleague.jp/sales/rg/20261031\nラ
+ イブ配信: https://basketball.mb.softbank.jp/lives/506531/
 END:VEVENT
 BEGIN:VEVENT
 UID:506544@kings-next-game
@@ -110,6 +112,8 @@ DTEND:20261101T110500Z
 SUMMARY:🏀 キングス vs 三遠ネオフェニックス（HOME）
 LOCATION:沖縄サントリーアリーナ
 URL:https://www.bleague.jp/game_detail/?ScheduleKey=506544&tab=1
+DESCRIPTION:チケット: https://ticket.bleague.jp/sales/rg/20261101\nラ
+ イブ配信: https://basketball.mb.softbank.jp/lives/506544/
 END:VEVENT
 BEGIN:VEVENT
 UID:506551@kings-next-game
@@ -119,6 +123,8 @@ DTEND:20261107T090000Z
 SUMMARY:🏀 キングス vs 宇都宮ブレックス（AWAY）
 LOCATION:とちぎん・ブレックスアリーナ宇都宮
 URL:https://www.bleague.jp/game_detail/?ScheduleKey=506551&tab=1
+DESCRIPTION:チケット: https://ticket.bleague.jp/sales/ub/20261107\nラ
+ イブ配信: https://basketball.mb.softbank.jp/lives/506551/
 END:VEVENT
 BEGIN:VEVENT
 UID:506560@kings-next-game
@@ -128,6 +134,8 @@ DTEND:20261109T120500Z
 SUMMARY:🏀 キングス vs 茨城ロボッツ（AWAY）
 LOCATION:アダストリアみとアリーナ
 URL:https://www.bleague.jp/game_detail/?ScheduleKey=506560&tab=1
+DESCRIPTION:チケット: https://ticket.bleague.jp/sales/ir/20261109\nラ
+ イブ配信: https://basketball.mb.softbank.jp/lives/506560/
 END:VEVENT
 BEGIN:VEVENT
 UID:506578@kings-next-game
@@ -137,5 +145,7 @@ DTEND:20261112T123500Z
 SUMMARY:🏀 キングス vs 東京サンロッカーズ（HOME）
 LOCATION:沖縄サントリーアリーナ
 URL:https://www.bleague.jp/game_detail/?ScheduleKey=506578&tab=1
+DESCRIPTION:チケット: https://ticket.bleague.jp/sales/rg/20261112\nラ
+ イブ配信: https://basketball.mb.softbank.jp/lives/506578/
 END:VEVENT
 END:VCALENDAR

@@ -1,41 +1,51 @@
 {
   "team": "琉球ゴールデンキングス",
-  "note": "B.LEAGUE 公式サイトから自動で更新しています（最終更新 2026/10/30 20:48）",
+  "note": "B.LEAGUE 公式サイトから自動で更新しています（最終更新 2026/10/30 21:51）",
   "games": [
     {
       "datetime": "2026-10-31T18:05:00+09:00",
       "opponent": "三遠ネオフェニックス",
       "venue": "沖縄サントリーアリーナ",
       "home": true,
-      "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506531&tab=1"
+      "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506531&tab=1",
+      "ticket": "https://ticket.bleague.jp/sales/rg/20261031",
+      "live": "https://basketball.mb.softbank.jp/lives/506531/"
     },
     {
       "datetime": "2026-11-01T18:05:00+09:00",
       "opponent": "三遠ネオフェニックス",
       "venue": "沖縄サントリーアリーナ",
       "home": true,
-      "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506544&tab=1"
+      "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506544&tab=1",
+      "ticket": "https://ticket.bleague.jp/sales/rg/20261101",
+      "live": "https://basketball.mb.softbank.jp/lives/506544/"
     },
     {
       "datetime": "2026-11-07T16:00:00+09:00",
       "opponent": "宇都宮ブレックス",
       "venue": "とちぎん・ブレックスアリーナ宇都宮",
       "home": false,
-      "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506551&tab=1"
+      "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506551&tab=1",
+      "ticket": "https://ticket.bleague.jp/sales/ub/20261107",
+      "live": "https://basketball.mb.softbank.jp/lives/506551/"
     },
     {
       "datetime": "2026-11-09T19:05:00+09:00",
       "opponent": "茨城ロボッツ",
       "venue": "アダストリアみとアリーナ",
       "home": false,
-      "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506560&tab=1"
+      "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506560&tab=1",
+      "ticket": "https://ticket.bleague.jp/sales/ir/20261109",
+      "live": "https://basketball.mb.softbank.jp/lives/506560/"
     },
     {
       "datetime": "2026-11-12T19:35:00+09:00",
       "opponent": "東京サンロッカーズ",
       "venue": "沖縄サントリーアリーナ",
       "home": true,
-      "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506578&tab=1"
+      "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506578&tab=1",
+      "ticket": "https://ticket.bleague.jp/sales/rg/20261112",
+      "live": "https://basketball.mb.softbank.jp/lives/506578/"
     }
   ]
 }
