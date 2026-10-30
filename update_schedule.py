@@ -22,11 +22,14 @@ KINGS_ID = 701
 KINGS_NAME = "琉球"
 BASE = "https://www.bleague.jp"
 SCHEDULE_URL = BASE + "/schedule/?tab=1&club={club}"
+# 日程ページは月ごとで、1回に表示されるのは選んだ日の試合だけ。日付一覧にはキングスの試合日が並ぶ
+DAY_URL = BASE + "/schedule/?tab=1&year={y}&mon={m:02d}&day={d:02d}&event=&club={club}&ha=&fb="
+MONTH_URL = BASE + "/schedule/?tab=1&year={y}&mon={m:02d}&event=&club={club}&ha=&fb="
 DETAIL_URL = BASE + "/game_detail/?ScheduleKey={key}&tab=1"
 HEADERS = {"User-Agent": "kings-next-game (personal use)"}
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "schedule.json")
-MAX_KEYS = 40                 # 予定一覧の先頭から最大何試合ぶん詳細ページを読むか
+MAX_KEYS = 12                 # 最大何試合ぶん詳細ページを読むか
 MAX_GAMES = 5                 # schedule.json に書く試合数
 GAME_LENGTH = timedelta(hours=2, minutes=30)  # index.html の GAME_LENGTH_MS と同じ
 
@@ -60,6 +63,28 @@ def schedule_keys(html):
             seen.add(k)
             out.append(k)
     return out
+
+
+def game_days(html):
+    """月のページの日付一覧から、試合のある日(数字)を返す。"""
+    days = re.findall(r'js-schedule-date-slider-item[^>]*>\s*<a[^>]*data-day="(\d+)"', html)
+    return sorted({int(d) for d in days})
+
+
+def upcoming_keys(now):
+    """今日以降のキングスの試合の ScheduleKey を、日付の近い順に返す。"""
+    keys = schedule_keys(fetch(SCHEDULE_URL.format(club=KINGS_ID)))  # 何も選ばないと次の試合の日が出る
+    y, m = now.year, now.month
+    for _ in range(2):  # 今月と来月
+        for d in game_days(fetch(MONTH_URL.format(y=y, m=m, club=KINGS_ID))):
+            if (y, m, d) < (now.year, now.month, now.day):
+                continue
+            time.sleep(1)
+            keys += schedule_keys(fetch(DAY_URL.format(y=y, m=m, d=d, club=KINGS_ID)))
+            if len(dict.fromkeys(keys)) >= MAX_KEYS:
+                return list(dict.fromkeys(keys))
+        y, m = (y + 1, 1) if m == 12 else (y, m + 1)
+    return list(dict.fromkeys(keys))
 
 
 SCORE_RE = re.compile(r"^(\d{1,3}|--|-)$")
@@ -143,7 +168,8 @@ def load_old():
 
 def main():
     now = datetime.now(JST)
-    keys = schedule_keys(fetch(SCHEDULE_URL.format(club=KINGS_ID)))[:MAX_KEYS]
+    keys = upcoming_keys(now)[:MAX_KEYS]
+    print(f"[keys] {keys}")
     if not keys:
         sys.exit("予定一覧に試合が見つかりませんでした(ページの形が変わった可能性があります)")
 
