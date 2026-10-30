@@ -72,14 +72,25 @@
 
     .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
     .player {
-      display: block;
+      display: flex;
+      flex-direction: column;
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 14px;
       overflow: hidden;
-      color: inherit;
+    }
+    .player > a.main { display: block; flex: 1; color: inherit; text-decoration: none; }
+    .sns { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 12px 12px; }
+    .sns a {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 11px; font-weight: 700;
+      color: var(--gold-soft);
       text-decoration: none;
     }
+    .sns svg { width: 12px; height: 12px; fill: currentColor; }
     .photo {
       position: relative;
       aspect-ratio: 1;
@@ -147,6 +158,21 @@
       return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
     }
 
+    // SNS の種類ごとの小さなアイコン(単純な図形)
+    const SNS_ICON = {
+      X: '<svg viewBox="0 0 24 24"><path d="M3 3h4.6l4.6 6.3L17.6 3H21l-7.2 8.2L21.5 21h-4.6l-5-6.8L5.8 21H2.4l7.7-8.8z"/></svg>',
+      Instagram: '<svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM17.3 5.5a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>',
+      TikTok: '<svg viewBox="0 0 24 24"><path d="M14 2h3a5 5 0 0 0 4 4v3a8 8 0 0 1-4-1.2V15a6 6 0 1 1-6-6v3a3 3 0 1 0 3 3z"/></svg>',
+      YouTube: '<svg viewBox="0 0 24 24"><path d="M22 8.2a3 3 0 0 0-2-2.1C18.2 5.6 12 5.6 12 5.6s-6.2 0-8 .5a3 3 0 0 0-2 2.1A31 31 0 0 0 1.6 12 31 31 0 0 0 2 15.8a3 3 0 0 0 2 2.1c1.8.5 8 .5 8 .5s6.2 0 8-.5a3 3 0 0 0 2-2.1 31 31 0 0 0 .4-3.8 31 31 0 0 0-.4-3.8zM10 15.2V8.8l5.4 3.2z"/></svg>',
+    };
+
+    function snsHtml(p) {
+      const links = Array.isArray(p.sns) ? p.sns.filter(x => x && /^https:\/\//.test(x.url)) : [];
+      if (!links.length) return "";
+      return `<div class="sns">${links.map(x =>
+        `<a href="${esc(x.url)}" target="_blank" rel="noopener">${SNS_ICON[x.type] || ""}${esc(x.type)}</a>`).join("")}</div>`;
+    }
+
     function renderFilters() {
       filters.innerHTML = ["ALL", ...POSITIONS].map(p =>
         `<button type="button" data-pos="${p}" class="${p === current ? "on" : ""}">${p === "ALL" ? "すべて" : p}</button>`).join("");
@@ -161,7 +187,8 @@
         return;
       }
       app.innerHTML = `<div class="grid">${list.map(p => `
-        <a class="player" href="${esc(p.url)}" target="_blank" rel="noopener">
+        <div class="player">
+          <a class="main" href="${esc(p.url)}" target="_blank" rel="noopener">
           <div class="photo">
             ${p.photo ? `<img src="${esc(p.photo)}" alt="" loading="lazy" onerror="this.remove()">` : ""}
             <span class="num">#${p.number ?? "-"}</span>
@@ -171,7 +198,9 @@
             <div class="pos">${esc(p.position || "")}</div>
             ${seasonAvg.has(p.name) ? `<div class="avg"><b>${seasonAvg.get(p.name).ppg.toFixed(1)}</b>点／試合（${seasonAvg.get(p.name).gp}試合）</div>` : ""}
           </div>
-        </a>`).join("")}</div>`;
+          </a>
+          ${snsHtml(p)}
+        </div>`).join("")}</div>`;
     }
 
     filters.addEventListener("click", e => {
@@ -190,7 +219,7 @@
         players = Array.isArray(data.players) ? data.players : [];
         document.getElementById("note").innerHTML =
           `B.LEAGUE 公式サイトから自動で更新しています${data.updated ? `（最終更新 ${esc(data.updated)}）` : ""}<br>` +
-          `選手をタップすると<a href="${esc(data.source || "https://www.bleague.jp/roster/?tab=1&club=701")}" target="_blank" rel="noopener">公式の選手ページ</a>が開きます`;
+          `選手をタップすると<a href="${esc(data.source || "https://www.bleague.jp/roster/?tab=1&club=701")}" target="_blank" rel="noopener">公式の選手ページ</a>が開きます。SNS は B.LEAGUE 公式の選手ページに載っているアカウントです`;
         render();
       })
       .catch(() => {
