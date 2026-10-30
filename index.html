@@ -105,19 +105,20 @@
     .actions .ticket { background: var(--gold); color: #111; }
     .actions .watch { border: 1px solid var(--gold); color: var(--gold-soft); }
     .actions a:only-child { grid-column: 1 / -1; }
-    .calendar {
+    .calendar { margin-top: 20px; padding: 14px 12px 12px; border: 1px dashed var(--line); border-radius: 12px; text-align: center; }
+    .calendar p { margin: 0; font-size: 14px; font-weight: 700; color: var(--gold-soft); }
+    .calendar small { display: block; margin-top: 2px; font-size: 11px; color: var(--muted); }
+    .calendar .cal-links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .calendar a {
       display: block;
-      margin-top: 20px;
-      padding: 12px;
-      border: 1px dashed var(--line);
-      border-radius: 12px;
-      text-align: center;
-      font-size: 14px;
+      padding: 9px 6px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font-size: 13px;
       font-weight: 700;
-      color: var(--gold-soft);
+      color: var(--text);
       text-decoration: none;
     }
-    .calendar small { display: block; margin-top: 2px; font-size: 11px; font-weight: 400; color: var(--muted); }
     .official {
       display: inline-block;
       margin-top: 16px;
@@ -218,7 +219,14 @@
       <h1>NEXT GAME</h1>
     </header>
     <div id="app"><p class="message">読み込み中…</p></div>
-    <a class="calendar" id="calendar" href="calendar.ics">📅 試合予定をカレンダーに登録<small>iPhone のカレンダーに自動で入ります（結果も反映）</small></a>
+    <div class="calendar">
+      <p>📅 試合予定をカレンダーに登録</p>
+      <small>予定も試合結果も、あとから自動で反映されます</small>
+      <div class="cal-links">
+        <a id="calApple" href="calendar.ics">iPhone のカレンダー</a>
+        <a id="calGoogle" href="https://calendar.google.com/" target="_blank" rel="noopener">Google カレンダー</a>
+      </div>
+    </div>
     <p class="note" id="note"></p>
   </main>
 
@@ -425,9 +433,11 @@
       timer = setInterval(tick, 1000);
     }
 
-    // webcal:// で開くと、カレンダーアプリが「照会(購読)」として登録し、あとから自動で更新される
-    document.getElementById("calendar").href =
-      "webcal://" + location.host + location.pathname.replace(/[^/]*$/, "") + "calendar.ics";
+    // webcal:// で開くと、カレンダーアプリが「照会(購読)」として登録し、あとから自動で更新される。
+    // Google カレンダーは ?cid= に同じアドレスを渡すと「カレンダーを追加」の画面が開く
+    const calUrl = "webcal://" + location.host + location.pathname.replace(/[^/]*$/, "") + "calendar.ics";
+    document.getElementById("calApple").href = calUrl;
+    document.getElementById("calGoogle").href = "https://calendar.google.com/calendar/render?cid=" + encodeURIComponent(calUrl);
 
     fetch("schedule.json", { cache: "no-store" })
       .then(r => {
