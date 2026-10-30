@@ -31,9 +31,11 @@
     }
     main { max-width: 480px; margin: 0 auto; }
 
-    .tabs { display: flex; gap: 6px; margin: 0 0 16px; }
+    .tabs { display: flex; gap: 6px; margin: 0 0 16px; overflow-x: auto; scrollbar-width: none; }
+    .tabs::-webkit-scrollbar { display: none; }
     .tabs a {
-      padding: 6px 14px;
+      flex: none;
+      padding: 6px 12px;
       border: 1px solid var(--line);
       border-radius: 999px;
       font-size: 13px;
@@ -121,6 +123,7 @@
       <a href="./">次の試合</a>
       <a href="players.html" aria-current="page">選手一覧</a>
       <a href="stats.html">成績</a>
+      <a href="dancers.html">ダンサーズ</a>
     </nav>
     <header>
       <p class="team">RYUKYU GOLDEN KINGS</p>
