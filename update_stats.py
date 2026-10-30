@@ -37,6 +37,15 @@ def season_months(now):
     return out
 
 
+def clean_name(raw):
+    """「デイビッド・ヌワバ ヌワバ」のように、画面では隠れている短い表記が後ろに付くので取り除く。"""
+    name = re.sub(r"\s+", " ", raw).strip()
+    parts = name.split(" ")
+    if len(parts) >= 2 and parts[-1] in " ".join(parts[:-1]):
+        name = " ".join(parts[:-1])
+    return name
+
+
 def team_tables(html):
     """ボックススコアのうち、試合全体の2つの表(ホーム, アウェイ)を返す。
     各表は [{"number", "starter", "name", "position", "min", "pts", "reb", "ast"}]。"""
@@ -55,7 +64,7 @@ def team_tables(html):
                 continue
             off = len(cells) - len(cols)   # 「#」「S」の列は2段目の見出しに無いぶん、ずれる
             row = {"number": int(cells[0]), "starter": bool(cells[1].strip()) if off >= 2 else False,
-                   "name": re.sub(r"\s+", " ", cells[off]).strip()}
+                   "name": clean_name(cells[off])}
             pi = cols.index("PO") if "PO" in cols else None
             row["position"] = cells[pi + off] if pi is not None else ""
             for col, key in STATS.items():
