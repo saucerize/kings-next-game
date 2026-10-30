@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b0b0b">
+  <meta name="apple-mobile-web-app-title" content="キングス">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="favicon.png">
   <title>キングス 成績</title>
   <style>
     :root {
@@ -76,6 +79,14 @@
     .season .num { color: var(--muted); font-size: 11px; margin-right: 4px; }
     .hint { margin: 8px 2px 0; font-size: 11px; color: var(--muted); }
 
+    table.standings { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+    .standings th { padding: 9px 5px 7px; font-size: 11px; font-weight: 600; color: var(--gold); text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+    .standings td { padding: 8px 5px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+    .standings tr:last-child td { border-bottom: 0; }
+    .standings th:nth-child(-n+2), .standings td:nth-child(-n+2) { text-align: left; }
+    .standings td:first-child, .standings th:first-child { padding-left: 12px; width: 1.5em; }
+    .standings tr.me td { background: rgba(212,175,55,.16); color: var(--gold-soft); font-weight: 800; }
+
     .game { padding: 14px 14px 12px; margin-bottom: 10px; }
     .game-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
     .game-date { font-size: 12px; color: var(--muted); }
@@ -128,6 +139,24 @@
     ];
     let games = [];
     let sortKey = "ppg";
+    let standings = null;
+
+    function standingsHtml() {
+      if (!standings || !Array.isArray(standings.rows) || !standings.rows.length) return "";
+      return `
+        <h2>順位（${esc(standings.division || "地区")}）</h2>
+        <div class="card">
+          <table class="standings">
+            <tr><th>#</th><th>クラブ</th><th>勝</th><th>負</th><th>勝率</th><th>差</th><th>連勝</th></tr>
+            ${standings.rows.map(r => `
+              <tr class="${r.kings ? "me" : ""}">
+                <td>${r.rank ?? ""}</td><td>${esc(r.short || r.team)}</td><td>${r.w}</td><td>${r.l}</td>
+                <td>${esc(r.pct)}</td><td>${esc(r.gb)}</td><td>${esc(r.streak)}</td>
+              </tr>`).join("")}
+          </table>
+        </div>
+        <p class="hint">「差」は首位とのゲーム差。「連勝」の W は連勝、L は連敗です。</p>`;
+    }
 
     function esc(s) {
       return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -158,7 +187,7 @@
 
     function render() {
       if (!games.length) {
-        app.innerHTML = '<p class="message">まだ終わった試合の成績がありません。</p>';
+        app.innerHTML = standingsHtml() + '<p class="message">まだ終わった試合の成績がありません。</p>';
         return;
       }
       const wins = games.filter(g => g.kings > g.opp).length;
@@ -168,6 +197,7 @@
 
       app.innerHTML = `
         <p class="record">今シーズン <b>${wins}勝 ${games.length - wins}敗</b>（${games.length}試合）</p>
+        ${standingsHtml()}
         <h2>シーズン成績（1試合平均）</h2>
         <div class="card">
           <table class="season">
@@ -223,6 +253,14 @@
       .catch(() => {
         app.innerHTML = '<p class="message">成績を読み込めませんでした。</p>';
       });
+
+    fetch("standings.json", { cache: "no-store" })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        standings = data;
+        if (games.length) render();
+      })
+      .catch(() => {});
   </script>
 </body>
 </html>

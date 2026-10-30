@@ -29,19 +29,24 @@ jobs:
       - name: 公式サイトから終わった試合の成績を読む
         continue-on-error: true   # 失敗しても予定の更新は続ける
         run: python update_stats.py
+      - name: 公式サイトから順位表を読む
+        continue-on-error: true   # 失敗しても予定の更新は続ける
+        run: python update_standings.py
       - name: 公式サイトから予定を読む
         run: python update_schedule.py
+      - name: カレンダー(calendar.ics)を作る
+        run: python update_calendar.py
       - name: 変更があればコミット
         id: commit
         run: |
-          if git diff --quiet -- schedule.json players.json games.json; then
+          if git diff --quiet -- schedule.json players.json games.json standings.json calendar.ics; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add schedule.json players.json games.json
-          git commit -m "試合予定・選手一覧・成績を更新"
+          git add schedule.json players.json games.json standings.json calendar.ics
+          git commit -m "試合予定・成績などを更新"
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"
       - name: GitHub Pages を更新

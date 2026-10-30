@@ -25,6 +25,8 @@ SCHEDULE_URL = BASE + "/schedule/?tab=1&club={club}"
 # 日程ページは月ごとで、1回に表示されるのは選んだ日の試合だけ。日付一覧にはキングスの試合日が並ぶ
 DAY_URL = BASE + "/schedule/?tab=1&year={y}&mon={m:02d}&day={d:02d}&event=&club={club}&ha=&fb="
 MONTH_URL = BASE + "/schedule/?tab=1&year={y}&mon={m:02d}&event=&club={club}&ha=&fb="
+# バスケットLIVE(公式のライブ配信)の試合ページ。公式サイトのスコア速報欄と同じ形
+LIVE_URL = "https://basketball.mb.softbank.jp/lives/{key}/"
 DETAIL_URL = BASE + "/game_detail/?ScheduleKey={key}&tab=1"
 HEADERS = {"User-Agent": "kings-next-game (personal use)"}
 
@@ -71,16 +73,29 @@ def game_days(html):
     return sorted({int(d) for d in days})
 
 
+TICKETS = {}   # ScheduleKey → チケット購入ページ(日程ページの試合カードから)
+
+
+def schedule_page(url):
+    """日程ページを読み、ScheduleKey の一覧を返す。ついでにチケットのリンクを TICKETS に控える。"""
+    html = fetch(url)
+    for li in BeautifulSoup(html, "html.parser").select("li.list-item[id]"):
+        a = li.select_one("a.click_schedule_ticket[href]")
+        if a and li["id"].isdigit():
+            TICKETS[li["id"]] = a["href"]
+    return schedule_keys(html)
+
+
 def upcoming_keys(now):
     """今日以降のキングスの試合の ScheduleKey を、日付の近い順に返す。"""
-    keys = schedule_keys(fetch(SCHEDULE_URL.format(club=KINGS_ID)))  # 何も選ばないと次の試合の日が出る
+    keys = schedule_page(SCHEDULE_URL.format(club=KINGS_ID))  # 何も選ばないと次の試合の日が出る
     y, m = now.year, now.month
     for _ in range(2):  # 今月と来月
         for d in game_days(fetch(MONTH_URL.format(y=y, m=m, club=KINGS_ID))):
             if (y, m, d) < (now.year, now.month, now.day):
                 continue
             time.sleep(1)
-            keys += schedule_keys(fetch(DAY_URL.format(y=y, m=m, d=d, club=KINGS_ID)))
+            keys += schedule_page(DAY_URL.format(y=y, m=m, d=d, club=KINGS_ID))
             if len(dict.fromkeys(keys)) >= MAX_KEYS:
                 return list(dict.fromkeys(keys))
         y, m = (y + 1, 1) if m == 12 else (y, m + 1)
@@ -209,6 +224,8 @@ def main():
             "venue": g["venue"] or old_venues.get((dt, g["opponent"], g["home"])) or "",
             "home": g["home"],
             "url": DETAIL_URL.format(key=g["key"]),
+            "ticket": TICKETS.get(g["key"], ""),
+            "live": LIVE_URL.format(key=g["key"]),
         })
 
     if out_games == old.get("games"):
