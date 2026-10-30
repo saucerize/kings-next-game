@@ -1,8 +1,8 @@
 {
   "team": "琉球ゴールデンキングス",
-  "updated": "2026/10/30 22:18",
+  "updated": "2026/10/30 22:40",
   "source": "https://www.bleague.jp/roster/?tab=1&club=701",
-  "sns_date": "2026-10-30",
+  "details_date": "2026-10-30",
   "players": [
     {
       "id": "51000252",
@@ -20,7 +20,20 @@
           "type": "Instagram",
           "url": "https://www.instagram.com/hope_hill_1999"
         }
-      ]
+      ],
+      "birthday": "1999-05-18",
+      "career": {
+        "games": 156,
+        "pts": 556,
+        "reb": 102,
+        "ast": 187
+      },
+      "season": {
+        "games": 2,
+        "pts": 5,
+        "reb": 4,
+        "ast": 3
+      }
     },
     {
       "id": "30513",
@@ -34,7 +47,20 @@
           "type": "Instagram",
           "url": "https://www.instagram.com/sotaooura"
         }
-      ]
+      ],
+      "birthday": "1997-12-23",
+      "career": {
+        "games": 341,
+        "pts": 2481,
+        "reb": 582,
+        "ast": 1288
+      },
+      "season": {
+        "games": 11,
+        "pts": 103,
+        "reb": 11,
+        "ast": 50
+      }
     },
     {
       "id": "5100000014",
@@ -43,7 +69,20 @@
       "position": "SF/PF",
       "photo": "https://bleague.bl.kuroco-img.app/v=1789583736/files/user/roster/701/2026-27/5100000014_03.png",
       "url": "https://www.bleague.jp/roster_detail/?PlayerID=5100000014",
-      "sns": []
+      "sns": [],
+      "birthday": "1999-10-24",
+      "career": {
+        "games": 283,
+        "pts": 1952,
+        "reb": 667,
+        "ast": 336
+      },
+      "season": {
+        "games": 10,
+        "pts": 66,
+        "reb": 21,
+        "ast": 11
+      }
     },
     {
       "id": "5100000062",
@@ -57,7 +96,20 @@
           "type": "Instagram",
           "url": "https://www.instagram.com/kieferravena15"
         }
-      ]
+      ],
+      "birthday": "1993-10-27",
+      "career": {
+        "games": 288,
+        "pts": 3322,
+        "reb": 662,
+        "ast": 1285
+      },
+      "season": {
+        "games": 11,
+        "pts": 107,
+        "reb": 20,
+        "ast": 43
+      }
     },
     {
       "id": "30434",
@@ -71,7 +123,20 @@
           "type": "Instagram",
           "url": "https://www.instagram.com/ma_tsu144"
         }
-      ]
+      ],
+      "birthday": "1997-05-15",
+      "career": {
+        "games": 356,
+        "pts": 2047,
+        "reb": 533,
+        "ast": 481
+      },
+      "season": {
+        "games": 11,
+        "pts": 58,
+        "reb": 17,
+        "ast": 21
+      }
     },
     {
       "id": "51000416",
@@ -89,7 +154,20 @@
           "type": "Instagram",
           "url": "https://www.instagram.com/davidnwaba"
         }
-      ]
+      ],
+      "birthday": "1993-01-14",
+      "career": {
+        "games": 124,
+        "pts": 2337,
+        "reb": 922,
+        "ast": 403
+      },
+      "season": {
+        "games": 11,
+        "pts": 199,
+        "reb": 86,
+        "ast": 45
+      }
     },
     {
       "id": "51000116",
@@ -107,7 +185,20 @@
           "type": "Instagram",
           "url": "https://www.instagram.com/waki.masahiro.2"
         }
-      ]
+      ],
+      "birthday": "2002-03-11",
+      "career": {
+        "games": 128,
+        "pts": 750,
+        "reb": 371,
+        "ast": 242
+      },
+      "season": {
+        "games": 11,
+        "pts": 83,
+        "reb": 37,
+        "ast": 20
+      }
     },
     {
       "id": "20017",
@@ -116,7 +207,20 @@
       "position": "PF",
       "photo": "https://bleague.bl.kuroco-img.app/v=1791666204/files/user/roster/701/2026-27/20017_03.png",
       "url": "https://www.bleague.jp/roster_detail/?PlayerID=20017",
-      "sns": []
+      "sns": [],
+      "birthday": "1989-08-25",
+      "career": {
+        "games": 358,
+        "pts": 4921,
+        "reb": 2528,
+        "ast": 602
+      },
+      "season": {
+        "games": 11,
+        "pts": 115,
+        "reb": 53,
+        "ast": 15
+      }
     },
     {
       "id": "8658",
@@ -134,7 +238,20 @@
           "type": "Instagram",
           "url": "https://www.instagram.com/hi_sa_32"
         }
-      ]
+      ],
+      "birthday": "1990-03-23",
+      "career": {
+        "games": 476,
+        "pts": 1587,
+        "reb": 646,
+        "ast": 1240
+      },
+      "season": {
+        "games": 5,
+        "pts": 9,
+        "reb": 1,
+        "ast": 2
+      }
     },
     {
       "id": "18430",
@@ -148,7 +265,20 @@
           "type": "Instagram",
           "url": "https://www.instagram.com/g_jerrett"
         }
-      ]
+      ],
+      "birthday": "1993-07-08",
+      "career": {
+        "games": 213,
+        "pts": 2590,
+        "reb": 1360,
+        "ast": 427
+      },
+      "season": {
+        "games": 44,
+        "pts": 555,
+        "reb": 241,
+        "ast": 104
+      }
     },
     {
       "id": "8756",
@@ -162,7 +292,20 @@
           "type": "Instagram",
           "url": "https://www.instagram.com/___34srrr"
         }
-      ]
+      ],
+      "birthday": "1994-11-06",
+      "career": {
+        "games": 508,
+        "pts": 2350,
+        "reb": 721,
+        "ast": 741
+      },
+      "season": {
+        "games": 11,
+        "pts": 26,
+        "reb": 11,
+        "ast": 9
+      }
     },
     {
       "id": "26914",
@@ -176,7 +319,20 @@
           "type": "Instagram",
           "url": "https://www.instagram.com/jackcooligan45"
         }
-      ]
+      ],
+      "birthday": "1991-04-12",
+      "career": {
+        "games": 386,
+        "pts": 5664,
+        "reb": 4318,
+        "ast": 560
+      },
+      "season": {
+        "games": 11,
+        "pts": 140,
+        "reb": 119,
+        "ast": 21
+      }
     },
     {
       "id": "55000567",
@@ -194,7 +350,20 @@
           "type": "Instagram",
           "url": "https://www.instagram.com/ryuryu_str77"
         }
-      ]
+      ],
+      "birthday": "2006-09-30",
+      "career": {
+        "games": 13,
+        "pts": 9,
+        "reb": 7,
+        "ast": 0
+      },
+      "season": {
+        "games": 3,
+        "pts": 2,
+        "reb": 2,
+        "ast": 0
+      }
     },
     {
       "id": "5100000015",
@@ -208,7 +377,20 @@
           "type": "Instagram",
           "url": "https://www.instagram.com/kawamatkoya"
         }
-      ]
+      ],
+      "birthday": "1998-06-16",
+      "career": {
+        "games": 252,
+        "pts": 719,
+        "reb": 441,
+        "ast": 50
+      },
+      "season": {
+        "games": 5,
+        "pts": 21,
+        "reb": 14,
+        "ast": 2
+      }
     }
   ]
 }
