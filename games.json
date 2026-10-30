@@ -1,5 +1,1387 @@
 {
  "team": "琉球ゴールデンキングス",
- "updated": null,
- "games": []
+ "updated": "2026/10/30 21:17",
+ "games": [
+  {
+   "key": "506381",
+   "datetime": "2026-09-22T14:00:00+09:00",
+   "opponent": "アルバルク東京",
+   "home": false,
+   "kings": 73,
+   "opp": 84,
+   "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506381&tab=4",
+   "players": [
+    {
+     "number": 2,
+     "starter": false,
+     "name": "小針 幸也",
+     "position": "PG",
+     "min": "00:00",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 3,
+     "starter": true,
+     "name": "大浦 颯太",
+     "position": "PG",
+     "min": "21:54",
+     "pts": 5,
+     "reb": 1,
+     "ast": 1
+    },
+    {
+     "number": 8,
+     "starter": true,
+     "name": "佐土原 遼",
+     "position": "SF/PF",
+     "min": "12:58",
+     "pts": 2,
+     "reb": 1,
+     "ast": 2
+    },
+    {
+     "number": 11,
+     "starter": false,
+     "name": "キーファー・ラベナ",
+     "position": "PG/SG",
+     "min": "08:19",
+     "pts": 3,
+     "reb": 1,
+     "ast": 3
+    },
+    {
+     "number": 15,
+     "starter": true,
+     "name": "松脇 圭志",
+     "position": "SG",
+     "min": "26:08",
+     "pts": 13,
+     "reb": 1,
+     "ast": 2
+    },
+    {
+     "number": 17,
+     "starter": true,
+     "name": "デイビッド・ヌワバ",
+     "position": "SG/SF",
+     "min": "32:32",
+     "pts": 24,
+     "reb": 8,
+     "ast": 5
+    },
+    {
+     "number": 18,
+     "starter": false,
+     "name": "脇 真大",
+     "position": "SG",
+     "min": "27:00",
+     "pts": 10,
+     "reb": 7,
+     "ast": 4
+    },
+    {
+     "number": 21,
+     "starter": false,
+     "name": "ケビン・ジョーンズ",
+     "position": "PF",
+     "min": "24:29",
+     "pts": 8,
+     "reb": 2,
+     "ast": 1
+    },
+    {
+     "number": 32,
+     "starter": false,
+     "name": "山内 盛久",
+     "position": "PG",
+     "min": "00:00",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 34,
+     "starter": false,
+     "name": "小野寺 祥太",
+     "position": "PG/SG",
+     "min": "19:36",
+     "pts": 0,
+     "reb": 4,
+     "ast": 0
+    },
+    {
+     "number": 45,
+     "starter": true,
+     "name": "ジャック・クーリー",
+     "position": "C",
+     "min": "27:04",
+     "pts": 8,
+     "reb": 10,
+     "ast": 1
+    },
+    {
+     "number": 77,
+     "starter": false,
+     "name": "佐取 龍之介",
+     "position": "SG/SF",
+     "min": "00:00",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    }
+   ]
+  },
+  {
+   "key": "506389",
+   "datetime": "2026-09-23T14:05:00+09:00",
+   "opponent": "アルバルク東京",
+   "home": false,
+   "kings": 85,
+   "opp": 74,
+   "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506389&tab=4",
+   "players": [
+    {
+     "number": 2,
+     "starter": false,
+     "name": "小針 幸也",
+     "position": "PG",
+     "min": "00:00",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 3,
+     "starter": true,
+     "name": "大浦 颯太",
+     "position": "PG",
+     "min": "25:27",
+     "pts": 9,
+     "reb": 3,
+     "ast": 8
+    },
+    {
+     "number": 8,
+     "starter": false,
+     "name": "佐土原 遼",
+     "position": "SF/PF",
+     "min": "15:10",
+     "pts": 4,
+     "reb": 1,
+     "ast": 0
+    },
+    {
+     "number": 11,
+     "starter": false,
+     "name": "キーファー・ラベナ",
+     "position": "PG/SG",
+     "min": "15:43",
+     "pts": 9,
+     "reb": 0,
+     "ast": 4
+    },
+    {
+     "number": 15,
+     "starter": true,
+     "name": "松脇 圭志",
+     "position": "SG",
+     "min": "20:25",
+     "pts": 6,
+     "reb": 1,
+     "ast": 2
+    },
+    {
+     "number": 17,
+     "starter": true,
+     "name": "デイビッド・ヌワバ",
+     "position": "SG/SF",
+     "min": "35:55",
+     "pts": 27,
+     "reb": 14,
+     "ast": 4
+    },
+    {
+     "number": 18,
+     "starter": false,
+     "name": "脇 真大",
+     "position": "SG",
+     "min": "16:39",
+     "pts": 3,
+     "reb": 3,
+     "ast": 3
+    },
+    {
+     "number": 21,
+     "starter": false,
+     "name": "ケビン・ジョーンズ",
+     "position": "PF",
+     "min": "28:56",
+     "pts": 16,
+     "reb": 7,
+     "ast": 0
+    },
+    {
+     "number": 32,
+     "starter": false,
+     "name": "山内 盛久",
+     "position": "PG",
+     "min": "00:00",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 34,
+     "starter": true,
+     "name": "小野寺 祥太",
+     "position": "PG/SG",
+     "min": "18:53",
+     "pts": 3,
+     "reb": 2,
+     "ast": 1
+    },
+    {
+     "number": 45,
+     "starter": true,
+     "name": "ジャック・クーリー",
+     "position": "C",
+     "min": "22:52",
+     "pts": 8,
+     "reb": 1,
+     "ast": 2
+    },
+    {
+     "number": 77,
+     "starter": false,
+     "name": "佐取 龍之介",
+     "position": "SG/SF",
+     "min": "00:00",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    }
+   ]
+  },
+  {
+   "key": "506413",
+   "datetime": "2026-10-03T14:05:00+09:00",
+   "opponent": "滋賀レイクス",
+   "home": false,
+   "kings": 94,
+   "opp": 87,
+   "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506413&tab=4",
+   "players": [
+    {
+     "number": 2,
+     "starter": false,
+     "name": "小針 幸也",
+     "position": "PG",
+     "min": "00:00",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 3,
+     "starter": true,
+     "name": "大浦 颯太",
+     "position": "PG",
+     "min": "24:20",
+     "pts": 12,
+     "reb": 1,
+     "ast": 3
+    },
+    {
+     "number": 8,
+     "starter": false,
+     "name": "佐土原 遼",
+     "position": "SF/PF",
+     "min": "29:02",
+     "pts": 9,
+     "reb": 2,
+     "ast": 2
+    },
+    {
+     "number": 11,
+     "starter": false,
+     "name": "キーファー・ラベナ",
+     "position": "PG/SG",
+     "min": "18:53",
+     "pts": 10,
+     "reb": 2,
+     "ast": 3
+    },
+    {
+     "number": 15,
+     "starter": true,
+     "name": "松脇 圭志",
+     "position": "SG",
+     "min": "17:44",
+     "pts": 2,
+     "reb": 3,
+     "ast": 1
+    },
+    {
+     "number": 17,
+     "starter": true,
+     "name": "デイビッド・ヌワバ",
+     "position": "SG/SF",
+     "min": "29:08",
+     "pts": 26,
+     "reb": 8,
+     "ast": 4
+    },
+    {
+     "number": 18,
+     "starter": false,
+     "name": "脇 真大",
+     "position": "SG",
+     "min": "18:35",
+     "pts": 3,
+     "reb": 5,
+     "ast": 3
+    },
+    {
+     "number": 21,
+     "starter": false,
+     "name": "ケビン・ジョーンズ",
+     "position": "PF",
+     "min": "29:17",
+     "pts": 13,
+     "reb": 5,
+     "ast": 4
+    },
+    {
+     "number": 32,
+     "starter": false,
+     "name": "山内 盛久",
+     "position": "PG",
+     "min": "00:00",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 34,
+     "starter": true,
+     "name": "小野寺 祥太",
+     "position": "PG/SG",
+     "min": "07:40",
+     "pts": 3,
+     "reb": 1,
+     "ast": 2
+    },
+    {
+     "number": 45,
+     "starter": true,
+     "name": "ジャック・クーリー",
+     "position": "C",
+     "min": "25:21",
+     "pts": 16,
+     "reb": 8,
+     "ast": 0
+    }
+   ]
+  },
+  {
+   "key": "506425",
+   "datetime": "2026-10-04T14:05:00+09:00",
+   "opponent": "滋賀レイクス",
+   "home": false,
+   "kings": 72,
+   "opp": 98,
+   "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506425&tab=4",
+   "players": [
+    {
+     "number": 2,
+     "starter": false,
+     "name": "小針 幸也",
+     "position": "PG",
+     "min": "08:44",
+     "pts": 0,
+     "reb": 3,
+     "ast": 1
+    },
+    {
+     "number": 3,
+     "starter": true,
+     "name": "大浦 颯太",
+     "position": "PG",
+     "min": "21:22",
+     "pts": 7,
+     "reb": 0,
+     "ast": 6
+    },
+    {
+     "number": 8,
+     "starter": false,
+     "name": "佐土原 遼",
+     "position": "SF/PF",
+     "min": "22:02",
+     "pts": 7,
+     "reb": 1,
+     "ast": 0
+    },
+    {
+     "number": 11,
+     "starter": false,
+     "name": "キーファー・ラベナ",
+     "position": "PG/SG",
+     "min": "20:47",
+     "pts": 8,
+     "reb": 2,
+     "ast": 4
+    },
+    {
+     "number": 15,
+     "starter": true,
+     "name": "松脇 圭志",
+     "position": "SG",
+     "min": "12:27",
+     "pts": 7,
+     "reb": 0,
+     "ast": 1
+    },
+    {
+     "number": 17,
+     "starter": true,
+     "name": "デイビッド・ヌワバ",
+     "position": "SG/SF",
+     "min": "29:37",
+     "pts": 12,
+     "reb": 9,
+     "ast": 3
+    },
+    {
+     "number": 18,
+     "starter": false,
+     "name": "脇 真大",
+     "position": "SG",
+     "min": "12:40",
+     "pts": 5,
+     "reb": 1,
+     "ast": 1
+    },
+    {
+     "number": 21,
+     "starter": false,
+     "name": "ケビン・ジョーンズ",
+     "position": "PF",
+     "min": "28:15",
+     "pts": 14,
+     "reb": 8,
+     "ast": 0
+    },
+    {
+     "number": 32,
+     "starter": false,
+     "name": "山内 盛久",
+     "position": "PG",
+     "min": "01:17",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 34,
+     "starter": true,
+     "name": "小野寺 祥太",
+     "position": "PG/SG",
+     "min": "11:15",
+     "pts": 0,
+     "reb": 0,
+     "ast": 1
+    },
+    {
+     "number": 45,
+     "starter": true,
+     "name": "ジャック・クーリー",
+     "position": "C",
+     "min": "31:34",
+     "pts": 12,
+     "reb": 17,
+     "ast": 1
+    }
+   ]
+  },
+  {
+   "key": "506441",
+   "datetime": "2026-10-08T19:35:00+09:00",
+   "opponent": "群馬クレインサンダーズ",
+   "home": true,
+   "kings": 65,
+   "opp": 76,
+   "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506441&tab=4",
+   "players": [
+    {
+     "number": 2,
+     "starter": false,
+     "name": "小針 幸也",
+     "position": "PG",
+     "min": "07:51",
+     "pts": 5,
+     "reb": 1,
+     "ast": 2
+    },
+    {
+     "number": 3,
+     "starter": true,
+     "name": "大浦 颯太",
+     "position": "PG",
+     "min": "14:47",
+     "pts": 0,
+     "reb": 1,
+     "ast": 1
+    },
+    {
+     "number": 8,
+     "starter": false,
+     "name": "佐土原 遼",
+     "position": "SF/PF",
+     "min": "21:38",
+     "pts": 2,
+     "reb": 0,
+     "ast": 2
+    },
+    {
+     "number": 11,
+     "starter": false,
+     "name": "キーファー・ラベナ",
+     "position": "PG/SG",
+     "min": "25:29",
+     "pts": 12,
+     "reb": 1,
+     "ast": 1
+    },
+    {
+     "number": 15,
+     "starter": true,
+     "name": "松脇 圭志",
+     "position": "SG",
+     "min": "24:20",
+     "pts": 4,
+     "reb": 1,
+     "ast": 5
+    },
+    {
+     "number": 17,
+     "starter": true,
+     "name": "デイビッド・ヌワバ",
+     "position": "SG/SF",
+     "min": "30:41",
+     "pts": 14,
+     "reb": 8,
+     "ast": 2
+    },
+    {
+     "number": 18,
+     "starter": false,
+     "name": "脇 真大",
+     "position": "SG",
+     "min": "07:17",
+     "pts": 3,
+     "reb": 1,
+     "ast": 1
+    },
+    {
+     "number": 21,
+     "starter": false,
+     "name": "ケビン・ジョーンズ",
+     "position": "PF",
+     "min": "24:41",
+     "pts": 10,
+     "reb": 5,
+     "ast": 1
+    },
+    {
+     "number": 32,
+     "starter": false,
+     "name": "山内 盛久",
+     "position": "PG",
+     "min": "00:00",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 34,
+     "starter": true,
+     "name": "小野寺 祥太",
+     "position": "PG/SG",
+     "min": "12:20",
+     "pts": 0,
+     "reb": 3,
+     "ast": 1
+    },
+    {
+     "number": 45,
+     "starter": true,
+     "name": "ジャック・クーリー",
+     "position": "C",
+     "min": "30:58",
+     "pts": 15,
+     "reb": 9,
+     "ast": 2
+    },
+    {
+     "number": 77,
+     "starter": false,
+     "name": "佐取 龍之介",
+     "position": "SG/SF",
+     "min": "00:00",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    }
+   ]
+  },
+  {
+   "key": "506453",
+   "datetime": "2026-10-10T18:05:00+09:00",
+   "opponent": "島根スサノオマジック",
+   "home": true,
+   "kings": 90,
+   "opp": 69,
+   "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506453&tab=4",
+   "players": [
+    {
+     "number": 3,
+     "starter": true,
+     "name": "大浦 颯太",
+     "position": "PG",
+     "min": "21:38",
+     "pts": 5,
+     "reb": 0,
+     "ast": 6
+    },
+    {
+     "number": 8,
+     "starter": false,
+     "name": "佐土原 遼",
+     "position": "SF/PF",
+     "min": "18:08",
+     "pts": 7,
+     "reb": 4,
+     "ast": 0
+    },
+    {
+     "number": 11,
+     "starter": false,
+     "name": "キーファー・ラベナ",
+     "position": "PG/SG",
+     "min": "16:50",
+     "pts": 8,
+     "reb": 1,
+     "ast": 4
+    },
+    {
+     "number": 15,
+     "starter": false,
+     "name": "松脇 圭志",
+     "position": "SG",
+     "min": "19:30",
+     "pts": 3,
+     "reb": 0,
+     "ast": 1
+    },
+    {
+     "number": 17,
+     "starter": true,
+     "name": "デイビッド・ヌワバ",
+     "position": "SG/SF",
+     "min": "25:48",
+     "pts": 13,
+     "reb": 7,
+     "ast": 6
+    },
+    {
+     "number": 18,
+     "starter": false,
+     "name": "脇 真大",
+     "position": "SG",
+     "min": "21:34",
+     "pts": 18,
+     "reb": 7,
+     "ast": 4
+    },
+    {
+     "number": 21,
+     "starter": true,
+     "name": "ケビン・ジョーンズ",
+     "position": "PF",
+     "min": "27:58",
+     "pts": 9,
+     "reb": 2,
+     "ast": 0
+    },
+    {
+     "number": 32,
+     "starter": false,
+     "name": "山内 盛久",
+     "position": "PG",
+     "min": "02:08",
+     "pts": 3,
+     "reb": 0,
+     "ast": 1
+    },
+    {
+     "number": 34,
+     "starter": true,
+     "name": "小野寺 祥太",
+     "position": "PG/SG",
+     "min": "15:52",
+     "pts": 6,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 45,
+     "starter": true,
+     "name": "ジャック・クーリー",
+     "position": "C",
+     "min": "28:52",
+     "pts": 16,
+     "reb": 18,
+     "ast": 4
+    },
+    {
+     "number": 77,
+     "starter": false,
+     "name": "佐取 龍之介",
+     "position": "SG/SF",
+     "min": "01:42",
+     "pts": 2,
+     "reb": 0,
+     "ast": 0
+    }
+   ]
+  },
+  {
+   "key": "506465",
+   "datetime": "2026-10-16T19:05:00+09:00",
+   "opponent": "横浜ビー・コルセアーズ",
+   "home": false,
+   "kings": 85,
+   "opp": 87,
+   "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506465&tab=4",
+   "players": [
+    {
+     "number": 3,
+     "starter": true,
+     "name": "大浦 颯太",
+     "position": "PG",
+     "min": "22:40",
+     "pts": 5,
+     "reb": 0,
+     "ast": 3
+    },
+    {
+     "number": 8,
+     "starter": false,
+     "name": "佐土原 遼",
+     "position": "SF/PF",
+     "min": "19:14",
+     "pts": 4,
+     "reb": 1,
+     "ast": 2
+    },
+    {
+     "number": 11,
+     "starter": false,
+     "name": "キーファー・ラベナ",
+     "position": "PG/SG",
+     "min": "19:35",
+     "pts": 9,
+     "reb": 3,
+     "ast": 1
+    },
+    {
+     "number": 15,
+     "starter": true,
+     "name": "松脇 圭志",
+     "position": "SG",
+     "min": "23:20",
+     "pts": 5,
+     "reb": 1,
+     "ast": 3
+    },
+    {
+     "number": 17,
+     "starter": true,
+     "name": "デイビッド・ヌワバ",
+     "position": "SG/SF",
+     "min": "30:54",
+     "pts": 28,
+     "reb": 7,
+     "ast": 4
+    },
+    {
+     "number": 18,
+     "starter": false,
+     "name": "脇 真大",
+     "position": "SG",
+     "min": "10:41",
+     "pts": 6,
+     "reb": 2,
+     "ast": 0
+    },
+    {
+     "number": 21,
+     "starter": true,
+     "name": "ケビン・ジョーンズ",
+     "position": "PF",
+     "min": "26:16",
+     "pts": 6,
+     "reb": 4,
+     "ast": 3
+    },
+    {
+     "number": 32,
+     "starter": false,
+     "name": "山内 盛久",
+     "position": "PG",
+     "min": "00:00",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 34,
+     "starter": false,
+     "name": "小野寺 祥太",
+     "position": "PG/SG",
+     "min": "07:20",
+     "pts": 2,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 45,
+     "starter": true,
+     "name": "ジャック・クーリー",
+     "position": "C",
+     "min": "30:57",
+     "pts": 15,
+     "reb": 13,
+     "ast": 0
+    },
+    {
+     "number": 99,
+     "starter": false,
+     "name": "川真田 紘也",
+     "position": "C",
+     "min": "09:03",
+     "pts": 5,
+     "reb": 6,
+     "ast": 0
+    }
+   ]
+  },
+  {
+   "key": "506485",
+   "datetime": "2026-10-19T19:35:00+09:00",
+   "opponent": "滋賀レイクス",
+   "home": true,
+   "kings": 99,
+   "opp": 67,
+   "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506485&tab=4",
+   "players": [
+    {
+     "number": 3,
+     "starter": true,
+     "name": "大浦 颯太",
+     "position": "PG",
+     "min": "14:35",
+     "pts": 6,
+     "reb": 2,
+     "ast": 4
+    },
+    {
+     "number": 8,
+     "starter": false,
+     "name": "佐土原 遼",
+     "position": "SF/PF",
+     "min": "17:42",
+     "pts": 7,
+     "reb": 6,
+     "ast": 2
+    },
+    {
+     "number": 11,
+     "starter": false,
+     "name": "キーファー・ラベナ",
+     "position": "PG/SG",
+     "min": "19:45",
+     "pts": 15,
+     "reb": 3,
+     "ast": 9
+    },
+    {
+     "number": 15,
+     "starter": false,
+     "name": "松脇 圭志",
+     "position": "SG",
+     "min": "23:42",
+     "pts": 3,
+     "reb": 3,
+     "ast": 0
+    },
+    {
+     "number": 17,
+     "starter": true,
+     "name": "デイビッド・ヌワバ",
+     "position": "SG/SF",
+     "min": "26:48",
+     "pts": 9,
+     "reb": 5,
+     "ast": 6
+    },
+    {
+     "number": 18,
+     "starter": false,
+     "name": "脇 真大",
+     "position": "SG",
+     "min": "19:57",
+     "pts": 11,
+     "reb": 3,
+     "ast": 0
+    },
+    {
+     "number": 21,
+     "starter": true,
+     "name": "ケビン・ジョーンズ",
+     "position": "PF",
+     "min": "20:28",
+     "pts": 15,
+     "reb": 7,
+     "ast": 2
+    },
+    {
+     "number": 32,
+     "starter": false,
+     "name": "山内 盛久",
+     "position": "PG",
+     "min": "02:38",
+     "pts": 0,
+     "reb": 1,
+     "ast": 0
+    },
+    {
+     "number": 34,
+     "starter": true,
+     "name": "小野寺 祥太",
+     "position": "PG/SG",
+     "min": "13:53",
+     "pts": 12,
+     "reb": 0,
+     "ast": 2
+    },
+    {
+     "number": 45,
+     "starter": true,
+     "name": "ジャック・クーリー",
+     "position": "C",
+     "min": "24:02",
+     "pts": 18,
+     "reb": 11,
+     "ast": 3
+    },
+    {
+     "number": 77,
+     "starter": false,
+     "name": "佐取 龍之介",
+     "position": "SG/SF",
+     "min": "01:58",
+     "pts": 0,
+     "reb": 2,
+     "ast": 0
+    },
+    {
+     "number": 99,
+     "starter": false,
+     "name": "川真田 紘也",
+     "position": "C",
+     "min": "14:32",
+     "pts": 3,
+     "reb": 4,
+     "ast": 0
+    }
+   ]
+  },
+  {
+   "key": "506494",
+   "datetime": "2026-10-21T19:35:00+09:00",
+   "opponent": "アルティーリ千葉",
+   "home": true,
+   "kings": 94,
+   "opp": 65,
+   "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506494&tab=4",
+   "players": [
+    {
+     "number": 3,
+     "starter": true,
+     "name": "大浦 颯太",
+     "position": "PG",
+     "min": "19:50",
+     "pts": 19,
+     "reb": 2,
+     "ast": 3
+    },
+    {
+     "number": 8,
+     "starter": false,
+     "name": "佐土原 遼",
+     "position": "SF/PF",
+     "min": "21:06",
+     "pts": 9,
+     "reb": 3,
+     "ast": 0
+    },
+    {
+     "number": 11,
+     "starter": false,
+     "name": "キーファー・ラベナ",
+     "position": "PG/SG",
+     "min": "17:11",
+     "pts": 14,
+     "reb": 2,
+     "ast": 4
+    },
+    {
+     "number": 15,
+     "starter": false,
+     "name": "松脇 圭志",
+     "position": "SG",
+     "min": "20:23",
+     "pts": 9,
+     "reb": 1,
+     "ast": 4
+    },
+    {
+     "number": 17,
+     "starter": true,
+     "name": "デイビッド・ヌワバ",
+     "position": "SG/SF",
+     "min": "15:59",
+     "pts": 4,
+     "reb": 5,
+     "ast": 2
+    },
+    {
+     "number": 18,
+     "starter": false,
+     "name": "脇 真大",
+     "position": "SG",
+     "min": "23:00",
+     "pts": 13,
+     "reb": 4,
+     "ast": 3
+    },
+    {
+     "number": 21,
+     "starter": true,
+     "name": "ケビン・ジョーンズ",
+     "position": "PF",
+     "min": "25:36",
+     "pts": 11,
+     "reb": 7,
+     "ast": 3
+    },
+    {
+     "number": 32,
+     "starter": false,
+     "name": "山内 盛久",
+     "position": "PG",
+     "min": "03:05",
+     "pts": 3,
+     "reb": 0,
+     "ast": 1
+    },
+    {
+     "number": 34,
+     "starter": true,
+     "name": "小野寺 祥太",
+     "position": "PG/SG",
+     "min": "16:36",
+     "pts": 0,
+     "reb": 0,
+     "ast": 1
+    },
+    {
+     "number": 45,
+     "starter": true,
+     "name": "ジャック・クーリー",
+     "position": "C",
+     "min": "22:51",
+     "pts": 8,
+     "reb": 8,
+     "ast": 2
+    },
+    {
+     "number": 77,
+     "starter": false,
+     "name": "佐取 龍之介",
+     "position": "SG/SF",
+     "min": "02:16",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 99,
+     "starter": false,
+     "name": "川真田 紘也",
+     "position": "C",
+     "min": "12:07",
+     "pts": 4,
+     "reb": 3,
+     "ast": 2
+    }
+   ]
+  },
+  {
+   "key": "506499",
+   "datetime": "2026-10-23T19:35:00+09:00",
+   "opponent": "群馬クレインサンダーズ",
+   "home": true,
+   "kings": 93,
+   "opp": 85,
+   "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506499&tab=4",
+   "players": [
+    {
+     "number": 3,
+     "starter": true,
+     "name": "大浦 颯太",
+     "position": "PG",
+     "min": "28:00",
+     "pts": 24,
+     "reb": 1,
+     "ast": 8
+    },
+    {
+     "number": 8,
+     "starter": false,
+     "name": "佐土原 遼",
+     "position": "SF/PF",
+     "min": "25:35",
+     "pts": 15,
+     "reb": 2,
+     "ast": 1
+    },
+    {
+     "number": 11,
+     "starter": false,
+     "name": "キーファー・ラベナ",
+     "position": "PG/SG",
+     "min": "21:42",
+     "pts": 5,
+     "reb": 3,
+     "ast": 6
+    },
+    {
+     "number": 15,
+     "starter": false,
+     "name": "松脇 圭志",
+     "position": "SG",
+     "min": "22:52",
+     "pts": 3,
+     "reb": 3,
+     "ast": 0
+    },
+    {
+     "number": 17,
+     "starter": true,
+     "name": "デイビッド・ヌワバ",
+     "position": "SG/SF",
+     "min": "30:55",
+     "pts": 22,
+     "reb": 9,
+     "ast": 4
+    },
+    {
+     "number": 18,
+     "starter": false,
+     "name": "脇 真大",
+     "position": "SG",
+     "min": "14:26",
+     "pts": 7,
+     "reb": 2,
+     "ast": 1
+    },
+    {
+     "number": 21,
+     "starter": true,
+     "name": "ケビン・ジョーンズ",
+     "position": "PF",
+     "min": "20:06",
+     "pts": 3,
+     "reb": 5,
+     "ast": 1
+    },
+    {
+     "number": 32,
+     "starter": false,
+     "name": "山内 盛久",
+     "position": "PG",
+     "min": "00:00",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 34,
+     "starter": true,
+     "name": "小野寺 祥太",
+     "position": "PG/SG",
+     "min": "03:59",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 45,
+     "starter": true,
+     "name": "ジャック・クーリー",
+     "position": "C",
+     "min": "26:49",
+     "pts": 12,
+     "reb": 12,
+     "ast": 5
+    },
+    {
+     "number": 77,
+     "starter": false,
+     "name": "佐取 龍之介",
+     "position": "SG/SF",
+     "min": "00:00",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 99,
+     "starter": false,
+     "name": "川真田 紘也",
+     "position": "C",
+     "min": "05:36",
+     "pts": 2,
+     "reb": 0,
+     "ast": 0
+    }
+   ]
+  },
+  {
+   "key": "506518",
+   "datetime": "2026-10-26T19:05:00+09:00",
+   "opponent": "長崎ヴェルカ",
+   "home": false,
+   "kings": 84,
+   "opp": 101,
+   "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506518&tab=4",
+   "players": [
+    {
+     "number": 3,
+     "starter": true,
+     "name": "大浦 颯太",
+     "position": "PG",
+     "min": "24:00",
+     "pts": 11,
+     "reb": 0,
+     "ast": 7
+    },
+    {
+     "number": 11,
+     "starter": false,
+     "name": "キーファー・ラベナ",
+     "position": "PG/SG",
+     "min": "21:14",
+     "pts": 14,
+     "reb": 2,
+     "ast": 4
+    },
+    {
+     "number": 15,
+     "starter": false,
+     "name": "松脇 圭志",
+     "position": "SG",
+     "min": "23:49",
+     "pts": 3,
+     "reb": 3,
+     "ast": 2
+    },
+    {
+     "number": 17,
+     "starter": true,
+     "name": "デイビッド・ヌワバ",
+     "position": "SG/SF",
+     "min": "31:32",
+     "pts": 20,
+     "reb": 6,
+     "ast": 5
+    },
+    {
+     "number": 18,
+     "starter": false,
+     "name": "脇 真大",
+     "position": "SG",
+     "min": "21:42",
+     "pts": 4,
+     "reb": 2,
+     "ast": 0
+    },
+    {
+     "number": 21,
+     "starter": true,
+     "name": "ケビン・ジョーンズ",
+     "position": "PF",
+     "min": "26:54",
+     "pts": 10,
+     "reb": 1,
+     "ast": 0
+    },
+    {
+     "number": 32,
+     "starter": false,
+     "name": "山内 盛久",
+     "position": "PG",
+     "min": "01:45",
+     "pts": 3,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 34,
+     "starter": true,
+     "name": "小野寺 祥太",
+     "position": "PG/SG",
+     "min": "11:19",
+     "pts": 0,
+     "reb": 1,
+     "ast": 1
+    },
+    {
+     "number": 45,
+     "starter": true,
+     "name": "ジャック・クーリー",
+     "position": "C",
+     "min": "23:57",
+     "pts": 12,
+     "reb": 12,
+     "ast": 1
+    },
+    {
+     "number": 99,
+     "starter": false,
+     "name": "川真田 紘也",
+     "position": "C",
+     "min": "13:48",
+     "pts": 7,
+     "reb": 1,
+     "ast": 0
+    }
+   ]
+  }
+ ]
 }
