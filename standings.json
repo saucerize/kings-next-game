@@ -1,18 +1,18 @@
 {
  "division": "西地区",
- "updated": "2026/10/30 21:51",
+ "updated": "2026/10/31 06:46",
  "source": "https://www.bleague.jp/standings/?tab=1",
  "rows": [
   {
    "rank": 1,
    "team": "名古屋ダイヤモンドドルフィンズ",
    "short": "名古屋D",
-   "w": 8,
+   "w": 9,
    "l": 0,
    "pct": "1.000",
    "gb": "--",
    "last5": "5-0",
-   "streak": "W8",
+   "streak": "W9",
    "kings": false
   },
   {
@@ -34,33 +34,33 @@
    "w": 6,
    "l": 1,
    "pct": ".857",
-   "gb": "1.5",
+   "gb": "2",
    "last5": "4-1",
    "streak": "W1",
    "kings": false
   },
   {
    "rank": 4,
-   "team": "京都ハンナリーズ",
-   "short": "京都",
-   "w": 8,
+   "team": "シーホース三河",
+   "short": "三河",
+   "w": 6,
    "l": 2,
-   "pct": ".800",
-   "gb": "1",
+   "pct": ".750",
+   "gb": "2.5",
    "last5": "4-1",
    "streak": "W3",
    "kings": false
   },
   {
    "rank": 5,
-   "team": "シーホース三河",
-   "short": "三河",
-   "w": 6,
-   "l": 2,
-   "pct": ".750",
+   "team": "京都ハンナリーズ",
+   "short": "京都",
+   "w": 8,
+   "l": 3,
+   "pct": ".727",
    "gb": "2",
-   "last5": "4-1",
-   "streak": "W3",
+   "last5": "3-2",
+   "streak": "L1",
    "kings": false
   },
   {
@@ -70,7 +70,7 @@
    "w": 6,
    "l": 5,
    "pct": ".545",
-   "gb": "3.5",
+   "gb": "4",
    "last5": "3-2",
    "streak": "L1",
    "kings": true
@@ -80,11 +80,11 @@
    "team": "滋賀レイクス",
    "short": "滋賀",
    "w": 5,
-   "l": 5,
-   "pct": ".500",
-   "gb": "4",
+   "l": 6,
+   "pct": ".455",
+   "gb": "5",
    "last5": "3-2",
-   "streak": "W2",
+   "streak": "L1",
    "kings": false
   },
   {
@@ -94,7 +94,7 @@
    "w": 5,
    "l": 7,
    "pct": ".417",
-   "gb": "5",
+   "gb": "5.5",
    "last5": "2-3",
    "streak": "W1",
    "kings": false
@@ -106,7 +106,7 @@
    "w": 4,
    "l": 6,
    "pct": ".400",
-   "gb": "5",
+   "gb": "5.5",
    "last5": "1-4",
    "streak": "L2",
    "kings": false
@@ -115,12 +115,12 @@
    "rank": 10,
    "team": "信州ブレイブウォリアーズ",
    "short": "信州",
-   "w": 3,
+   "w": 4,
    "l": 9,
-   "pct": ".250",
+   "pct": ".308",
    "gb": "7",
-   "last5": "1-4",
-   "streak": "W1",
+   "last5": "2-3",
+   "streak": "W2",
    "kings": false
   },
   {
@@ -130,7 +130,7 @@
    "w": 2,
    "l": 9,
    "pct": ".182",
-   "gb": "7.5",
+   "gb": "8",
    "last5": "0-5",
    "streak": "L6",
    "kings": false
@@ -142,7 +142,7 @@
    "w": 1,
    "l": 10,
    "pct": ".091",
-   "gb": "8.5",
+   "gb": "9",
    "last5": "0-5",
    "streak": "L5",
    "kings": false
@@ -154,7 +154,7 @@
    "w": 1,
    "l": 10,
    "pct": ".091",
-   "gb": "8.5",
+   "gb": "9",
    "last5": "0-5",
    "streak": "L10",
    "kings": false
