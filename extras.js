@@ -2,7 +2,7 @@
 // players.json の career(B.LEAGUE 通算)・season(今シーズン)・birthday を使う
 (function () {
   const TZ = "Asia/Tokyo";
-  const WATCH_GAMES = 5;   // 今のペースで何試合以内に届く記録を出すか
+  const WATCH_GAMES = 10;   // 今のペースで何試合以内に届く記録を出すか
 
   // 種類ごとに「次の節目」の刻み。通算が少ないうちは細かめに刻む
   const KINDS = [
