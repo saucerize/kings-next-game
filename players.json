@@ -1,7 +1,8 @@
 {
   "team": "琉球ゴールデンキングス",
-  "updated": "2026/10/30 20:14",
+  "updated": "2026/10/30 22:18",
   "source": "https://www.bleague.jp/roster/?tab=1&club=701",
+  "sns_date": "2026-10-30",
   "players": [
     {
       "id": "51000252",
@@ -9,7 +10,17 @@
       "number": 2,
       "position": "PG",
       "photo": "https://bleague.bl.kuroco-img.app/v=1789593257/files/user/roster/701/2026-27/51000252_03.png",
-      "url": "https://www.bleague.jp/roster_detail/?PlayerID=51000252"
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=51000252",
+      "sns": [
+        {
+          "type": "X",
+          "url": "https://x.com/Lil_kou3"
+        },
+        {
+          "type": "Instagram",
+          "url": "https://www.instagram.com/hope_hill_1999"
+        }
+      ]
     },
     {
       "id": "30513",
@@ -17,7 +28,13 @@
       "number": 3,
       "position": "PG",
       "photo": "https://bleague.bl.kuroco-img.app/v=1789593255/files/user/roster/701/2026-27/30513_03.png",
-      "url": "https://www.bleague.jp/roster_detail/?PlayerID=30513"
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=30513",
+      "sns": [
+        {
+          "type": "Instagram",
+          "url": "https://www.instagram.com/sotaooura"
+        }
+      ]
     },
     {
       "id": "5100000014",
@@ -25,7 +42,8 @@
       "number": 8,
       "position": "SF/PF",
       "photo": "https://bleague.bl.kuroco-img.app/v=1789583736/files/user/roster/701/2026-27/5100000014_03.png",
-      "url": "https://www.bleague.jp/roster_detail/?PlayerID=5100000014"
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=5100000014",
+      "sns": []
     },
     {
       "id": "5100000062",
@@ -33,7 +51,13 @@
       "number": 11,
       "position": "PG/SG",
       "photo": "https://bleague.bl.kuroco-img.app/v=1789593261/files/user/roster/701/2026-27/5100000062_03.png",
-      "url": "https://www.bleague.jp/roster_detail/?PlayerID=5100000062"
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=5100000062",
+      "sns": [
+        {
+          "type": "Instagram",
+          "url": "https://www.instagram.com/kieferravena15"
+        }
+      ]
     },
     {
       "id": "30434",
@@ -41,7 +65,13 @@
       "number": 15,
       "position": "SG",
       "photo": "https://bleague.bl.kuroco-img.app/v=1789593254/files/user/roster/701/2026-27/30434_03.png",
-      "url": "https://www.bleague.jp/roster_detail/?PlayerID=30434"
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=30434",
+      "sns": [
+        {
+          "type": "Instagram",
+          "url": "https://www.instagram.com/ma_tsu144"
+        }
+      ]
     },
     {
       "id": "51000416",
@@ -49,7 +79,17 @@
       "number": 17,
       "position": "SG/SF",
       "photo": "https://bleague.bl.kuroco-img.app/v=1789593258/files/user/roster/701/2026-27/51000416_03.png",
-      "url": "https://www.bleague.jp/roster_detail/?PlayerID=51000416"
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=51000416",
+      "sns": [
+        {
+          "type": "X",
+          "url": "https://x.com/dnwaba0"
+        },
+        {
+          "type": "Instagram",
+          "url": "https://www.instagram.com/davidnwaba"
+        }
+      ]
     },
     {
       "id": "51000116",
@@ -57,7 +97,17 @@
       "number": 18,
       "position": "SG",
       "photo": "https://bleague.bl.kuroco-img.app/v=1789593256/files/user/roster/701/2026-27/51000116_03.png",
-      "url": "https://www.bleague.jp/roster_detail/?PlayerID=51000116"
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=51000116",
+      "sns": [
+        {
+          "type": "X",
+          "url": "https://x.com/masahiro_waki"
+        },
+        {
+          "type": "Instagram",
+          "url": "https://www.instagram.com/waki.masahiro.2"
+        }
+      ]
     },
     {
       "id": "20017",
@@ -65,7 +115,8 @@
       "number": 21,
       "position": "PF",
       "photo": "https://bleague.bl.kuroco-img.app/v=1791666204/files/user/roster/701/2026-27/20017_03.png",
-      "url": "https://www.bleague.jp/roster_detail/?PlayerID=20017"
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=20017",
+      "sns": []
     },
     {
       "id": "8658",
@@ -73,7 +124,17 @@
       "number": 32,
       "position": "PG",
       "photo": "https://bleague.bl.kuroco-img.app/v=1789593249/files/user/roster/701/2026-27/8658_03.png",
-      "url": "https://www.bleague.jp/roster_detail/?PlayerID=8658"
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=8658",
+      "sns": [
+        {
+          "type": "X",
+          "url": "https://x.com/hisa_32"
+        },
+        {
+          "type": "Instagram",
+          "url": "https://www.instagram.com/hi_sa_32"
+        }
+      ]
     },
     {
       "id": "18430",
@@ -81,7 +142,13 @@
       "number": 33,
       "position": "PF",
       "photo": "https://bleague.bl.kuroco-img.app/v=1789583735/files/user/roster/701/2026-27/18430_03.png",
-      "url": "https://www.bleague.jp/roster_detail/?PlayerID=18430"
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=18430",
+      "sns": [
+        {
+          "type": "Instagram",
+          "url": "https://www.instagram.com/g_jerrett"
+        }
+      ]
     },
     {
       "id": "8756",
@@ -89,7 +156,13 @@
       "number": 34,
       "position": "PG/SG",
       "photo": "https://bleague.bl.kuroco-img.app/v=1789593250/files/user/roster/701/2026-27/8756_03.png",
-      "url": "https://www.bleague.jp/roster_detail/?PlayerID=8756"
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=8756",
+      "sns": [
+        {
+          "type": "Instagram",
+          "url": "https://www.instagram.com/___34srrr"
+        }
+      ]
     },
     {
       "id": "26914",
@@ -97,7 +170,13 @@
       "number": 45,
       "position": "C",
       "photo": "https://bleague.bl.kuroco-img.app/v=1789593252/files/user/roster/701/2026-27/26914_03.png",
-      "url": "https://www.bleague.jp/roster_detail/?PlayerID=26914"
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=26914",
+      "sns": [
+        {
+          "type": "Instagram",
+          "url": "https://www.instagram.com/jackcooligan45"
+        }
+      ]
     },
     {
       "id": "55000567",
@@ -105,7 +184,17 @@
       "number": 77,
       "position": "SG/SF",
       "photo": "https://bleague.bl.kuroco-img.app/v=1789593259/files/user/roster/701/2026-27/55000567_03.png",
-      "url": "https://www.bleague.jp/roster_detail/?PlayerID=55000567"
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=55000567",
+      "sns": [
+        {
+          "type": "X",
+          "url": "https://x.com/ryuryu_str77"
+        },
+        {
+          "type": "Instagram",
+          "url": "https://www.instagram.com/ryuryu_str77"
+        }
+      ]
     },
     {
       "id": "5100000015",
@@ -113,7 +202,13 @@
       "number": 99,
       "position": "C",
       "photo": "https://bleague.bl.kuroco-img.app/v=1789593260/files/user/roster/701/2026-27/5100000015_03.png",
-      "url": "https://www.bleague.jp/roster_detail/?PlayerID=5100000015"
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=5100000015",
+      "sns": [
+        {
+          "type": "Instagram",
+          "url": "https://www.instagram.com/kawamatkoya"
+        }
+      ]
     }
   ]
 }

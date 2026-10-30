@@ -170,7 +170,8 @@
       const links = Array.isArray(p.sns) ? p.sns.filter(x => x && /^https:\/\//.test(x.url)) : [];
       if (!links.length) return "";
       return `<div class="sns">${links.map(x =>
-        `<a href="${esc(x.url)}" target="_blank" rel="noopener">${SNS_ICON[x.type] || ""}${esc(x.type)}</a>`).join("")}</div>`;
+        // X はアイコン自体が文字の「X」なので、名前は重ねて書かない
+        `<a href="${esc(x.url)}" target="_blank" rel="noopener" aria-label="${esc(x.type)}">${SNS_ICON[x.type] || ""}${x.type === "X" ? "" : esc(x.type)}</a>`).join("")}</div>`;
     }
 
     function renderFilters() {
