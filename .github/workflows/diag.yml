@@ -1,0 +1,16 @@
+name: 調査(一時的)
+on:
+  push:
+    branches: [claude/ryukyu-kings-next-game-5n8x6r]
+    paths: [diag/**, .github/workflows/diag.yml]
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python diag/probe_roster.py
