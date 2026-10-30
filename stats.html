@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0b">
+  <title>キングス 成績</title>
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --card: #161411;
+      --line: #3a3120;
+      --gold: #d4af37;
+      --gold-soft: #f1d77a;
+      --text: #f5f1e6;
+      --muted: #a39c8a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: radial-gradient(120% 60% at 50% 0%, #2a2210 0%, var(--bg) 60%) fixed, var(--bg);
+      color: var(--text);
+      font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", system-ui, sans-serif;
+      line-height: 1.5;
+      padding: max(20px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+    }
+    main { max-width: 480px; margin: 0 auto; }
+
+    .tabs { display: flex; gap: 6px; margin: 0 0 16px; }
+    .tabs a {
+      padding: 6px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .tabs a[aria-current="page"] { background: var(--gold); border-color: var(--gold); color: #111; }
+
+    header { text-align: center; margin-bottom: 20px; }
+    .team { margin: 0; font-size: 13px; letter-spacing: .2em; color: var(--gold); }
+    h1 {
+      margin: 4px 0 0;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      background: linear-gradient(180deg, var(--gold-soft), var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    h2 { margin: 28px 0 10px; font-size: 14px; color: var(--gold); letter-spacing: .1em; }
+    h2:first-of-type { margin-top: 0; }
+    .record { text-align: center; font-size: 14px; color: var(--muted); margin: -8px 0 20px; }
+    .record b { color: var(--gold-soft); font-size: 18px; }
+
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+    table.season { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+    .season th {
+      padding: 10px 6px 8px;
+      font-size: 11px; font-weight: 600; color: var(--gold);
+      text-align: right; white-space: nowrap;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+    }
+    .season th:first-child { text-align: left; padding-left: 12px; cursor: default; }
+    .season th.on { color: var(--gold-soft); }
+    .season th.on::after { content: " ▼"; font-size: 9px; }
+    .season td { padding: 9px 6px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+    .season tr:last-child td { border-bottom: 0; }
+    .season td:first-child { text-align: left; padding-left: 12px; white-space: normal; }
+    .season td.main { font-weight: 800; color: var(--gold-soft); }
+    .season .num { color: var(--muted); font-size: 11px; margin-right: 4px; }
+    .hint { margin: 8px 2px 0; font-size: 11px; color: var(--muted); }
+
+    .game { padding: 14px 14px 12px; margin-bottom: 10px; }
+    .game-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+    .game-date { font-size: 12px; color: var(--muted); }
+    .ha { font-size: 11px; color: var(--gold); margin-left: 6px; }
+    .game-vs { font-size: 16px; font-weight: 800; margin-top: 2px; }
+    .result { font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .result .w { color: var(--gold-soft); }
+    .result .l { color: var(--muted); }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .chip {
+      font-size: 12px;
+      padding: 3px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .chip b { color: var(--gold-soft); margin-left: 4px; font-variant-numeric: tabular-nums; }
+    .chip.top { border-color: var(--gold); }
+    .game a.box { display: inline-block; margin-top: 10px; font-size: 12px; color: var(--gold); text-decoration: none; }
+
+    .message { text-align: center; color: var(--muted); padding: 40px 0; }
+    .note { margin-top: 24px; text-align: center; font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="tabs">
+      <a href="./">次の試合</a>
+      <a href="players.html">選手一覧</a>
+      <a href="stats.html" aria-current="page">成績</a>
+    </nav>
+    <header>
+      <p class="team">RYUKYU GOLDEN KINGS</p>
+      <h1>STATS</h1>
+    </header>
+    <div id="app"><p class="message">読み込み中…</p></div>
+    <p class="note" id="note"></p>
+  </main>
+
+  <script>
+    const TZ = "Asia/Tokyo";
+    const fmtDate = new Intl.DateTimeFormat("ja-JP", { timeZone: TZ, month: "numeric", day: "numeric", weekday: "short" });
+    const app = document.getElementById("app");
+    const COLS = [
+      { key: "gp", label: "試合" },
+      { key: "ppg", label: "得点" },
+      { key: "pts", label: "合計" },
+      { key: "rpg", label: "リバ" },
+      { key: "apg", label: "アシ" },
+    ];
+    let games = [];
+    let sortKey = "ppg";
+
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    }
+
+    // 出場時間が 0 の選手(ベンチ入りのみ)は、その試合に出ていないとみなす
+    const played = p => p.min && !/^0?0:00$/.test(p.min);
+
+    function seasonTotals() {
+      const by = new Map();
+      for (const g of games) {
+        for (const p of g.players || []) {
+          const s = by.get(p.name) || { name: p.name, number: p.number, gp: 0, pts: 0, reb: 0, ast: 0 };
+          s.number = p.number;
+          if (played(p)) {
+            s.gp += 1;
+            s.pts += p.pts || 0;
+            s.reb += p.reb || 0;
+            s.ast += p.ast || 0;
+          }
+          by.set(p.name, s);
+        }
+      }
+      return [...by.values()].filter(s => s.gp > 0).map(s => ({
+        ...s, ppg: s.pts / s.gp, rpg: s.reb / s.gp, apg: s.ast / s.gp,
+      }));
+    }
+
+    function render() {
+      if (!games.length) {
+        app.innerHTML = '<p class="message">まだ終わった試合の成績がありません。</p>';
+        return;
+      }
+      const wins = games.filter(g => g.kings > g.opp).length;
+      const rows = seasonTotals().sort((a, b) => b[sortKey] - a[sortKey] || b.ppg - a.ppg);
+      const f1 = v => v.toFixed(1);
+      const show = (s, k) => (k === "ppg" || k === "rpg" || k === "apg") ? f1(s[k]) : s[k];
+
+      app.innerHTML = `
+        <p class="record">今シーズン <b>${wins}勝 ${games.length - wins}敗</b>（${games.length}試合）</p>
+        <h2>シーズン成績（1試合平均）</h2>
+        <div class="card">
+          <table class="season">
+            <tr><th>選手</th>${COLS.map(c => `<th data-key="${c.key}" class="${c.key === sortKey ? "on" : ""}">${c.label}</th>`).join("")}</tr>
+            ${rows.map(s => `
+              <tr>
+                <td><span class="num">#${s.number ?? "-"}</span>${esc(s.name)}</td>
+                ${COLS.map(c => `<td class="${c.key === sortKey ? "main" : ""}">${show(s, c.key)}</td>`).join("")}
+              </tr>`).join("")}
+          </table>
+        </div>
+        <p class="hint">見出しをタップすると並び替えられます。「合計」は今シーズンの合計得点です。</p>
+
+        <h2>試合ごとの得点</h2>
+        ${games.slice().reverse().map(g => {
+          const win = g.kings > g.opp;
+          const scorers = (g.players || []).filter(p => (p.pts || 0) > 0).sort((a, b) => b.pts - a.pts);
+          return `
+            <div class="card game">
+              <div class="game-top">
+                <div>
+                  <div class="game-date">${fmtDate.format(new Date(g.datetime))}<span class="ha">${g.home ? "HOME" : "AWAY"}</span></div>
+                  <div class="game-vs">vs ${esc(g.opponent)}</div>
+                </div>
+                <div class="result"><span class="${win ? "w" : "l"}">${win ? "WIN" : "LOSE"}</span> ${g.kings}-${g.opp}</div>
+              </div>
+              <div class="chips">
+                ${scorers.map((p, i) => `<span class="chip${i < 3 ? " top" : ""}">${esc(p.name)}<b>${p.pts}</b></span>`).join("") || '<span class="chip">得点の記録なし</span>'}
+              </div>
+              ${g.url ? `<a class="box" href="${esc(g.url)}" target="_blank" rel="noopener">B.LEAGUE 公式のボックススコア ›</a>` : ""}
+            </div>`;
+        }).join("")}
+      `;
+    }
+
+    app.addEventListener("click", e => {
+      const th = e.target.closest("th[data-key]");
+      if (!th) return;
+      sortKey = th.dataset.key;
+      render();
+    });
+
+    fetch("games.json", { cache: "no-store" })
+      .then(r => {
+        if (!r.ok) throw new Error(r.status);
+        return r.json();
+      })
+      .then(data => {
+        games = (Array.isArray(data.games) ? data.games : []).slice().sort((a, b) => a.datetime < b.datetime ? -1 : 1);
+        if (data.updated) document.getElementById("note").textContent = `B.LEAGUE 公式サイトから自動で更新しています（最終更新 ${data.updated}）`;
+        render();
+      })
+      .catch(() => {
+        app.innerHTML = '<p class="message">成績を読み込めませんでした。</p>';
+      });
+  </script>
+</body>
+</html>
