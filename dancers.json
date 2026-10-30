@@ -1,4 +1,102 @@
 {
- "updated": null,
- "dancers": []
+ "updated": "2026/10/30 22:28",
+ "source": "https://goldenkings.jp/team/dancers/",
+ "dancers": [
+  {
+   "key": "HINA",
+   "name": "HINA",
+   "photo": "https://goldenkings.bl.kuroco-img.app/v=1785225782/files/user/_/lp/2026/dancers/thumbnail_01.HINA.png",
+   "profile": "https://goldenkings.bl.kuroco-img.app/v=1785216861/files/user/_/lp/2026/dancers/01.HINA.png"
+  },
+  {
+   "key": "RINKA",
+   "name": "RINKA",
+   "photo": "https://goldenkings.bl.kuroco-img.app/v=1785225512/files/user/_/lp/2026/dancers/thumbnail_02.RINKA.png",
+   "profile": "https://goldenkings.bl.kuroco-img.app/v=1785216873/files/user/_/lp/2026/dancers/02.RINKA.png"
+  },
+  {
+   "key": "CHINAMI",
+   "name": "CHINAMI",
+   "photo": "https://goldenkings.bl.kuroco-img.app/v=1785225782/files/user/_/lp/2026/dancers/thumbnail_03.CHINAMI.png",
+   "profile": "https://goldenkings.bl.kuroco-img.app/v=1785216880/files/user/_/lp/2026/dancers/03.CHINAMI.png"
+  },
+  {
+   "key": "SUZU",
+   "name": "SUZU",
+   "photo": "https://goldenkings.bl.kuroco-img.app/v=1785225513/files/user/_/lp/2026/dancers/thumbnail_04.SUZU.png",
+   "profile": "https://goldenkings.bl.kuroco-img.app/v=1785216883/files/user/_/lp/2026/dancers/04.SUZU.png"
+  },
+  {
+   "key": "RIN.Suzuki",
+   "name": "RIN Suzuki",
+   "photo": "https://goldenkings.bl.kuroco-img.app/v=1785225513/files/user/_/lp/2026/dancers/thumbnail_05.RIN.Suzuki.png",
+   "profile": "https://goldenkings.bl.kuroco-img.app/v=1785216884/files/user/_/lp/2026/dancers/05.RIN.Suzuki.png"
+  },
+  {
+   "key": "RIN.Ikehara",
+   "name": "RIN Ikehara",
+   "photo": "https://goldenkings.bl.kuroco-img.app/v=1785225512/files/user/_/lp/2026/dancers/thumbnail_06.RIN.Ikehara.png",
+   "profile": "https://goldenkings.bl.kuroco-img.app/v=1785216884/files/user/_/lp/2026/dancers/06.RIN.Ikehara.png"
+  },
+  {
+   "key": "SUZUNA",
+   "name": "SUZUNA",
+   "photo": "https://goldenkings.bl.kuroco-img.app/v=1785225513/files/user/_/lp/2026/dancers/thumbnail_07.SUZUNA.png",
+   "profile": "https://goldenkings.bl.kuroco-img.app/v=1785216885/files/user/_/lp/2026/dancers/07.SUZUNA.png"
+  },
+  {
+   "key": "KOTONO",
+   "name": "KOTONO",
+   "photo": "https://goldenkings.bl.kuroco-img.app/v=1785225512/files/user/_/lp/2026/dancers/thumbnail_08.KOTONO.png",
+   "profile": "https://goldenkings.bl.kuroco-img.app/v=1785216885/files/user/_/lp/2026/dancers/08.KOTONO.png"
+  },
+  {
+   "key": "KIORI",
+   "name": "KIORI",
+   "photo": "https://goldenkings.bl.kuroco-img.app/v=1785225512/files/user/_/lp/2026/dancers/thumbnail_09.KIORI.png",
+   "profile": "https://goldenkings.bl.kuroco-img.app/v=1785216885/files/user/_/lp/2026/dancers/09.KIORI.png"
+  },
+  {
+   "key": "HANA",
+   "name": "HANA",
+   "photo": "https://goldenkings.bl.kuroco-img.app/v=1785225513/files/user/_/lp/2026/dancers/thumbnail_10.HANA.png",
+   "profile": "https://goldenkings.bl.kuroco-img.app/v=1785216885/files/user/_/lp/2026/dancers/10.HANA.png"
+  },
+  {
+   "key": "ARENA",
+   "name": "ARENA",
+   "photo": "https://goldenkings.bl.kuroco-img.app/v=1785225513/files/user/_/lp/2026/dancers/thumbnail_11.ARENA.png",
+   "profile": "https://goldenkings.bl.kuroco-img.app/v=1785216885/files/user/_/lp/2026/dancers/11.ARENA.png"
+  },
+  {
+   "key": "SARA",
+   "name": "SARA",
+   "photo": "https://goldenkings.bl.kuroco-img.app/v=1785225513/files/user/_/lp/2026/dancers/thumbnail_12.SARA.png",
+   "profile": "https://goldenkings.bl.kuroco-img.app/v=1785216886/files/user/_/lp/2026/dancers/12.SARA.png"
+  },
+  {
+   "key": "NATSUMI",
+   "name": "NATSUMI",
+   "photo": "https://goldenkings.bl.kuroco-img.app/v=1785225512/files/user/_/lp/2026/dancers/thumbnail_13.NATSUMI.png",
+   "profile": "https://goldenkings.bl.kuroco-img.app/v=1785216886/files/user/_/lp/2026/dancers/13.NATSUMI.png"
+  },
+  {
+   "key": "RIN.Nakasone",
+   "name": "RIN Nakasone",
+   "photo": "https://goldenkings.bl.kuroco-img.app/v=1785225512/files/user/_/lp/2026/dancers/thumbnail_14.RIN.Nakasone.png",
+   "profile": "https://goldenkings.bl.kuroco-img.app/v=1785216886/files/user/_/lp/2026/dancers/14.RIN.Nakasone.png"
+  },
+  {
+   "key": "THIRA",
+   "name": "THIRA",
+   "photo": "https://goldenkings.bl.kuroco-img.app/v=1785225512/files/user/_/lp/2026/dancers/thumbnail_15.THIRA.png",
+   "profile": "https://goldenkings.bl.kuroco-img.app/v=1785216886/files/user/_/lp/2026/dancers/15.THIRA.png"
+  },
+  {
+   "key": "HIROKA",
+   "name": "HIROKA",
+   "photo": "https://goldenkings.bl.kuroco-img.app/v=1763430632/files/user/_/lp/2025/dancers/16.thumbnail_HIROKA.png",
+   "profile": "https://goldenkings.bl.kuroco-img.app/v=1763016542/files/user/_/lp/2025/dancers/16.2025-26_HIROKA.png"
+  }
+ ]
 }
