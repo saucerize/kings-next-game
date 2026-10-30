@@ -84,11 +84,6 @@
       overflow: hidden;
     }
     .photo img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
-    .photo .fallback {
-      position: absolute; inset: 0;
-      display: grid; place-items: center;
-      font-size: 48px; font-weight: 800; color: var(--line);
-    }
     .num {
       position: absolute; left: 8px; top: 6px;
       font-size: 22px; font-weight: 800; color: var(--gold-soft);
@@ -165,7 +160,6 @@
       app.innerHTML = `<div class="grid">${list.map(p => `
         <a class="player" href="${esc(p.url)}" target="_blank" rel="noopener">
           <div class="photo">
-            <div class="fallback">${p.number ?? ""}</div>
             ${p.photo ? `<img src="${esc(p.photo)}" alt="" loading="lazy" onerror="this.remove()">` : ""}
             <span class="num">#${p.number ?? "-"}</span>
           </div>
