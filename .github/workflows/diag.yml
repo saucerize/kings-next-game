@@ -14,4 +14,4 @@ jobs:
           python-version: "3.12"
       - run: pip install -r requirements.txt
       - name: 成績の読み取りを試す(コミットはしない)
-        run: python update_stats.py && python -c "import json;d=json.load(open('games.json'));print(json.dumps(d['games'][-1],ensure_ascii=False,indent=1))"
+        run: python update_stats.py && python -c "import json;d=json.load(open('games.json'));[print(g['datetime'][:10],g['opponent'],g['kings'],g['opp'],len(g['players']),[(p['name'],p['pts'],p['min']) for p in g['players']][:4]) for g in d['games']]"

@@ -2,6 +2,8 @@
 
 GitHub Actions から update_schedule.py と一緒に起動される。新しく終わった試合だけ読み足す。
 シーズンの合計・平均はページ側で games.json から計算する。
+ボックススコアの数字はページ上の JavaScript で描かれるため、新しい試合があるときだけ
+ヘッドレスブラウザ(Playwright)を用意して読む。
 
 手元で試す:
   pip install requests beautifulsoup4
@@ -10,6 +12,7 @@ GitHub Actions から update_schedule.py と一緒に起動される。新しく
 import json
 import os
 import re
+import subprocess
 import sys
 import time
 from datetime import datetime, timedelta
@@ -68,13 +71,47 @@ def team_tables(html):
     return tables
 
 
-def read_game(key, now):
+class Browser:
+    """ボックススコアを描画させるためのブラウザ。初めて使うときに用意する。"""
+
+    def __init__(self):
+        self.pw = self.browser = self.page = None
+
+    def html(self, url):
+        if self.page is None:
+            subprocess.run([sys.executable, "-m", "pip", "install", "-q", "playwright"], check=True)
+            subprocess.run([sys.executable, "-m", "playwright", "install", "--with-deps", "chromium"], check=True)
+            from playwright.sync_api import sync_playwright
+            self.pw = sync_playwright().start()
+            self.browser = self.pw.chromium.launch()
+            self.page = self.browser.new_page(locale="ja-JP")
+        self.page.goto(url, wait_until="domcontentloaded", timeout=60000)
+        html = ""
+        for _ in range(15):   # 表に数字が入るまで最大30秒ほど待つ
+            self.page.wait_for_timeout(2000)
+            html = self.page.content()
+            if len(team_tables(html)) == 2:
+                break
+        return html
+
+    def close(self):
+        for x in (self.browser, self.pw):
+            try:
+                if x is self.pw and x:
+                    x.stop()
+                elif x:
+                    x.close()
+            except Exception:
+                pass
+
+
+def read_game(key, now, browser):
     """終わった試合なら成績を返す。まだ終わっていない・読めないときは None。"""
     html = fetch(DETAIL_URL.format(key=key))
     g = parse_game(key, html)
     if g["tipoff"] is None or g["tipoff"] + FINISHED_AFTER > now:
         return None
-    tables = team_tables(html)
+    tables = team_tables(html) or team_tables(browser.html(DETAIL_URL.format(key=key).replace("tab=1", "tab=4")))
     if len(tables) != 2:
         print(f"[skip] {key}: ボックススコアの表が見つからない({len(tables)})")
         return None
@@ -121,20 +158,24 @@ def main():
     print(f"[keys] 新しく読む試合: {keys}")
 
     errors = 0
-    for key in keys:
-        time.sleep(1)
-        try:
-            g = read_game(key, now)
-        except Exception as e:
-            errors += 1
-            print(f"[skip] {key}: {e}")
-            continue
-        if g is None:
-            continue
-        games[key] = g
-        top = sorted(g["players"], key=lambda p: -p.get("pts", 0))[:3]
-        print(f"[read] {g['datetime'][:10]} vs {g['opponent']} {g['kings']}-{g['opp']} "
-              + " / ".join(f"{p['name']} {p.get('pts', 0)}" for p in top))
+    browser = Browser()
+    try:
+        for key in keys:
+            time.sleep(1)
+            try:
+                g = read_game(key, now, browser)
+            except Exception as e:
+                errors += 1
+                print(f"[skip] {key}: {e}")
+                continue
+            if g is None:
+                continue
+            games[key] = g
+            top = sorted(g["players"], key=lambda p: -p.get("pts", 0))[:3]
+            print(f"[read] {g['datetime'][:10]} vs {g['opponent']} {g['kings']}-{g['opp']} "
+                  + " / ".join(f"{p['name']} {p.get('pts', 0)}" for p in top))
+    finally:
+        browser.close()
     if keys and errors == len(keys):
         sys.exit("どの試合ページも読み取れませんでした(ページの形が変わった可能性があります)")
 
