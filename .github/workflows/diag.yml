@@ -2,7 +2,7 @@ name: 調査(一時的)
 on:
   push:
     branches: [claude/ryukyu-kings-next-game-5n8x6r]
-    paths: [diag/**, .github/workflows/diag.yml]
+    paths: [diag/**, .github/workflows/diag.yml, update_players.py]
 jobs:
   inspect:
     runs-on: ubuntu-latest
@@ -13,4 +13,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python diag/probe_career.py
+      - name: 試す(コミットはしない)
+        run: |
+          python update_players.py > /dev/null
+          python -c "import json;[print(json.dumps({k:p[k] for k in ('id','name','birthday','career','season')},ensure_ascii=False)) for p in json.load(open('players.json'))['players']]"
