@@ -51,10 +51,27 @@
     }).map(p => ({ player: p, name: p.name, age: t.y - Number(p.birthday.slice(0, 4)) }));
   }
 
+  // これから来るいちばん近い誕生日(今日は含めない)。{player, name, days, age}
+  function nextBirthday(players, now) {
+    const t = todayJst(now);
+    const today = Date.UTC(t.y, t.m - 1, t.d);
+    let best = null;
+    for (const p of players || []) {
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(p.birthday || "");
+      if (!m) continue;
+      let y = t.y;
+      let day = Date.UTC(y, Number(m[2]) - 1, Number(m[3]));
+      if (day <= today) day = Date.UTC(++y, Number(m[2]) - 1, Number(m[3]));
+      const days = Math.round((day - today) / 86400000);
+      if (!best || days < best.days) best = { player: p, name: p.name, days, age: y - Number(m[1]) };
+    }
+    return best;
+  }
+
   function birthdayLabel(p) {
     const m = /^\d{4}-(\d{2})-(\d{2})$/.exec(p.birthday || "");
     return m ? `${Number(m[1])}月${Number(m[2])}日` : "";
   }
 
-  window.KingsExtras = { milestones, birthdaysToday, birthdayLabel, shortName };
+  window.KingsExtras = { milestones, birthdaysToday, nextBirthday, birthdayLabel, shortName };
 })();

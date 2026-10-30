@@ -106,6 +106,15 @@
       color: var(--gold-soft);
     }
     .birthday small { display: block; margin-top: 2px; font-size: 11px; font-weight: 400; color: var(--muted); }
+    .birthday.next {
+      padding: 8px 12px;
+      border-color: var(--line);
+      background: none;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .birthday.next b { color: var(--gold-soft); }
     .milestone {
       margin-top: 16px;
       padding: 10px 12px;
@@ -283,19 +292,25 @@
     let source = null;
     let roster = [];   // players.json(誕生日・通算成績)
 
+    // 誕生日の選手がいれば大きく、いなければ次の誕生日を小さく出す
     function renderBirthday() {
       const list = KingsExtras.birthdaysToday(roster);
+      const next = list.length ? null : KingsExtras.nextBirthday(roster);
       document.getElementById("birthday").innerHTML = list.length ? `
         <div class="birthday">🎂 今日は ${list.map(b => `${esc(b.name)}選手（${b.age}歳）`).join("・")} の誕生日！
-          <small>おめでとうございます！</small></div>` : "";
+          <small>おめでとうございます！</small></div>`
+        : next ? `<div class="birthday next">🎂 次の誕生日：<b>${esc(next.name)}</b>選手
+            ${esc(KingsExtras.birthdayLabel(next.player))}（${next.days === 1 ? "明日" : `あと${next.days}日`}）</div>` : "";
     }
 
-    // 次の試合で届きそうな通算記録(今のペースで1試合以内)
+    // 次の試合で届きそうな通算記録(今のペースで1試合以内)。無ければ、いちばん近い記録を出す
     function milestoneHtml() {
-      const list = KingsExtras.milestones(roster).filter(m => m.games <= 1);
-      if (!list.length) return "";
-      return `<div class="milestone">🏆 この試合で記録達成なるか？<br>${list.map(m =>
-        `<b>${esc(m.name)}</b> B.LEAGUE 通算${m.goal.toLocaleString()}${esc(m.kind.label)}まで あと${m.left}${esc(m.kind.unit)}`).join("<br>")}</div>`;
+      const all = KingsExtras.milestones(roster);
+      const soon = all.filter(m => m.games <= 1);
+      const line = m => `<b>${esc(m.name)}</b> B.LEAGUE 通算${m.goal.toLocaleString()}${esc(m.kind.label)}まで あと${m.left}${esc(m.kind.unit)}`;
+      if (soon.length) return `<div class="milestone">🏆 この試合で記録達成なるか？<br>${soon.map(line).join("<br>")}</div>`;
+      if (!all.length) return "";
+      return `<div class="milestone">🏆 次に近い記録：${line(all[0])}（今のペースで約${all[0].games}試合）</div>`;
     }
 
     const fmtDate = new Intl.DateTimeFormat("ja-JP", { timeZone: TZ, year: "numeric", month: "long", day: "numeric", weekday: "short" });
