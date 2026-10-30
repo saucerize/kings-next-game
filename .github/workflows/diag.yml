@@ -2,7 +2,7 @@ name: 調査(一時的)
 on:
   push:
     branches: [claude/ryukyu-kings-next-game-5n8x6r]
-    paths: [diag/**, .github/workflows/diag.yml]
+    paths: [diag/**, .github/workflows/diag.yml, update_schedule.py, update_standings.py, update_calendar.py]
 jobs:
   inspect:
     runs-on: ubuntu-latest
@@ -13,4 +13,11 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python diag/probe_more.py
+      - name: 試す(コミットはしない)
+        run: |
+          python update_standings.py
+          python update_schedule.py
+          python -c "import json;[print(g['datetime'][:16],g['opponent'],g.get('ticket'),g.get('live')) for g in json.load(open('schedule.json'))['games']]"
+          python update_calendar.py
+          grep -c BEGIN:VEVENT calendar.ics
+          head -c 1500 standings.json
