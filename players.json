@@ -1,0 +1,119 @@
+{
+  "team": "琉球ゴールデンキングス",
+  "updated": "2026/10/30 20:14",
+  "source": "https://www.bleague.jp/roster/?tab=1&club=701",
+  "players": [
+    {
+      "id": "51000252",
+      "name": "小針 幸也",
+      "number": 2,
+      "position": "PG",
+      "photo": "https://bleague.bl.kuroco-img.app/v=1789593257/files/user/roster/701/2026-27/51000252_03.png",
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=51000252"
+    },
+    {
+      "id": "30513",
+      "name": "大浦 颯太",
+      "number": 3,
+      "position": "PG",
+      "photo": "https://bleague.bl.kuroco-img.app/v=1789593255/files/user/roster/701/2026-27/30513_03.png",
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=30513"
+    },
+    {
+      "id": "5100000014",
+      "name": "佐土原 遼",
+      "number": 8,
+      "position": "SF/PF",
+      "photo": "https://bleague.bl.kuroco-img.app/v=1789583736/files/user/roster/701/2026-27/5100000014_03.png",
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=5100000014"
+    },
+    {
+      "id": "5100000062",
+      "name": "キーファー・ラベナ",
+      "number": 11,
+      "position": "PG/SG",
+      "photo": "https://bleague.bl.kuroco-img.app/v=1789593261/files/user/roster/701/2026-27/5100000062_03.png",
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=5100000062"
+    },
+    {
+      "id": "30434",
+      "name": "松脇 圭志",
+      "number": 15,
+      "position": "SG",
+      "photo": "https://bleague.bl.kuroco-img.app/v=1789593254/files/user/roster/701/2026-27/30434_03.png",
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=30434"
+    },
+    {
+      "id": "51000416",
+      "name": "デイビッド・ヌワバ",
+      "number": 17,
+      "position": "SG/SF",
+      "photo": "https://bleague.bl.kuroco-img.app/v=1789593258/files/user/roster/701/2026-27/51000416_03.png",
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=51000416"
+    },
+    {
+      "id": "51000116",
+      "name": "脇 真大",
+      "number": 18,
+      "position": "SG",
+      "photo": "https://bleague.bl.kuroco-img.app/v=1789593256/files/user/roster/701/2026-27/51000116_03.png",
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=51000116"
+    },
+    {
+      "id": "20017",
+      "name": "ケビン・ジョーンズ",
+      "number": 21,
+      "position": "PF",
+      "photo": "https://bleague.bl.kuroco-img.app/v=1791666204/files/user/roster/701/2026-27/20017_03.png",
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=20017"
+    },
+    {
+      "id": "8658",
+      "name": "山内 盛久",
+      "number": 32,
+      "position": "PG",
+      "photo": "https://bleague.bl.kuroco-img.app/v=1789593249/files/user/roster/701/2026-27/8658_03.png",
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=8658"
+    },
+    {
+      "id": "18430",
+      "name": "グラント・ジェレット",
+      "number": 33,
+      "position": "PF",
+      "photo": "https://bleague.bl.kuroco-img.app/v=1789583735/files/user/roster/701/2026-27/18430_03.png",
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=18430"
+    },
+    {
+      "id": "8756",
+      "name": "小野寺 祥太",
+      "number": 34,
+      "position": "PG/SG",
+      "photo": "https://bleague.bl.kuroco-img.app/v=1789593250/files/user/roster/701/2026-27/8756_03.png",
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=8756"
+    },
+    {
+      "id": "26914",
+      "name": "ジャック・クーリー",
+      "number": 45,
+      "position": "C",
+      "photo": "https://bleague.bl.kuroco-img.app/v=1789593252/files/user/roster/701/2026-27/26914_03.png",
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=26914"
+    },
+    {
+      "id": "55000567",
+      "name": "佐取 龍之介",
+      "number": 77,
+      "position": "SG/SF",
+      "photo": "https://bleague.bl.kuroco-img.app/v=1789593259/files/user/roster/701/2026-27/55000567_03.png",
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=55000567"
+    },
+    {
+      "id": "5100000015",
+      "name": "川真田 紘也",
+      "number": 99,
+      "position": "C",
+      "photo": "https://bleague.bl.kuroco-img.app/v=1789593260/files/user/roster/701/2026-27/5100000015_03.png",
+      "url": "https://www.bleague.jp/roster_detail/?PlayerID=5100000015"
+    }
+  ]
+}
