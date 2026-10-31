@@ -268,26 +268,24 @@
 
     // ---------------------------------------------------------------- アルバム
     function render() {
-      if (!photos.length) {
-        // まだ投稿がないときは、見本の写真を出す
-        app.innerHTML = '<p class="message">まだ写真がありません。<br>最初の1枚を投稿してみませんか？</p>' + (samples.length ? `
-          <div class="day"><h2>見本</h2><small>投稿するとこんなふうに並びます</small></div>
-          <div class="grid">${samples.map(p => `
-            <button type="button" class="ph" data-id="${esc(p.id)}"><img src="${esc(p.thumb)}" alt="" loading="lazy"></button>`).join("")}</div>` : "");
-        return;
-      }
+      const grid = list => `<div class="grid">${list.map(p => `
+            <button type="button" class="ph" data-id="${esc(p.id)}"><img src="${esc(p.thumb)}" alt="" loading="lazy"></button>`).join("")}</div>`;
       const days = [];
       for (const p of photos) {
         if (!days.length || days[days.length - 1].date !== p.date) days.push({ date: p.date, list: [] });
         days[days.length - 1].list.push(p);
       }
-      app.innerHTML = days.map(d => {
+      const albumHtml = days.length ? days.map(d => {
         const g = gamesByDate[d.date];
         return `
           <div class="day"><h2>${esc(fmtDay.format(new Date(d.date + "T00:00:00Z")))}</h2>${g ? `<small>${esc(g)}</small>` : ""}</div>
-          <div class="grid">${d.list.map(p => `
-            <button type="button" class="ph" data-id="${esc(p.id)}"><img src="${esc(p.thumb)}" alt="" loading="lazy"></button>`).join("")}</div>`;
-      }).join("");
+          ${grid(d.list)}`;
+      }).join("") : '<p class="message">まだ写真がありません。<br>最初の1枚を投稿してみませんか？</p>';
+      // 見本の写真は、投稿があってもいつも一番下に出す
+      const sampleHtml = samples.length ? `
+          <div class="day"><h2>見本</h2><small>投稿するとこんなふうに並びます</small></div>
+          ${grid(samples)}` : "";
+      app.innerHTML = albumHtml + sampleHtml;
     }
 
     const viewer = document.getElementById("viewer");
@@ -314,7 +312,7 @@
     ]).then(([gj, sj]) => {
       for (const g of (sj.games || [])) gamesByDate[g.datetime.slice(0, 10)] = `vs ${g.opponent}`;
       for (const g of (gj.games || [])) gamesByDate[g.datetime.slice(0, 10)] = `vs ${g.opponent} ${g.kings}-${g.opp} ${g.kings > g.opp ? "WIN" : "LOSE"}`;
-      if (photos.length) render();
+      if (photos.length || samples.length) render();
     });
 
     fetch("album.json", { cache: "no-store" })
