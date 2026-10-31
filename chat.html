@@ -84,6 +84,10 @@
     }
     .game small { font-size: 11px; color: var(--muted); text-align: center; }
     .game .now { color: var(--gold-soft); font-weight: 700; }
+    .expire {
+      margin: 0 0 10px; padding: 8px 12px; border-radius: 10px; background: rgba(212, 175, 55, .1);
+      color: var(--gold-soft); font-size: 12px; font-weight: 700; text-align: center;
+    }
 
     .box { border: 1px solid var(--line); border-radius: 14px; background: var(--card); padding: 14px; }
     .box label { font-size: 12px; color: var(--muted); display: grid; gap: 6px; }
@@ -177,6 +181,7 @@
       <small><span class="now" id="nowCount"></span>試合ごとに別々のチャットです</small>
     </div>
 
+    <p class="expire">⏳ チャットのコメントは12時間で消えます（写真は3時間）</p>
     <ol class="log" id="log"><li class="empty">読み込み中…</li></ol>
 
     <!-- ニックネームの登録(初回だけ) -->
@@ -269,6 +274,12 @@
     // ---------------------------------------------------------------- 試合の選択
     let game = null, source = null;
     const seen = new Set();
+    // どこまで読んだか(トップページの「新着 ○件」に使う)。画面に出ている間に届いたものを既読にする
+    let newest = 0;
+    const markRead = () => {
+      if (game && newest && !document.hidden && newest > (Number(store.get("kings-chatread:" + game.key)) || 0)) store.set("kings-chatread:" + game.key, String(newest));
+    };
+    document.addEventListener("visibilitychange", markRead);
     // 終わったばかりの試合は、予定(schedule.json)から外れたあと結果(games.json)に入るまで少し間があくので、
     // 速報(kings-live)の最後の内容からも試合を拾う
     const LIVE_TOPIC = "kings-live-a38853caea";
@@ -317,6 +328,8 @@
       const rp = d.reply && typeof d.reply === "object"
         ? { id: clean(d.reply.id, 20), nick: clean(d.reply.nick, NICK_MAX), text: clean(d.reply.text, QUOTE_MAX), cid: clean(d.reply.cid, 20) } : null;
       seen.add(m.id);
+      newest = Math.max(newest, m.time || 0);
+      markRead();
       const log = $("log");
       log.querySelector(".empty")?.remove();
       const nearBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 80;
@@ -385,6 +398,7 @@
     function openGame(g) {
       game = g;
       seen.clear();
+      newest = 0;
       setReply(null);
       setPhoto(null);
       $("log").innerHTML = '<li class="empty">読み込み中…</li>';
