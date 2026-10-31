@@ -524,8 +524,14 @@
       if (live && new Date(live.updated) > new Date(d.updated)) return;
       // クォーターは、公式の試合データ(直近のプレー)のほうが正確なので、そちらを優先する。
       // 試合終了と、2Q のプレーのままのハーフタイムは、通知ツールの判定をそのまま使う
-      const playPeriod = Array.isArray(d.plays) && d.plays[0] && d.plays[0].period;
+      const lastPlay = Array.isArray(d.plays) && d.plays[0];
+      const playPeriod = lastPlay && lastPlay.period;
       if (playPeriod && d.period !== "FINAL" && !(d.period === "HALF" && playPeriod === "Q2")) d.period = playPeriod;
+      // スコアも同じ理由で、直近のプレーの時点のスコア(公式の試合データ)を優先する
+      if (lastPlay && Number.isFinite(lastPlay.kings) && Number.isFinite(lastPlay.opp)) {
+        d.kings = lastPlay.kings;
+        d.opp = lastPlay.opp;
+      }
       live = d;
       render();
     }
