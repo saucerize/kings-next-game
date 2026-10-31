@@ -181,7 +181,7 @@
     const TZ = "Asia/Tokyo";
     const app = document.getElementById("app");
     const fmtDay = new Intl.DateTimeFormat("ja-JP", { timeZone: "UTC", month: "long", day: "numeric", weekday: "short" });
-    let photos = [];
+    let photos = [], samples = [];
     let gamesByDate = {};
 
     function esc(s) {
@@ -269,7 +269,11 @@
     // ---------------------------------------------------------------- アルバム
     function render() {
       if (!photos.length) {
-        app.innerHTML = '<p class="message">まだ写真がありません。<br>最初の1枚を投稿してみませんか？</p>';
+        // まだ投稿がないときは、見本の写真を出す
+        app.innerHTML = '<p class="message">まだ写真がありません。<br>最初の1枚を投稿してみませんか？</p>' + (samples.length ? `
+          <div class="day"><h2>見本</h2><small>投稿するとこんなふうに並びます</small></div>
+          <div class="grid">${samples.map(p => `
+            <button type="button" class="ph" data-id="${esc(p.id)}"><img src="${esc(p.thumb)}" alt="" loading="lazy"></button>`).join("")}</div>` : "");
         return;
       }
       const days = [];
@@ -290,7 +294,7 @@
     app.addEventListener("click", e => {
       const b = e.target.closest("button[data-id]");
       if (!b) return;
-      const p = photos.find(x => x.id === b.dataset.id);
+      const p = photos.concat(samples).find(x => x.id === b.dataset.id);
       if (!p) return;
       document.getElementById("viewerImg").src = p.src;
       document.getElementById("viewerCap").innerHTML =
@@ -317,6 +321,7 @@
       .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(data => {
         photos = Array.isArray(data.photos) ? data.photos : [];
+        samples = Array.isArray(data.samples) ? data.samples : [];
         document.getElementById("note").textContent = `${photos.length}枚の写真`;
         render();
       })

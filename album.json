@@ -1,5 +1,6 @@
 {
- "photos": [
+ "photos": [],
+ "samples": [
   {
    "id": "rYAVcDMPGoG1",
    "date": "2026-10-31",
@@ -8,8 +9,8 @@
    "comment": "とても丁寧",
    "width": 1200,
    "height": 1600,
-   "src": "album/2026-10-31/rYAVcDMPGoG1.jpg",
-   "thumb": "album/2026-10-31/rYAVcDMPGoG1_t.jpg"
+   "src": "album/sample/rYAVcDMPGoG1.jpg",
+   "thumb": "album/sample/rYAVcDMPGoG1_t.jpg"
   }
  ]
 }
