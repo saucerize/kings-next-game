@@ -108,6 +108,27 @@
       background: #24201a; font-size: 15px; line-height: 1.5; word-break: break-word; white-space: pre-wrap;
     }
     .log li.mine .bubble { background: var(--gold); color: #111; border-radius: 16px 16px 4px 16px; }
+    /* 返信 */
+    .log .rbtn { border: 0; background: none; color: var(--muted); font: inherit; font-size: 11px; padding: 4px 6px; cursor: pointer; }
+    .log .quote {
+      display: block; max-width: 100%; margin: 0 0 3px; padding: 4px 10px; border: 0; border-left: 3px solid var(--gold);
+      border-radius: 6px; background: rgba(255, 255, 255, .05); color: var(--muted); font: inherit; font-size: 12px;
+      text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer;
+    }
+    .log li.mine .quote { margin-left: auto; }
+    .log .quote b { color: var(--gold-soft); font-weight: 700; }
+    .log li.tome .bubble { box-shadow: 0 0 0 2px var(--gold-soft); }
+    .log li.flash .bubble { animation: flash 1.2s ease; }
+    @keyframes flash { 0%, 40% { box-shadow: 0 0 0 3px #fff; } 100% { box-shadow: none; } }
+    .replying {
+      display: flex; align-items: center; gap: 8px; margin: 0 0 8px; padding: 6px 10px;
+      border-left: 3px solid var(--gold); border-radius: 6px; background: rgba(255, 255, 255, .05);
+      font-size: 12px; color: var(--muted);
+    }
+    .replying[hidden] { display: none; }
+    .replying span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .replying b { color: var(--gold-soft); }
+    .replying button { flex: none; border: 0; background: none; color: var(--gold); font: inherit; font-size: 18px; line-height: 1; padding: 4px 6px; cursor: pointer; }
     .log .empty { align-self: center; max-width: none; color: var(--muted); font-size: 13px; padding: 40px 0; text-align: center; }
     .note { margin-top: 16px; text-align: center; font-size: 11px; color: var(--muted); line-height: 1.7; }
   </style>
@@ -147,6 +168,7 @@
     <!-- 発言 -->
     <div class="box" id="chatBox" hidden>
       <div class="me"><span><b id="myNick"></b> として参加中</span><button type="button" class="link" id="nickChange">変更</button></div>
+      <div class="replying" id="replying" hidden><span id="replyingText"></span><button type="button" id="replyCancel" aria-label="返信をやめる">×</button></div>
       <form class="row" id="sayForm">
         <input type="text" id="sayInput" maxlength="200" placeholder="メッセージを入力" enterkeyhint="send" autocomplete="off">
         <button type="submit" class="btn" id="sayBtn" disabled>送信</button>
@@ -162,6 +184,7 @@
     const CHAT_PREFIX = "kings-chat-a38853caea-";   // + 試合のキー(ScheduleKey)で、試合ごとのトピックにする
     const NICK_KEY = "kings-nick";                   // ニックネーム(アルバムの投稿でも使う)
     const NICK_MAX = 20, TEXT_MAX = 200;
+    const QUOTE_MAX = 40;                            // 返信先として引用する文字数
     const COOLDOWN_MS = 3000;                        // 連投の間隔(いたずら対策)
     const GAME_LENGTH_MS = 2.5 * 60 * 60 * 1000;
     const TZ = "Asia/Tokyo";
@@ -237,14 +260,23 @@
       if (!d || d.type !== "kings-chat" || d.game !== game.key) return;
       const who = clean(d.nick, NICK_MAX), text = clean(d.text, TEXT_MAX);
       if (!who || !text) return;
+      const rp = d.reply && typeof d.reply === "object"
+        ? { id: clean(d.reply.id, 20), nick: clean(d.reply.nick, NICK_MAX), text: clean(d.reply.text, QUOTE_MAX), cid: clean(d.reply.cid, 20) } : null;
       seen.add(m.id);
       const log = $("log");
       log.querySelector(".empty")?.remove();
       const nearBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 80;
       const li = document.createElement("li");
-      if (d.cid === cid) li.className = "mine";
+      li.className = [d.cid === cid && "mine", rp && rp.cid === cid && d.cid !== cid && "tome"].filter(Boolean).join(" ");
       li.dataset.t = m.time || 0;
-      li.innerHTML = `<div class="who"><b>${esc(who)}</b> ${m.time ? fmtClock.format(new Date(m.time * 1000)) : ""}</div><div class="bubble">${esc(text)}</div>`;
+      li.id = "m-" + m.id;
+      li.dataset.id = m.id;
+      li.dataset.nick = who;
+      li.dataset.cid = clean(d.cid, 20);
+      li.dataset.text = text;
+      li.innerHTML = `<div class="who"><b>${esc(who)}</b> ${m.time ? fmtClock.format(new Date(m.time * 1000)) : ""}${rp && rp.cid === cid && d.cid !== cid ? " ・あなたへの返信" : ""}</div>
+        ${rp && rp.nick ? `<button type="button" class="quote" data-to="${esc(rp.id)}">↩︎ <b>${esc(rp.nick)}</b> ${esc(rp.text)}</button>` : ""}
+        <div class="bubble">${esc(text)}</div><button type="button" class="rbtn" data-reply="${esc(m.id)}">返信</button>`;
       // 時刻順に差し込む
       const after = [...log.children].reverse().find(x => Number(x.dataset.t) <= (m.time || 0));
       after ? after.after(li) : log.prepend(li);
@@ -253,6 +285,7 @@
     function openGame(g) {
       game = g;
       seen.clear();
+      setReply(null);
       $("log").innerHTML = '<li class="empty">読み込み中…</li>';
       if (source) source.close();
       const topic = CHAT_PREFIX + g.key;
@@ -275,6 +308,32 @@
       updateSay();
     }
 
+    // ---------------------------------------------------------------- 返信
+    let replyTo = null;   // {id, nick, text, cid}
+    function setReply(r) {
+      replyTo = r;
+      $("replying").hidden = !r;
+      if (r) $("replyingText").innerHTML = `↩︎ <b>${esc(r.nick)}</b> に返信：${esc(r.text)}`;
+    }
+    $("replyCancel").addEventListener("click", () => setReply(null));
+    $("log").addEventListener("click", e => {
+      const rb = e.target.closest("[data-reply]");
+      if (rb) {
+        const li = rb.closest("li");
+        if (!nick) { $("nickInput").focus(); return; }
+        setReply({ id: li.dataset.id, nick: li.dataset.nick, text: li.dataset.text.slice(0, QUOTE_MAX), cid: li.dataset.cid });
+        $("sayInput").focus();
+        return;
+      }
+      const q = e.target.closest("[data-to]");
+      if (q) {
+        const target = document.getElementById("m-" + q.dataset.to);
+        if (!target) return;   // 元のメッセージが消えている
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+        target.classList.remove("flash"); void target.offsetWidth; target.classList.add("flash");
+      }
+    });
+
     let lastSent = 0, sending = false;
     function updateSay() { $("sayBtn").disabled = sending || !game || !clean($("sayInput").value, TEXT_MAX); }
     $("sayInput").addEventListener("input", updateSay);
@@ -287,11 +346,12 @@
       sending = true; updateSay();
       try {
         const r = await fetch(`${NTFY}/${CHAT_PREFIX}${game.key}`, {
-          method: "POST", body: JSON.stringify({ type: "kings-chat", v: 1, game: game.key, cid, nick, text }),
+          method: "POST", body: JSON.stringify({ type: "kings-chat", v: 1, game: game.key, cid, nick, text, ...(replyTo ? { reply: replyTo } : {}) }),
         });
         if (!r.ok) throw new Error(r.status);
         lastSent = Date.now();
         $("sayInput").value = "";
+        setReply(null);
         $("status").textContent = "";
       } catch {
         $("status").textContent = "送れませんでした。電波のよいところでもう一度お試しください";
