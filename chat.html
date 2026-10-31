@@ -129,6 +129,21 @@
     .replying span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .replying b { color: var(--gold-soft); }
     .replying button { flex: none; border: 0; background: none; color: var(--gold); font: inherit; font-size: 18px; line-height: 1; padding: 4px 6px; cursor: pointer; }
+    /* 写真 */
+    .log .pic { display: block; padding: 0; border: 0; border-radius: 14px; overflow: hidden; background: #1a1712; cursor: pointer; margin: 0 0 3px; }
+    .log li.mine .pic { margin-left: auto; }
+    .log .pic img { display: block; max-width: min(220px, 60vw); max-height: 260px; object-fit: cover; }
+    .log .gone { display: inline-block; padding: 8px 12px; border-radius: 14px; border: 1px dashed var(--line); color: var(--muted); font-size: 12px; margin: 0 0 3px; }
+    .attach { position: relative; flex: none; width: 46px; min-height: 46px; border-radius: 10px; border: 1px solid var(--line); background: #0f0e0b; display: grid; place-items: center; cursor: pointer; }
+    .attach svg { width: 22px; height: 22px; fill: none; stroke: var(--gold-soft); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .attach input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+    .preview { display: flex; align-items: center; gap: 10px; margin: 0 0 8px; font-size: 12px; color: var(--muted); }
+    .preview[hidden] { display: none; }
+    .preview img { width: 56px; height: 56px; object-fit: cover; border-radius: 8px; }
+    .preview button { border: 0; background: none; color: var(--gold); font: inherit; font-size: 18px; padding: 4px 6px; cursor: pointer; margin-left: auto; }
+    .viewer { position: fixed; inset: 0; z-index: 10; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(0, 0, 0, .92); }
+    .viewer.open { display: flex; }
+    .viewer img { max-width: 100%; max-height: 90vh; border-radius: 10px; }
     .log .empty { align-self: center; max-width: none; color: var(--muted); font-size: 13px; padding: 40px 0; text-align: center; }
     .note { margin-top: 16px; text-align: center; font-size: 11px; color: var(--muted); line-height: 1.7; }
   </style>
@@ -169,15 +184,18 @@
     <div class="box" id="chatBox" hidden>
       <div class="me"><span><b id="myNick"></b> として参加中</span><button type="button" class="link" id="nickChange">変更</button></div>
       <div class="replying" id="replying" hidden><span id="replyingText"></span><button type="button" id="replyCancel" aria-label="返信をやめる">×</button></div>
+      <div class="preview" id="preview" hidden><img id="previewImg" alt=""><span>この写真を送ります（3時間で消えます）</span><button type="button" id="previewCancel" aria-label="写真をやめる">×</button></div>
       <form class="row" id="sayForm">
+        <label class="attach" aria-label="写真を選ぶ"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><input type="file" id="photoInput" accept="image/*"></label>
         <input type="text" id="sayInput" maxlength="200" placeholder="メッセージを入力" enterkeyhint="send" autocomplete="off">
         <button type="submit" class="btn" id="sayBtn" disabled>送信</button>
       </form>
       <p class="status" id="status"></p>
     </div>
 
-    <p class="note">チャットはこのページを見ているみんなに公開されます。悪口・個人情報・宣伝は書かないでください。<br>メッセージは約12時間で自動的に消えます。</p>
+    <p class="note">チャットはこのページを見ているみんなに公開されます。悪口・個人情報・宣伝は書かないでください。<br>ほかの観客など、知らない人の顔がはっきり写った写真は送らないでください。<br>メッセージは約12時間、写真は約3時間で自動的に消えます。</p>
   </main>
+  <div class="viewer" id="viewer" role="dialog" aria-modal="true"><img id="viewerImg" alt=""></div>
 
   <script>
     const NTFY = "https://ntfy.sh";
@@ -185,6 +203,8 @@
     const NICK_KEY = "kings-nick";                   // ニックネーム(アルバムの投稿でも使う)
     const NICK_MAX = 20, TEXT_MAX = 200;
     const QUOTE_MAX = 40;                            // 返信先として引用する文字数
+    const PHOTO_SIDE = 1280;                         // 送る前に写真の長い辺をここまで縮める
+    const PHOTO_PER_GAME = 5;                        // 1つの試合で1台から送れる写真の枚数
     const COOLDOWN_MS = 3000;                        // 連投の間隔(いたずら対策)
     const GAME_LENGTH_MS = 2.5 * 60 * 60 * 1000;
     const TZ = "Asia/Tokyo";
@@ -259,7 +279,8 @@
       try { d = JSON.parse(m.message); } catch { return; }
       if (!d || d.type !== "kings-chat" || d.game !== game.key) return;
       const who = clean(d.nick, NICK_MAX), text = clean(d.text, TEXT_MAX);
-      if (!who || !text) return;
+      const att = m.attachment && /^https:\/\/ntfy\.sh\/file\//.test(m.attachment.url || "") ? m.attachment : null;
+      if (!who || !(text || att)) return;
       const rp = d.reply && typeof d.reply === "object"
         ? { id: clean(d.reply.id, 20), nick: clean(d.reply.nick, NICK_MAX), text: clean(d.reply.text, QUOTE_MAX), cid: clean(d.reply.cid, 20) } : null;
       seen.add(m.id);
@@ -273,10 +294,13 @@
       li.dataset.id = m.id;
       li.dataset.nick = who;
       li.dataset.cid = clean(d.cid, 20);
-      li.dataset.text = text;
+      li.dataset.text = text || "📷 写真";
+      const expired = att && att.expires && att.expires * 1000 < Date.now();
+      const picHtml = !att ? "" : expired ? '<div class="gone">📷 写真は期限切れで消えました</div>'
+        : `<button type="button" class="pic" data-full="${esc(att.url)}"><img src="${esc(att.url)}" alt="写真" loading="lazy"></button>`;
       li.innerHTML = `<div class="who"><b>${esc(who)}</b> ${m.time ? fmtClock.format(new Date(m.time * 1000)) : ""}${rp && rp.cid === cid && d.cid !== cid ? " ・あなたへの返信" : ""}</div>
         ${rp && rp.nick ? `<button type="button" class="quote" data-to="${esc(rp.id)}">↩︎ <b>${esc(rp.nick)}</b> ${esc(rp.text)}</button>` : ""}
-        <div class="bubble">${esc(text)}</div><button type="button" class="rbtn" data-reply="${esc(m.id)}">返信</button>`;
+        ${picHtml}${text ? `<div class="bubble">${esc(text)}</div>` : ""}<button type="button" class="rbtn" data-reply="${esc(m.id)}">返信</button>`;
       // 時刻順に差し込む
       const after = [...log.children].reverse().find(x => Number(x.dataset.t) <= (m.time || 0));
       after ? after.after(li) : log.prepend(li);
@@ -286,6 +310,7 @@
       game = g;
       seen.clear();
       setReply(null);
+      setPhoto(null);
       $("log").innerHTML = '<li class="empty">読み込み中…</li>';
       if (source) source.close();
       const topic = CHAT_PREFIX + g.key;
@@ -325,6 +350,12 @@
         $("sayInput").focus();
         return;
       }
+      const pic = e.target.closest("[data-full]");
+      if (pic) {
+        $("viewerImg").src = pic.dataset.full;
+        $("viewer").classList.add("open");
+        return;
+      }
       const q = e.target.closest("[data-to]");
       if (q) {
         const target = document.getElementById("m-" + q.dataset.to);
@@ -334,21 +365,64 @@
       }
     });
 
+    $("viewer").addEventListener("click", () => { $("viewer").classList.remove("open"); $("viewerImg").removeAttribute("src"); });
+    // 写真が読み込まれて高さが変わっても、いちばん下を見ていたら下に合わせる
+    $("log").addEventListener("load", e => {
+      const log = $("log");
+      if (e.target.tagName === "IMG" && log.scrollHeight - log.scrollTop - log.clientHeight < 400) log.scrollTop = log.scrollHeight;
+    }, true);
+
+    // ---------------------------------------------------------------- 写真
+    let photo = null;   // 縮小済みの JPEG(Blob)
+    const photoKey = () => "kings-chatphoto:" + (game ? game.key : "");
+    const photosSent = () => Number(store.get(photoKey())) || 0;
+    function setPhoto(blob) {
+      photo = blob;
+      $("preview").hidden = !blob;
+      if (blob) $("previewImg").src = URL.createObjectURL(blob);
+      updateSay();
+    }
+    // 向きを直して縮小した JPEG にする(この時点で位置情報などのメタデータは消える)
+    async function shrink(file) {
+      const bmp = await createImageBitmap(file, { imageOrientation: "from-image" });
+      const scale = Math.min(1, PHOTO_SIDE / Math.max(bmp.width, bmp.height));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(bmp.width * scale);
+      canvas.height = Math.round(bmp.height * scale);
+      canvas.getContext("2d").drawImage(bmp, 0, 0, canvas.width, canvas.height);
+      return new Promise(res => canvas.toBlob(res, "image/jpeg", 0.82));
+    }
+    $("photoInput").addEventListener("change", async () => {
+      const file = $("photoInput").files[0];
+      $("photoInput").value = "";
+      if (!file) return;
+      if (photosSent() >= PHOTO_PER_GAME) { $("status").textContent = `この試合で送れる写真は${PHOTO_PER_GAME}枚までです`; return; }
+      $("status").textContent = "写真を準備しています…";
+      try { setPhoto(await shrink(file)); $("status").textContent = ""; }
+      catch { $("status").textContent = "この写真は読み込めませんでした"; }
+    });
+    $("previewCancel").addEventListener("click", () => setPhoto(null));
+
     let lastSent = 0, sending = false;
-    function updateSay() { $("sayBtn").disabled = sending || !game || !clean($("sayInput").value, TEXT_MAX); }
+    function updateSay() { $("sayBtn").disabled = sending || !game || !(clean($("sayInput").value, TEXT_MAX) || photo); }
     $("sayInput").addEventListener("input", updateSay);
     $("sayForm").addEventListener("submit", async e => {
       e.preventDefault();
       const text = clean($("sayInput").value, TEXT_MAX);
-      if (!text || !nick || !game || sending) return;
+      if (!(text || photo) || !nick || !game || sending) return;
       const wait = lastSent + COOLDOWN_MS - Date.now();
       if (wait > 0) { $("status").textContent = `あと${Math.ceil(wait / 1000)}秒待ってから送ってください`; return; }
       sending = true; updateSay();
       try {
-        const r = await fetch(`${NTFY}/${CHAT_PREFIX}${game.key}`, {
-          method: "POST", body: JSON.stringify({ type: "kings-chat", v: 1, game: game.key, cid, nick, text, ...(replyTo ? { reply: replyTo } : {}) }),
-        });
+        const msg = JSON.stringify({ type: "kings-chat", v: 1, game: game.key, cid, nick, text, ...(replyTo ? { reply: replyTo } : {}) });
+        const topicUrl = `${NTFY}/${CHAT_PREFIX}${game.key}`;
+        if (photo && photosSent() >= PHOTO_PER_GAME) { $("status").textContent = `この試合で送れる写真は${PHOTO_PER_GAME}枚までです`; setPhoto(null); return; }
+        // 写真は添付ファイルとして送り、メッセージ本文は URL の message に入れる
+        const r = photo
+          ? await fetch(`${topicUrl}?filename=chat.jpg&message=${encodeURIComponent(msg)}`, { method: "PUT", body: photo })
+          : await fetch(topicUrl, { method: "POST", body: msg });
         if (!r.ok) throw new Error(r.status);
+        if (photo) { store.set(photoKey(), String(photosSent() + 1)); setPhoto(null); }
         lastSent = Date.now();
         $("sayInput").value = "";
         setReply(null);
