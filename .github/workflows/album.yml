@@ -1,0 +1,58 @@
+name: アルバム
+
+on:
+  schedule:
+    - cron: "47 * * * *"   # 1時間おき(毎時47分)に投稿された写真を受け取る
+  workflow_dispatch:
+  push:                    # 写真のプルリクエストがマージされたら、すぐ一覧を作り直す
+    branches: [main]
+    paths: ["album/*/*.json", "build_album.py"]
+
+permissions:
+  contents: write
+  pull-requests: write
+  pages: write
+
+concurrency:
+  group: album
+  cancel-in-progress: false
+
+jobs:
+  album:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests pillow
+      - name: git の設定
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: 投稿された写真を受け取り、承認用のプルリクエストを作る
+        if: github.event_name != 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python collect_photos.py
+      - name: 公開された写真の一覧(album.json)を作る
+        run: python build_album.py
+      - name: 変更があればコミット
+        id: commit
+        run: |
+          git add album/seen.json album.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -m "アルバムを更新"
+          git pull --rebase -q origin main
+          git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: GitHub Pages を更新
+        if: steps.commit.outputs.changed == 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"

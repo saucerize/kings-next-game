@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0b">
+  <meta name="apple-mobile-web-app-title" content="キングス">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
+  <link rel="icon" type="image/png" href="favicon.png?v=2">
+  <title>キングス アルバム</title>
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --card: #161411;
+      --line: #3a3120;
+      --gold: #d4af37;
+      --gold-soft: #f1d77a;
+      --text: #f5f1e6;
+      --muted: #a39c8a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: radial-gradient(120% 60% at 50% 0%, #2a2210 0%, var(--bg) 60%) fixed, var(--bg);
+      color: var(--text);
+      font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", system-ui, sans-serif;
+      line-height: 1.5;
+      padding: max(20px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+    }
+    main { max-width: 480px; margin: 0 auto; }
+
+    /* 上のタブ: 横幅いっぱいの4つのボタン(アイコン+名前)。指で押しやすい高さにする */
+    .tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin: 0 0 18px; }
+    .tabs a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      min-height: 58px;
+      padding: 6px 2px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--muted);
+      text-decoration: none;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tabs a:active { transform: scale(.96); }
+    .tabs svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .tabs a[aria-current="page"] { background: var(--gold); border-color: var(--gold); color: #111; }
+
+    header { text-align: center; margin-bottom: 20px; }
+    .team { margin: 0; font-size: 13px; letter-spacing: .2em; color: var(--gold); }
+    h1 {
+      margin: 4px 0 0;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      background: linear-gradient(180deg, var(--gold-soft), var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .post {
+      margin-bottom: 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+    }
+    .post summary {
+      list-style: none;
+      min-height: 52px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      font-size: 15px; font-weight: 800; color: var(--gold-soft);
+      cursor: pointer;
+    }
+    .post summary::-webkit-details-marker { display: none; }
+    .post form { padding: 0 14px 14px; display: grid; gap: 10px; }
+    .post label { font-size: 12px; color: var(--muted); display: grid; gap: 4px; }
+    .post input[type=text], .post textarea {
+      width: 100%; padding: 11px 12px; border-radius: 10px;
+      border: 1px solid var(--line); background: #0f0e0b; color: var(--text);
+      font: inherit; font-size: 15px;
+    }
+    .post textarea { min-height: 64px; resize: vertical; }
+    .pick {
+      min-height: 120px; border: 1px dashed var(--gold); border-radius: 12px;
+      display: grid; place-items: center; text-align: center; color: var(--gold-soft);
+      font-size: 14px; font-weight: 700; cursor: pointer; overflow: hidden; position: relative;
+    }
+    .pick img { width: 100%; max-height: 260px; object-fit: contain; display: block; }
+    .pick input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .agree { display: flex !important; grid-template-columns: none !important; align-items: flex-start; gap: 8px !important; font-size: 12px; line-height: 1.6; }
+    .agree input { margin-top: 3px; width: 18px; height: 18px; flex: none; }
+    .send {
+      min-height: 50px; border: 0; border-radius: 12px;
+      background: var(--gold); color: #111; font: inherit; font-size: 15px; font-weight: 800; cursor: pointer;
+    }
+    .send:disabled { opacity: .5; cursor: default; }
+    .post .status { margin: 0; font-size: 13px; text-align: center; color: var(--gold-soft); min-height: 1.2em; }
+    .rules { margin: 0; font-size: 11px; color: var(--muted); line-height: 1.7; }
+
+    .day { margin: 22px 0 10px; display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+    .day h2 { margin: 0; font-size: 15px; color: var(--text); }
+    .day small { font-size: 12px; color: var(--gold); white-space: nowrap; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+    .ph { padding: 0; border: 0; border-radius: 8px; overflow: hidden; background: #1a1712; aspect-ratio: 1; cursor: pointer; }
+    .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .viewer {
+      position: fixed; inset: 0; z-index: 10;
+      display: none; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+      padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+      background: rgba(0, 0, 0, .9);
+    }
+    .viewer.open { display: flex; }
+    .viewer img { max-width: 100%; max-height: 78vh; border-radius: 10px; }
+    .viewer .cap { max-width: 480px; text-align: center; font-size: 14px; line-height: 1.6; }
+    .viewer .cap b { color: var(--gold-soft); }
+    .viewer .cap small { display: block; color: var(--muted); font-size: 12px; }
+    .viewer .close {
+      position: absolute; top: max(12px, env(safe-area-inset-top)); right: 12px;
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1px solid var(--line); background: var(--card); color: var(--gold-soft);
+      font-size: 22px; line-height: 1; cursor: pointer;
+    }
+
+    .message { text-align: center; color: var(--muted); padding: 40px 0; }
+    .note { margin-top: 24px; text-align: center; font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="tabs">
+      <a href="./"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><circle cx="12" cy="15.5" r="2.2"/></svg><span>次の試合</span></a>
+      <a href="players.html"><svg viewBox="0 0 24 24"><path d="M8 3l-4 3 2 4h2v11h8V10h2l2-4-4-3c-.5 1.7-2 3-4 3s-3.5-1.3-4-3z"/></svg><span>選手一覧</span></a>
+      <a href="stats.html"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>成績</span></a>
+      <a href="dancers.html"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg><span>ダンサーズ</span></a>
+      <a href="album.html" aria-current="page"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><span>アルバム</span></a>
+    </nav>
+    <header>
+      <p class="team">RYUKYU GOLDEN KINGS</p>
+      <h1>ALBUM</h1>
+    </header>
+
+    <details class="post">
+      <summary>📷 写真を投稿する</summary>
+      <form id="form">
+        <div class="pick" id="pick"><span id="pickText">タップして写真を選ぶ</span><input type="file" id="file" accept="image/*"></div>
+        <label>ニックネーム（なくてもOK）<input type="text" id="nick" maxlength="20" placeholder="例：キングス太郎"></label>
+        <label>ひとこと（なくてもOK）<textarea id="comment" maxlength="100" placeholder="例：最後の逆転3ポイント、鳥肌でした！"></textarea></label>
+        <label class="agree"><input type="checkbox" id="agree"><span>自分で撮った写真です。ほかの観客など、知らない人の顔がはっきり写っていません。</span></label>
+        <button type="submit" class="send" id="send" disabled>投稿する</button>
+        <p class="status" id="status"></p>
+        <p class="rules">投稿された写真は、管理人が確認してからアルバムに載ります（数時間〜1日ほど）。写真の位置情報などは自動で消してから送ります。1日に投稿できるのは5枚までです。</p>
+      </form>
+    </details>
+
+    <div id="app"><p class="message">読み込み中…</p></div>
+    <p class="note" id="note"></p>
+  </main>
+
+  <div class="viewer" id="viewer" role="dialog" aria-modal="true">
+    <button type="button" class="close" aria-label="閉じる">×</button>
+    <img id="viewerImg" alt="">
+    <div class="cap" id="viewerCap"></div>
+  </div>
+
+  <script>
+    const NTFY = "https://ntfy.sh";
+    const PHOTO_TOPIC = "kings-photo-a38853caea";
+    const MAX_SIDE = 1600;          // 送る前に長い辺をここまで縮める
+    const DAILY_LIMIT = 5;
+    const TZ = "Asia/Tokyo";
+    const app = document.getElementById("app");
+    const fmtDay = new Intl.DateTimeFormat("ja-JP", { timeZone: "UTC", month: "long", day: "numeric", weekday: "short" });
+    let photos = [];
+    let gamesByDate = {};
+
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    }
+
+    // ---------------------------------------------------------------- 投稿
+    const form = document.getElementById("form");
+    const fileInput = document.getElementById("file");
+    const send = document.getElementById("send");
+    const statusEl = document.getElementById("status");
+    let resized = null;
+
+    const cid = (() => {
+      try {
+        let v = localStorage.getItem("kings-cid");
+        if (!v) { v = Math.random().toString(36).slice(2, 12); localStorage.setItem("kings-cid", v); }
+        return v;
+      } catch { return ""; }
+    })();
+    const todayKey = () => "kings-photos:" + new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date());
+    const sentToday = () => { try { return Number(localStorage.getItem(todayKey())) || 0; } catch { return 0; } };
+
+    function updateSend() {
+      send.disabled = !resized || !document.getElementById("agree").checked;
+    }
+
+    // 写真を読み込み、向きを直して縮小した JPEG にする(この時点で位置情報などのメタデータは消える)
+    async function resize(file) {
+      const bmp = await createImageBitmap(file, { imageOrientation: "from-image" });
+      const scale = Math.min(1, MAX_SIDE / Math.max(bmp.width, bmp.height));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(bmp.width * scale);
+      canvas.height = Math.round(bmp.height * scale);
+      canvas.getContext("2d").drawImage(bmp, 0, 0, canvas.width, canvas.height);
+      return new Promise(res => canvas.toBlob(res, "image/jpeg", 0.85));
+    }
+
+    fileInput.addEventListener("change", async () => {
+      const file = fileInput.files[0];
+      resized = null;
+      updateSend();
+      if (!file) return;
+      statusEl.textContent = "写真を準備しています…";
+      try {
+        resized = await resize(file);
+        document.getElementById("pickText").innerHTML = `<img src="${URL.createObjectURL(resized)}" alt="">`;
+        statusEl.textContent = "";
+      } catch {
+        statusEl.textContent = "この写真は読み込めませんでした。別の写真を選んでください。";
+      }
+      updateSend();
+    });
+    document.getElementById("agree").addEventListener("change", updateSend);
+
+    form.addEventListener("submit", async e => {
+      e.preventDefault();
+      if (!resized) return;
+      if (sentToday() >= DAILY_LIMIT) {
+        statusEl.textContent = `今日はもう${DAILY_LIMIT}枚投稿しています。また明日お願いします。`;
+        return;
+      }
+      send.disabled = true;
+      statusEl.textContent = "送信しています…";
+      const meta = {
+        type: "kings-photo", v: 1, cid,
+        nick: document.getElementById("nick").value.trim().slice(0, 20),
+        comment: document.getElementById("comment").value.trim().slice(0, 100),
+      };
+      const url = `${NTFY}/${PHOTO_TOPIC}?filename=kings.jpg&message=${encodeURIComponent(JSON.stringify(meta))}`;
+      try {
+        const r = await fetch(url, { method: "PUT", body: resized });
+        if (!r.ok) throw new Error(r.status);
+        try { localStorage.setItem(todayKey(), String(sentToday() + 1)); } catch {}
+        statusEl.textContent = "投稿しました！管理人が確認してからアルバムに載ります。";
+        form.reset();
+        resized = null;
+        document.getElementById("pickText").textContent = "タップして写真を選ぶ";
+      } catch {
+        statusEl.textContent = "送信できませんでした。電波のよいところでもう一度お試しください。";
+      }
+      updateSend();
+    });
+
+    // ---------------------------------------------------------------- アルバム
+    function render() {
+      if (!photos.length) {
+        app.innerHTML = '<p class="message">まだ写真がありません。<br>最初の1枚を投稿してみませんか？</p>';
+        return;
+      }
+      const days = [];
+      for (const p of photos) {
+        if (!days.length || days[days.length - 1].date !== p.date) days.push({ date: p.date, list: [] });
+        days[days.length - 1].list.push(p);
+      }
+      app.innerHTML = days.map(d => {
+        const g = gamesByDate[d.date];
+        return `
+          <div class="day"><h2>${esc(fmtDay.format(new Date(d.date + "T00:00:00Z")))}</h2>${g ? `<small>${esc(g)}</small>` : ""}</div>
+          <div class="grid">${d.list.map(p => `
+            <button type="button" class="ph" data-id="${esc(p.id)}"><img src="${esc(p.thumb)}" alt="" loading="lazy"></button>`).join("")}</div>`;
+      }).join("");
+    }
+
+    const viewer = document.getElementById("viewer");
+    app.addEventListener("click", e => {
+      const b = e.target.closest("button[data-id]");
+      if (!b) return;
+      const p = photos.find(x => x.id === b.dataset.id);
+      if (!p) return;
+      document.getElementById("viewerImg").src = p.src;
+      document.getElementById("viewerCap").innerHTML =
+        `${p.comment ? esc(p.comment) + "<br>" : ""}<b>${esc(p.nick || "名無しさん")}</b><small>${esc((p.time || "").replace("T", " ").slice(0, 16))}</small>`;
+      viewer.classList.add("open");
+    });
+    viewer.addEventListener("click", e => {
+      if (e.target.id === "viewerImg") return;
+      viewer.classList.remove("open");
+      document.getElementById("viewerImg").removeAttribute("src");
+    });
+
+    // 試合のあった日は、見出しの横に対戦相手(と結果)を出す
+    Promise.all([
+      fetch("games.json", { cache: "no-store" }).then(r => r.ok ? r.json() : {}).catch(() => ({})),
+      fetch("schedule.json", { cache: "no-store" }).then(r => r.ok ? r.json() : {}).catch(() => ({})),
+    ]).then(([gj, sj]) => {
+      for (const g of (sj.games || [])) gamesByDate[g.datetime.slice(0, 10)] = `vs ${g.opponent}`;
+      for (const g of (gj.games || [])) gamesByDate[g.datetime.slice(0, 10)] = `vs ${g.opponent} ${g.kings}-${g.opp} ${g.kings > g.opp ? "WIN" : "LOSE"}`;
+      if (photos.length) render();
+    });
+
+    fetch("album.json", { cache: "no-store" })
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(data => {
+        photos = Array.isArray(data.photos) ? data.photos : [];
+        document.getElementById("note").textContent = `${photos.length}枚の写真`;
+        render();
+      })
+      .catch(() => { app.innerHTML = '<p class="message">アルバムを読み込めませんでした。</p>'; });
+  </script>
+</body>
+</html>
