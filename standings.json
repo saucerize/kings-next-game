@@ -1,6 +1,6 @@
 {
  "division": "西地区",
- "updated": "2026/10/31 06:46",
+ "updated": "2026/10/31 20:43",
  "source": "https://www.bleague.jp/standings/?tab=1",
  "rows": [
   {
@@ -19,12 +19,12 @@
    "rank": 2,
    "team": "広島ドラゴンフライズ",
    "short": "広島",
-   "w": 10,
+   "w": 11,
    "l": 1,
-   "pct": ".909",
+   "pct": ".917",
    "gb": "0",
    "last5": "4-1",
-   "streak": "W1",
+   "streak": "W2",
    "kings": false
   },
   {
@@ -43,12 +43,12 @@
    "rank": 4,
    "team": "シーホース三河",
    "short": "三河",
-   "w": 6,
+   "w": 7,
    "l": 2,
-   "pct": ".750",
-   "gb": "2.5",
+   "pct": ".778",
+   "gb": "2",
    "last5": "4-1",
-   "streak": "W3",
+   "streak": "W4",
    "kings": false
   },
   {
@@ -77,6 +77,18 @@
   },
   {
    "rank": 7,
+   "team": "長崎ヴェルカ",
+   "short": "長崎",
+   "w": 6,
+   "l": 7,
+   "pct": ".462",
+   "gb": "5",
+   "last5": "3-2",
+   "streak": "W2",
+   "kings": false
+  },
+  {
+   "rank": 8,
    "team": "滋賀レイクス",
    "short": "滋賀",
    "w": 5,
@@ -88,27 +100,15 @@
    "kings": false
   },
   {
-   "rank": 8,
-   "team": "長崎ヴェルカ",
-   "short": "長崎",
-   "w": 5,
-   "l": 7,
-   "pct": ".417",
-   "gb": "5.5",
-   "last5": "2-3",
-   "streak": "W1",
-   "kings": false
-  },
-  {
    "rank": 9,
    "team": "島根スサノオマジック",
    "short": "島根",
    "w": 4,
-   "l": 6,
-   "pct": ".400",
-   "gb": "5.5",
+   "l": 7,
+   "pct": ".364",
+   "gb": "6",
    "last5": "1-4",
-   "streak": "L2",
+   "streak": "L3",
    "kings": false
   },
   {
@@ -128,11 +128,11 @@
    "team": "神戸ストークス",
    "short": "神戸",
    "w": 2,
-   "l": 9,
-   "pct": ".182",
-   "gb": "8",
+   "l": 10,
+   "pct": ".167",
+   "gb": "8.5",
    "last5": "0-5",
-   "streak": "L6",
+   "streak": "L7",
    "kings": false
   },
   {
@@ -140,11 +140,11 @@
    "team": "佐賀バルーナーズ",
    "short": "佐賀",
    "w": 1,
-   "l": 10,
-   "pct": ".091",
-   "gb": "9",
+   "l": 11,
+   "pct": ".083",
+   "gb": "9.5",
    "last5": "0-5",
-   "streak": "L5",
+   "streak": "L6",
    "kings": false
   },
   {
@@ -152,11 +152,11 @@
    "team": "大阪エヴェッサ",
    "short": "大阪",
    "w": 1,
-   "l": 10,
-   "pct": ".091",
-   "gb": "9",
+   "l": 11,
+   "pct": ".083",
+   "gb": "9.5",
    "last5": "0-5",
-   "streak": "L10",
+   "streak": "L11",
    "kings": false
   }
  ]
