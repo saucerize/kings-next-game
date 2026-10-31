@@ -474,6 +474,9 @@
       if (qi == null) return null;
       const len = qi >= 4 ? 5 : 10;              // 延長は5分
       const after = qi < 4 ? (3 - qi) * 10 : 0;   // このあとに残っているクォーターの時間
+      // 公式の試合データの残り時間(例「3:04」)があれば、それを使う
+      const c = /^(\d{1,2}):(\d{2})(?:\.\d)?$/.exec(d.clock || "");
+      if (c) return after + Math.min(len, Number(c[1]) + Number(c[2]) / 60);
       const qs = Array.isArray(d.quarters) ? d.quarters.filter(q => Array.isArray(q) && q.length === 3) : [];
       let progress = 0.5;
       if (qs[qi] && qi > 0) {
@@ -519,6 +522,10 @@
       if (d.type !== "kings-live" || !Number.isFinite(d.kings) || !Number.isFinite(d.opp) ||
           isNaN(new Date(d.updated))) return;
       if (live && new Date(live.updated) > new Date(d.updated)) return;
+      // クォーターは、公式の試合データ(直近のプレー)のほうが正確なので、そちらを優先する。
+      // 試合終了と、2Q のプレーのままのハーフタイムは、通知ツールの判定をそのまま使う
+      const playPeriod = Array.isArray(d.plays) && d.plays[0] && d.plays[0].period;
+      if (playPeriod && d.period !== "FINAL" && !(d.period === "HALF" && playPeriod === "Q2")) d.period = playPeriod;
       live = d;
       render();
     }
