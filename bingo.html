@@ -176,6 +176,7 @@
     const qDone = (d, i) => final(d) || qs(d).length > i + 1 || (i === 1 && d.period === "HALF");
     const qWin = i => d => qDone(d, i) && qs(d)[i] && qs(d)[i][1] > qs(d)[i][2];
     const box = d => (d.box && Array.isArray(d.box.kings) ? d.box.kings : []);
+    const st = d => (d.stats && typeof d.stats === "object" ? d.stats : {});
     const sum = (d, k) => box(d).reduce((a, r) => a + (Number(r[k]) || 0), 0);
     const TEAM = [
       ["q1", "1Qを取る", qWin(0)], ["q2", "2Qを取る", qWin(1)], ["q3", "3Qを取る", qWin(2)], ["q4", "4Qを取る", qWin(3)],
@@ -191,6 +192,14 @@
       ["ten4", "2桁得点が4人以上", d => box(d).filter(r => r.pts >= 10).length >= 4],
       ["reb40", "チームで40リバウンド", d => sum(d, "reb") >= 40], ["ast20", "チームで20アシスト", d => sum(d, "ast") >= 20],
       ["sc8", "8人以上が得点", d => box(d).filter(r => r.pts > 0).length >= 8],
+      // 速報の stats(試合全体の3P・ダンク・ブロック・スティール・ラン・リードの入れ替わり)を使うマス
+      ["k3_10", "3Pを10本以上決める", d => st(d).k3 >= 10], ["k3_15", "3Pを15本以上決める", d => st(d).k3 >= 15],
+      ["dunk1", "ダンクが出る", d => st(d).dunk >= 1], ["dunk3", "ダンク3本以上", d => st(d).dunk >= 3],
+      ["blk5", "ブロック5本以上", d => st(d).blk >= 5], ["stl10", "スティール10本以上", d => st(d).stl >= 10],
+      ["run10", "10-0のランを作る", d => st(d).run >= 10],
+      ["lc5", "リードが5回以上入れ替わる", d => st(d).lc >= 5],
+      ["tpm4", "誰かが3Pを4本以上", d => box(d).some(r => r.tpm >= 4)],
+      ["o3_8", "相手の3Pを8本以下に", d => final(d) && Number.isFinite(st(d).o3) && st(d).o3 <= 8],
     ];
     const shortName = n => { n = String(n || "").trim(); return n.includes(" ") ? n.split(/\s+/)[0] : n.includes("・") ? n.split("・").pop() : n; };
     const player = (d, full) => box(d).find(r => norm(r.name) === norm(full)) || box(d).find(r => norm(r.name).includes(norm(shortName(full))));
@@ -267,6 +276,7 @@
       const leads = [d.kings - d.opp];
       for (const q of qs(d)) { k += q[1]; o += q[2]; leads.push(k - o); }
       for (const p of (Array.isArray(d.plays) ? d.plays : [])) if (Number.isFinite(p.kings) && Number.isFinite(p.opp)) leads.push(p.kings - p.opp);
+      if (Number.isFinite(st(d).lead)) leads.push(st(d).lead);   // 全プレーから数えた最大リード
       state.maxLead = Math.max(state.maxLead || 0, ...leads.filter(Number.isFinite));
       const before = countLines().full.length;
       const newly = [];
