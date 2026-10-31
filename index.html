@@ -620,7 +620,12 @@
 
     function scoreTabHtml(d, state) {
       const qs = Array.isArray(d.quarters) ? d.quarters.filter(q => Array.isArray(q) && q.length === 3) : [];
-      const scorers = Array.isArray(d.scorers) ? d.scorers.filter(s => Array.isArray(s) && Number.isFinite(s[1])) : [];
+      let scorers = Array.isArray(d.scorers) ? d.scorers.filter(s => Array.isArray(s) && Number.isFinite(s[1])) : [];
+      // 公式のライブデータ(統計タブと同じ)の方が新しいので、合計が大きければそちらを使う
+      const boxRows = d.box && Array.isArray(d.box.kings)
+        ? d.box.kings.filter(r => r && r.name && Number.isFinite(r.pts) && r.pts > 0).map(r => [r.name, r.pts]) : [];
+      const total = rows => rows.reduce((a, s) => a + s[1], 0);
+      if (boxRows.length && total(boxRows) >= total(scorers)) scorers = boxRows.sort((a, b) => b[1] - a[1]);
       return `
         ${state === "live" ? winProbHtml(d) : ""}
         ${qs.length ? `

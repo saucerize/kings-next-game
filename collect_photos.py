@@ -159,19 +159,21 @@ def main():
         pid = re.sub(r"[^A-Za-z0-9]", "", m["id"])[:20]
         if pid in seen:
             continue
-        seen.append(pid)   # 受け取れなかったものも、もう一度は試さない
         if len(photos) >= MAX_PER_RUN:
             break
         try:
             p = prepare(m)
         except Exception as e:
-            print(f"[skip] {pid}: {e}")
+            # 通信エラーなどは次の起動でもう一度試す(添付が消える3時間後まで)
+            print(f"[retry] {pid}: {e}")
             continue
         if not p:
+            seen.append(pid)   # 画像でない・大きすぎるものは、もう試さない
             continue
         per_sender[p["cid"]] = per_sender.get(p["cid"], 0) + 1
         if p["cid"] and per_sender[p["cid"]] > MAX_PER_SENDER:
             print(f"[skip] {pid}: 同じ人からの投稿が多すぎる")
+            seen.append(pid)
             continue
         photos.append(p)
         print(f"[photo] {p['id']} {p['date']} {p['info']['nick']!r} {p['info']['width']}x{p['info']['height']}")
@@ -192,7 +194,9 @@ def main():
         try:
             open_pr(p, repo)
             done += 1
+            seen.append(p["id"])   # プルリクエストができたものだけ「受け取り済み」にする
         except Exception as e:
+            # 次の起動でもう一度試す
             print(f"[pr] {p['id']}: プルリクエストを作れませんでした({e})")
             subprocess.run(["git", "checkout", "-q", "main"], cwd=DIR)
     # 受け取った ID を main に控える
