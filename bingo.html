@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0b">
+  <meta name="apple-mobile-web-app-title" content="キングス">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
+  <link rel="icon" type="image/png" href="favicon.png?v=2">
+  <title>キングス 観戦ビンゴ</title>
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --card: #161411;
+      --line: #3a3120;
+      --gold: #d4af37;
+      --gold-soft: #f1d77a;
+      --text: #f5f1e6;
+      --muted: #a39c8a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: radial-gradient(120% 60% at 50% 0%, #2a2210 0%, var(--bg) 60%) fixed, var(--bg);
+      color: var(--text);
+      font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", system-ui, sans-serif;
+      line-height: 1.5;
+      padding: max(20px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+    }
+    main { max-width: 480px; margin: 0 auto; }
+
+    /* 上のタブ: 横幅いっぱいの4つのボタン(アイコン+名前)。指で押しやすい高さにする */
+    .tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin: 0 0 18px; }
+    .tabs a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      min-height: 58px;
+      padding: 6px 2px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--muted);
+      text-decoration: none;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tabs a:active { transform: scale(.96); }
+    .tabs svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .tabs a[aria-current="page"] { background: var(--gold); border-color: var(--gold); color: #111; }
+
+    header { text-align: center; margin-bottom: 20px; }
+    /* ホーム(次の試合のページ)に戻るボタン */
+    .home {
+      display: inline-flex; margin: 0 0 10px; align-items: center; gap: 2px;
+      min-height: 40px; padding: 0 12px 0 8px; border: 1px solid var(--line); border-radius: 999px;
+      background: var(--card); color: var(--gold-soft); font-size: 13px; font-weight: 800; text-decoration: none;
+    }
+    .home svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .home:active { transform: scale(.96); }
+    .team { margin: 0; font-size: 13px; letter-spacing: .2em; color: var(--gold); }
+    h1 {
+      margin: 4px 0 0;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      background: linear-gradient(180deg, var(--gold-soft), var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+
+
+    .info { text-align: center; margin: -8px 0 14px; }
+    .info .match { margin: 0; font-size: 16px; font-weight: 800; }
+    .info .state { margin: 4px 0 0; font-size: 13px; color: var(--gold-soft); font-weight: 700; }
+    .board { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 5px; }
+    .cell {
+      position: relative; aspect-ratio: 1; display: grid; place-items: center; padding: 4px;
+      border: 1px solid var(--line); border-radius: 10px; background: var(--card);
+      font-size: 10.5px; font-weight: 700; line-height: 1.3; text-align: center; color: var(--text);
+      word-break: break-word; overflow: hidden;
+    }
+    .cell.on { background: linear-gradient(160deg, var(--gold-soft), var(--gold)); border-color: var(--gold); color: #111; }
+    .cell.on::after { content: "✓"; position: absolute; top: 2px; right: 5px; font-size: 11px; color: #111; }
+    .cell.free { background: #2a2210; color: var(--gold-soft); font-size: 13px; }
+    .cell.free::after { content: none; }
+    .cell.line { box-shadow: 0 0 0 2px #fff inset; }
+    .cell.pop { animation: pop .9s ease; }
+    @keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.18); } 100% { transform: scale(1); } }
+    .score { display: flex; justify-content: center; gap: 18px; margin: 14px 0 6px; font-size: 14px; color: var(--muted); }
+    .score b { font-size: 22px; color: var(--gold-soft); margin: 0 2px; }
+    .box { margin-top: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); padding: 12px 14px; font-size: 13px; }
+    .box h2 { margin: 0 0 6px; font-size: 13px; color: var(--gold); }
+    .box p { margin: 0; color: var(--muted); line-height: 1.7; }
+    .box .who b { color: var(--gold-soft); }
+    .row { display: flex; gap: 8px; margin-top: 6px; }
+    .row input { flex: 1; min-width: 0; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: #0f0e0b; color: var(--text); font: inherit; font-size: 16px; }
+    .row button { flex: none; min-height: 44px; padding: 0 14px; border: 0; border-radius: 10px; background: var(--gold); color: #111; font: inherit; font-weight: 800; }
+    .row button:disabled { opacity: .5; }
+    .chatlink { display: block; margin-top: 12px; text-align: center; color: var(--gold); font-size: 13px; font-weight: 700; text-decoration: none; }
+    .note { margin-top: 16px; text-align: center; font-size: 11px; color: var(--muted); line-height: 1.7; }
+    .home {
+      display: inline-flex; align-items: center; gap: 2px; margin: 0 0 10px;
+      min-height: 40px; padding: 0 12px 0 8px; border: 1px solid var(--line); border-radius: 999px;
+      background: var(--card); color: var(--gold-soft); font-size: 13px; font-weight: 800; text-decoration: none;
+    }
+    .home svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="tabs">
+      <a href="./"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><circle cx="12" cy="15.5" r="2.2"/></svg><span>次の試合</span></a>
+      <a href="players.html"><svg viewBox="0 0 24 24"><path d="M8 3l-4 3 2 4h2v11h8V10h2l2-4-4-3c-.5 1.7-2 3-4 3s-3.5-1.3-4-3z"/></svg><span>選手一覧</span></a>
+      <a href="stats.html"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>成績</span></a>
+      <a href="dancers.html"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg><span>ダンサーズ</span></a>
+      <a href="album.html"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><span>アルバム</span></a>
+    </nav>
+    <a class="home" href="./"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>ホームに戻る</a>
+    <header>
+      <p class="team">RYUKYU GOLDEN KINGS</p>
+      <h1>BINGO</h1>
+    </header>
+
+    <div class="info"><p class="match" id="match">読み込み中…</p><p class="state" id="state"></p></div>
+    <div class="board" id="board"></div>
+    <div class="score"><span>ビンゴ<b id="lines">0</b>列</span><span>リーチ<b id="reach">0</b></span><span>開いたマス<b id="opened">0</b></span></div>
+
+    <div class="box" id="nickBox" hidden>
+      <h2>ニックネーム</h2>
+      <p>ビンゴしたら、チャットでみんなに発表します。ニックネームを決めてください。</p>
+      <form class="row" id="nickForm"><input type="text" id="nickInput" maxlength="20" placeholder="例：キングス太郎"><button type="submit" id="nickSave" disabled>決定</button></form>
+    </div>
+
+    <div class="box">
+      <h2>🎯 ビンゴした人</h2>
+      <p class="who" id="winners">まだいません</p>
+    </div>
+    <a class="chatlink" id="chatLink" href="chat.html">💬 試合チャットへ ›</a>
+
+    <p class="note">カードは一人ひとり違います。試合中は公式の速報データに合わせて、マスが自動で開きます。<br>タテ・ヨコ・ナナメのどれか1列そろえばビンゴ！ ビンゴするとチャットで発表されます。<br>速報が遅れると、マスが開くのも少し遅れることがあります。</p>
+  </main>
+  <script src="fireworks.js"></script>
+  <script>
+    const NTFY = "https://ntfy.sh";
+    const LIVE_TOPIC = "kings-live-a38853caea";
+    const CHAT_PREFIX = "kings-chat-a38853caea-";
+    const GAME_LENGTH_MS = 2.5 * 60 * 60 * 1000;
+    const FINAL_SHOW_MS = 3 * 60 * 60 * 1000;
+    const ANNOUNCE_LATE_MS = 30 * 60 * 1000;   // 試合終了からこの時間を過ぎたら、ビンゴしても発表しない
+    const TZ = "Asia/Tokyo";
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const store = {
+      get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+      set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+    };
+    const cid = (() => { let v = store.get("kings-cid"); if (!v) { v = Math.random().toString(36).slice(2, 12); store.set("kings-cid", v); } return v; })();
+    const keyOf = url => (String(url || "").match(/ScheduleKey=(\d+)/) || [])[1] || "";
+    const norm = s => String(s || "").replace(/[\s・･=＝.]/g, "");
+    const fmtDate = new Intl.DateTimeFormat("ja-JP", { timeZone: TZ, month: "numeric", day: "numeric", weekday: "short", hour: "2-digit", minute: "2-digit" });
+
+    // ---------------------------------------------------------------- マスの条件
+    // どれも「一度そろったら元に戻らない」条件にしてある(勝利などは試合終了の時だけ判定する)
+    const qs = d => (Array.isArray(d.quarters) ? d.quarters : []).filter(q => Array.isArray(q) && q.length === 3);
+    const final = d => d.period === "FINAL";
+    // i 番目(0始まり)のクォーターが終わっているか
+    const qDone = (d, i) => final(d) || qs(d).length > i + 1 || (i === 1 && d.period === "HALF");
+    const qWin = i => d => qDone(d, i) && qs(d)[i] && qs(d)[i][1] > qs(d)[i][2];
+    const box = d => (d.box && Array.isArray(d.box.kings) ? d.box.kings : []);
+    const sum = (d, k) => box(d).reduce((a, r) => a + (Number(r[k]) || 0), 0);
+    const TEAM = [
+      ["q1", "1Qを取る", qWin(0)], ["q2", "2Qを取る", qWin(1)], ["q3", "3Qを取る", qWin(2)], ["q4", "4Qを取る", qWin(3)],
+      ["half", "前半リードで折り返す", d => qDone(d, 1) && qs(d).length >= 2 && qs(d)[0][1] + qs(d)[1][1] > qs(d)[0][2] + qs(d)[1][2]],
+      ["q30", "1つのQで30点以上", d => qs(d).some(q => q[1] >= 30)],
+      ["oppq15", "相手を15点以下に抑えるQ", d => qs(d).some((q, i) => qDone(d, i) && q[2] <= 15)],
+      ["p80", "80点以上", d => d.kings >= 80], ["p90", "90点以上", d => d.kings >= 90], ["p100", "100点ゲーム", d => d.kings >= 100],
+      ["hold", "相手を70点台以下に", d => final(d) && d.opp < 80],
+      ["win", "キングス勝利", d => final(d) && d.kings > d.opp],
+      ["lead10", "10点差以上リード", (d, st) => st.maxLead >= 10], ["lead20", "20点差以上リード", (d, st) => st.maxLead >= 20],
+      ["ot", "延長戦に突入", d => qs(d).length > 4 || /^OT/.test(d.period || "")],
+      ["dd", "誰かがダブルダブル", d => box(d).some(r => [r.pts, r.reb, r.ast].filter(v => v >= 10).length >= 2)],
+      ["ten4", "2桁得点が4人以上", d => box(d).filter(r => r.pts >= 10).length >= 4],
+      ["reb40", "チームで40リバウンド", d => sum(d, "reb") >= 40], ["ast20", "チームで20アシスト", d => sum(d, "ast") >= 20],
+      ["sc8", "8人以上が得点", d => box(d).filter(r => r.pts > 0).length >= 8],
+    ];
+    const shortName = n => { n = String(n || "").trim(); return n.includes(" ") ? n.split(/\s+/)[0] : n.includes("・") ? n.split("・").pop() : n; };
+    const player = (d, full) => box(d).find(r => norm(r.name) === norm(full)) || box(d).find(r => norm(r.name).includes(norm(shortName(full))));
+    function playerConds(players) {
+      const avg = (p, k) => {
+        const s = p.season && p.season.games ? p.season : p.career && p.career.games ? p.career : null;
+        return s ? (s[k] || 0) / s.games : 0;
+      };
+      const by = k => players.slice().sort((a, b) => avg(b, k) - avg(a, k));
+      const out = [];
+      const add = (p, k, n, unit) => out.push([`${p.id}-${k}${n}`, `${shortName(p.name)} ${n}${unit}以上`, d => { const r = player(d, p.name); return !!r && r[k] >= n; }]);
+      by("pts").slice(0, 8).forEach(p => add(p, "pts", 10, "得点"));
+      by("pts").slice(0, 3).forEach(p => add(p, "pts", 15, "得点"));
+      by("pts").slice(0, 1).forEach(p => add(p, "pts", 20, "得点"));
+      by("reb").slice(0, 3).forEach(p => add(p, "reb", 8, "リバウンド"));
+      by("ast").slice(0, 2).forEach(p => add(p, "ast", 5, "アシスト"));
+      return out;
+    }
+
+    // ---------------------------------------------------------------- カード
+    // 試合ごと・人ごとに違うカード。一度作ったらブラウザに覚え、途中で変わらないようにする
+    function rng(seedStr) {
+      let h = 1779033703 ^ seedStr.length;
+      for (let i = 0; i < seedStr.length; i++) { h = Math.imul(h ^ seedStr.charCodeAt(i), 3432918353); h = (h << 13) | (h >>> 19); }
+      return () => { h = Math.imul(h ^ (h >>> 16), 2246822507); h = Math.imul(h ^ (h >>> 13), 3266489909); return ((h ^= h >>> 16) >>> 0) / 4294967296; };
+    }
+    let game = null, card = null, conds = new Map(), state = null, live = null;
+    const stKey = () => "kings-bingo:" + game.key;
+    function save() { store.set(stKey(), JSON.stringify(state)); }
+    function setupCard(players) {
+      const pool = [...TEAM, ...playerConds(players)];
+      pool.forEach(c => conds.set(c[0], c));
+      try { state = JSON.parse(store.get(stKey()) || "null"); } catch { state = null; }
+      if (!state || !Array.isArray(state.card) || state.card.length !== 25) {
+        const r = rng(cid + ":" + game.key);
+        const ids = pool.map(c => c[0]);
+        for (let i = ids.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [ids[i], ids[j]] = [ids[j], ids[i]]; }
+        const pick = ids.slice(0, 24);
+        pick.splice(12, 0, "free");
+        state = { card: pick, labels: {}, on: ["free"], maxLead: 0, announced: 0 };
+        pick.forEach(id => { if (conds.has(id)) state.labels[id] = conds.get(id)[1]; });
+        save();
+      }
+      card = state.card;
+    }
+
+    const LINES = [];
+    for (let i = 0; i < 5; i++) { LINES.push([0, 1, 2, 3, 4].map(j => i * 5 + j)); LINES.push([0, 1, 2, 3, 4].map(j => j * 5 + i)); }
+    LINES.push([0, 6, 12, 18, 24], [4, 8, 12, 16, 20]);
+    function countLines() {
+      const on = new Set(state.on);
+      const full = LINES.filter(l => l.every(i => on.has(card[i])));
+      const reach = LINES.filter(l => l.filter(i => on.has(card[i])).length === 4).length;
+      return { full, reach };
+    }
+    function draw(newly = []) {
+      const on = new Set(state.on);
+      const { full, reach } = countLines();
+      const lineCells = new Set(full.flat());
+      $("board").innerHTML = card.map((id, i) => id === "free"
+        ? '<div class="cell free on">FREE</div>'
+        : `<div class="cell${on.has(id) ? " on" : ""}${lineCells.has(i) ? " line" : ""}${newly.includes(id) ? " pop" : ""}">${esc(state.labels[id] || "")}</div>`).join("");
+      $("lines").textContent = full.length;
+      $("reach").textContent = reach;
+      $("opened").textContent = on.size - 1;
+    }
+
+    // ---------------------------------------------------------------- 速報に合わせてマスを開く
+    function evaluate() {
+      if (!live) return;
+      const d = live;
+      // いちばん大きかったリード(開いている間に見た点差と、終わったクォーター時点の点差)
+      let k = 0, o = 0;
+      const leads = [d.kings - d.opp];
+      for (const q of qs(d)) { k += q[1]; o += q[2]; leads.push(k - o); }
+      for (const p of (Array.isArray(d.plays) ? d.plays : [])) if (Number.isFinite(p.kings) && Number.isFinite(p.opp)) leads.push(p.kings - p.opp);
+      state.maxLead = Math.max(state.maxLead || 0, ...leads.filter(Number.isFinite));
+      const before = countLines().full.length;
+      const newly = [];
+      for (const id of card) {
+        if (id === "free" || state.on.includes(id) || !conds.has(id)) continue;
+        try { if (conds.get(id)[2](d, state)) { state.on.push(id); newly.push(id); } } catch {}
+      }
+      save();
+      draw(newly);
+      const after = countLines().full.length;
+      if (after > before && before === 0) KingsFireworks.launch({ icon: "🎯", title: "BINGO!", sub: "おめでとう！チャットで発表しました", duration: 5000 });
+      announce();
+    }
+    function nick() { return (store.get("kings-nick") || "").trim().slice(0, 20); }
+    function announce() {
+      const n = countLines().full.length;
+      if (n <= (state.announced || 0)) return;
+      if (final(live) && Date.now() - new Date(live.updated).getTime() > ANNOUNCE_LATE_MS) return;
+      if (!nick()) { $("nickBox").hidden = false; return; }
+      state.announced = n;
+      save();
+      const text = n === 1 ? "🎯 ビンゴしました！" : `🎯 ${n}列ビンゴ！`;
+      fetch(`${NTFY}/${CHAT_PREFIX}${game.key}`, { method: "POST", body: JSON.stringify({ type: "kings-chat", v: 1, game: game.key, cid, nick: nick(), text, bingo: n }) }).catch(() => {});
+    }
+    $("nickInput").addEventListener("input", () => { $("nickSave").disabled = !$("nickInput").value.trim(); });
+    $("nickForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const v = $("nickInput").value.replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, 20);
+      if (!v) return;
+      store.set("kings-nick", v);
+      $("nickBox").hidden = true;
+      announce();
+    });
+
+    const PERIOD = { Q1: "1Q", Q2: "2Q", Q3: "3Q", Q4: "4Q", HALF: "ハーフタイム", FINAL: "試合終了" };
+    function showState() {
+      if (!live) { $("state").textContent = "試合が始まると、速報に合わせて自動でマスが開きます"; return; }
+      const p = PERIOD[live.period] || (String(live.period || "").replace(/^OT/, "延長") || "試合中");
+      $("state").textContent = `${p}  琉球 ${live.kings} - ${live.opp}`;
+    }
+    function acceptLive(m) {
+      if (!m || m.event !== "message" || !m.message) return;
+      let d;
+      try { d = JSON.parse(m.message); } catch { return; }
+      if (!d || d.type !== "kings-live" || String(d.key) !== game.key || !Number.isFinite(d.kings) || !Number.isFinite(d.opp)) return;
+      if (live && new Date(live.updated) > new Date(d.updated)) return;
+      // スコア・クォーターは、公式の試合データ(直近のプレー)のほうを優先する(トップページと同じ)
+      const lp = Array.isArray(d.plays) && d.plays[0];
+      if (lp && lp.period && d.period !== "FINAL" && !(d.period === "HALF" && lp.period === "Q2")) d.period = lp.period;
+      if (lp && Number.isFinite(lp.kings) && Number.isFinite(lp.opp)) { d.kings = lp.kings; d.opp = lp.opp; }
+      live = d;
+      showState();
+      evaluate();
+    }
+
+    // ビンゴした人(チャットの発表から)
+    const winners = new Map();
+    function acceptChat(m) {
+      if (!m || m.event !== "message") return;
+      let d;
+      try { d = JSON.parse(m.message); } catch { return; }
+      if (!d || d.type !== "kings-chat" || d.game !== game.key || !d.bingo || !d.nick) return;
+      const k = d.cid || d.nick;
+      winners.set(k, { nick: String(d.nick).slice(0, 20), n: Math.max(Number(d.bingo) || 1, (winners.get(k) || {}).n || 0) });
+      $("winners").innerHTML = `${[...winners.values()].map(w => `<b>${esc(w.nick)}</b>${w.n > 1 ? `(${w.n}列)` : ""}`).join("、")}　…${winners.size}人`;
+    }
+    function listen(topic, since, fn) {
+      if ("EventSource" in window) { const s = new EventSource(`${NTFY}/${topic}/sse`); s.onmessage = e => { try { fn(JSON.parse(e.data)); } catch {} }; }
+      return fetch(`${NTFY}/${topic}/json?poll=1&since=${since}`, { cache: "no-store" })
+        .then(r => r.ok ? r.text() : "")
+        .then(t => t.split("\n").forEach(line => { if (line.trim()) { try { fn(JSON.parse(line)); } catch {} } }))
+        .catch(() => {});
+    }
+
+    // ---------------------------------------------------------------- 試合を決める
+    // ?game=キー があればその試合。なければ、速報中(終了後3時間まで)の試合か、次の試合
+    function latestLive() {
+      return fetch(`${NTFY}/${LIVE_TOPIC}/json?poll=1&since=6h`, { cache: "no-store" })
+        .then(r => r.ok ? r.text() : "")
+        .then(t => {
+          let last = null;
+          for (const line of t.split("\n")) { try { const d = JSON.parse(JSON.parse(line).message); if (d.type === "kings-live" && d.key && (!last || d.updated > last.updated)) last = d; } catch {} }
+          return last;
+        }).catch(() => null);
+    }
+    Promise.all([
+      fetch("schedule.json", { cache: "no-store" }).then(r => r.ok ? r.json() : {}).catch(() => ({})),
+      fetch("players.json", { cache: "no-store" }).then(r => r.ok ? r.json() : {}).catch(() => ({})),
+      latestLive(),
+    ]).then(([sj, pj, lv]) => {
+      const now = Date.now();
+      const want = (new URLSearchParams(location.search).get("game") || "").replace(/\D/g, "");
+      const sched = (sj.games || []).map(g => ({ key: keyOf(g.url), datetime: g.datetime, opponent: g.opponent }));
+      const liveOk = lv && (lv.period === "FINAL" ? now - new Date(lv.updated) < FINAL_SHOW_MS : true);
+      const liveGame = lv && { key: String(lv.key), datetime: lv.datetime, opponent: lv.opponent };
+      const next = sched.filter(g => g.key && new Date(g.datetime).getTime() + GAME_LENGTH_MS > now).sort((a, b) => new Date(a.datetime) - new Date(b.datetime))[0];
+      game = (want && (sched.find(g => g.key === want) || (liveGame && liveGame.key === want && liveGame)))
+        || (want ? { key: want, datetime: null, opponent: "" } : null)
+        || (liveOk ? liveGame : null) || next;
+      if (!game) { $("match").textContent = "次の試合が見つかりませんでした"; return; }
+      history.replaceState(null, "", "?game=" + encodeURIComponent(game.key));
+      $("match").textContent = game.datetime ? `${fmtDate.format(new Date(game.datetime))}　vs ${game.opponent}` : "試合のビンゴ";
+      $("chatLink").href = "chat.html?game=" + encodeURIComponent(game.key);
+      setupCard(pj.players || []);
+      draw();
+      showState();
+      if (!nick()) $("nickBox").hidden = false;
+      if (lv && String(lv.key) === game.key) acceptLive({ event: "message", message: JSON.stringify(lv) });
+      listen(LIVE_TOPIC, "6h", acceptLive);
+      listen(CHAT_PREFIX + game.key, "12h", acceptChat);
+    });
+  </script>
+</body>
+</html>
