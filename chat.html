@@ -260,10 +260,29 @@
     // ---------------------------------------------------------------- 試合の選択
     let game = null, source = null;
     const seen = new Set();
-    function chooseGames(schedule, results) {
+    // 終わったばかりの試合は、予定(schedule.json)から外れたあと結果(games.json)に入るまで少し間があくので、
+    // 速報(kings-live)の最後の内容からも試合を拾う
+    const LIVE_TOPIC = "kings-live-a38853caea";
+    function fetchLiveGame() {
+      return fetch(`${NTFY}/${LIVE_TOPIC}/json?poll=1&since=12h`, { cache: "no-store" })
+        .then(r => r.ok ? r.text() : "")
+        .then(t => {
+          let last = null;
+          for (const line of t.split("\n")) {
+            try {
+              const d = JSON.parse(JSON.parse(line).message);
+              if (d && d.type === "kings-live" && d.key && d.datetime && (!last || d.updated > last.updated)) last = d;
+            } catch {}
+          }
+          return last && { key: String(last.key), datetime: last.datetime, opponent: last.opponent || "", kings: last.kings, opp: last.opp, done: last.period === "FINAL" };
+        })
+        .catch(() => null);
+    }
+    function chooseGames(schedule, results, liveGame) {
       const map = new Map();
       for (const g of results) if (g.key) map.set(g.key, { ...g, done: true });
       for (const g of schedule) { const k = keyOf(g.url); if (k && !map.has(k)) map.set(k, { ...g, key: k }); }
+      if (liveGame && !map.has(liveGame.key)) map.set(liveGame.key, liveGame);
       const list = [...map.values()].filter(g => !isNaN(new Date(g.datetime))).sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
       const now = Date.now();
       // 進行中か次の試合を基準に、前後の試合を選べるようにする
@@ -272,6 +291,7 @@
       return { list: list.slice(Math.max(0, i - 5), i + 4), current: list[i] };
     }
     function label(g) {
+      if (!g.datetime) return "リンクの試合のチャット";
       const res = g.done && Number.isFinite(g.kings) ? `  ${g.kings}-${g.opp} ${g.kings > g.opp ? "WIN" : "LOSE"}` : "";
       return `${fmtGame.format(new Date(g.datetime))} vs ${g.opponent}${res}`;
     }
@@ -481,10 +501,13 @@
     Promise.all([
       fetch("schedule.json", { cache: "no-store" }).then(r => r.ok ? r.json() : {}).catch(() => ({})),
       fetch("games.json", { cache: "no-store" }).then(r => r.ok ? r.json() : {}).catch(() => ({})),
-    ]).then(([sj, gj]) => {
-      const { list, current } = chooseGames(sj.games || [], gj.games || []);
+      fetchLiveGame(),
+    ]).then(([sj, gj, lg]) => {
+      const { list, current } = chooseGames(sj.games || [], gj.games || [], lg);
+      // リンクで指定された試合が一覧に見つからなくても、別の試合にすり替えずにその試合のチャットを開く
+      const want = (new URLSearchParams(location.search).get("game") || "").replace(/\D/g, "");
+      if (want && !list.some(g => g.key === want)) list.push({ key: want, datetime: null, opponent: "" });
       if (!list.length) { $("log").innerHTML = '<li class="empty">試合の予定を読み込めませんでした</li>'; return; }
-      const want = new URLSearchParams(location.search).get("game");
       const start = list.find(g => g.key === want) || current || list[list.length - 1];
       $("gameSel").innerHTML = list.map(g => `<option value="${esc(g.key)}"${g === start ? " selected" : ""}>${esc(label(g))}</option>`).join("");
       $("gameSel").addEventListener("change", () => openGame(list.find(g => g.key === $("gameSel").value)));
