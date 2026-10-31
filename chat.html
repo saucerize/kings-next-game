@@ -205,7 +205,6 @@
     const NICK_MAX = 20, TEXT_MAX = 200;
     const QUOTE_MAX = 40;                            // 返信先として引用する文字数
     const PHOTO_SIDE = 1280;                         // 送る前に写真の長い辺をここまで縮める
-    const PHOTO_PER_GAME = 5;                        // 1つの試合で1台から送れる写真の枚数
     // 「今見ている人」: 開いている間、数分おきに「見てるよ」の合図を別のトピックに送り、最近の合図の数を数える
     const HERE_PREFIX = "kings-chatnow-a38853caea-";
     const HERE_EVERY_MS = 150 * 1000;                // 合図を送る間隔(ntfy の送信回数の上限を使い切らないよう控えめに)
@@ -423,8 +422,6 @@
 
     // ---------------------------------------------------------------- 写真
     let photo = null;   // 縮小済みの JPEG(Blob)
-    const photoKey = () => "kings-chatphoto:" + (game ? game.key : "");
-    const photosSent = () => Number(store.get(photoKey())) || 0;
     function setPhoto(blob) {
       photo = blob;
       $("preview").hidden = !blob;
@@ -445,7 +442,6 @@
       const file = $("photoInput").files[0];
       $("photoInput").value = "";
       if (!file) return;
-      if (photosSent() >= PHOTO_PER_GAME) { $("status").textContent = `この試合で送れる写真は${PHOTO_PER_GAME}枚までです`; return; }
       $("status").textContent = "写真を準備しています…";
       try { setPhoto(await shrink(file)); $("status").textContent = ""; }
       catch { $("status").textContent = "この写真は読み込めませんでした"; }
@@ -465,13 +461,12 @@
       try {
         const msg = JSON.stringify({ type: "kings-chat", v: 1, game: game.key, cid, nick, text, ...(replyTo ? { reply: replyTo } : {}) });
         const topicUrl = `${NTFY}/${CHAT_PREFIX}${game.key}`;
-        if (photo && photosSent() >= PHOTO_PER_GAME) { $("status").textContent = `この試合で送れる写真は${PHOTO_PER_GAME}枚までです`; setPhoto(null); return; }
         // 写真は添付ファイルとして送り、メッセージ本文は URL の message に入れる
         const r = photo
           ? await fetch(`${topicUrl}?filename=chat.jpg&message=${encodeURIComponent(msg)}`, { method: "PUT", body: photo })
           : await fetch(topicUrl, { method: "POST", body: msg });
         if (!r.ok) throw new Error(r.status);
-        if (photo) { store.set(photoKey(), String(photosSent() + 1)); setPhoto(null); }
+        if (photo) setPhoto(null);
         lastSent = Date.now();
         $("sayInput").value = "";
         setReply(null);
