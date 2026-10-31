@@ -94,6 +94,14 @@ SUMMARY:🏀 キングス 84-101 長崎ヴェルカ（負）
 URL:https://www.bleague.jp/game_detail/?ScheduleKey=506518&tab=4
 END:VEVENT
 BEGIN:VEVENT
+UID:506531@kings-next-game
+DTSTAMP:20261031T090500Z
+DTSTART:20261031T090500Z
+DTEND:20261031T110500Z
+SUMMARY:🏀 キングス 86-80 三遠ネオフェニックス（勝）
+URL:https://www.bleague.jp/game_detail/?ScheduleKey=506531&tab=4
+END:VEVENT
+BEGIN:VEVENT
 UID:506544@kings-next-game
 DTSTAMP:20261101T090500Z
 DTSTART:20261101T090500Z
