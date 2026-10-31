@@ -155,6 +155,18 @@
       color: var(--gold-soft); font-size: 15px; font-weight: 800; text-decoration: none;
     }
     a.chat:active { transform: scale(.98); }
+    a.chat { flex-direction: column; gap: 2px; padding: 8px 12px; text-align: center; }
+    .chat-main { display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .chat-new {
+      padding: 2px 8px; border-radius: 999px; background: #e5484d; color: #fff;
+      font-size: 11px; font-weight: 800; animation: chatPulse 1.6s ease-in-out infinite;
+    }
+    @keyframes chatPulse { 50% { transform: scale(1.08); } }
+    .chat-last {
+      max-width: 100%; font-size: 12px; font-weight: 500; color: var(--muted);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .chat-last b { color: var(--gold-soft); font-weight: 700; }
     .calendar { margin-top: 20px; padding: 14px 12px 12px; border: 1px dashed var(--line); border-radius: 12px; text-align: center; }
     .calendar p { margin: 0; font-size: 14px; font-weight: 700; color: var(--gold-soft); }
     .calendar small { display: block; margin-top: 2px; font-size: 11px; color: var(--muted); }
@@ -448,6 +460,62 @@
 
     const chatKey = g => (String(g.url || "").match(/ScheduleKey=(\d+)/) || [])[1] || "";
 
+    // ---------------------------------------------------------------- 試合チャットの新着
+    // チャットのボタンに「新着 ○件」と最新のコメントを出す(チャットを開いて読んだところまでは数えない)
+    const CHAT_PREFIX = "kings-chat-a38853caea-";
+    const chats = new Map();   // 試合のキー → { msgs, ids, loaded }
+    const chatRead = key => { try { return Number(localStorage.getItem("kings-chatread:" + key)) || 0; } catch { return 0; } };
+    function ago(t) {
+      const sec = Math.max(0, Date.now() / 1000 - t);
+      return sec < 60 ? "たった今" : sec < 3600 ? `${Math.floor(sec / 60)}分前` : `${Math.floor(sec / 3600)}時間前`;
+    }
+    function chatInner(key) {
+      const c = chats.get(key);
+      const read = chatRead(key);
+      const unread = c ? c.msgs.filter(m => m.time > read && m.cid !== cid).length : 0;
+      const last = c && c.msgs[c.msgs.length - 1];
+      return `<span class="chat-main">💬 試合チャットに参加する${unread ? `<b class="chat-new">新着 ${unread > 99 ? "99+" : unread}</b>` : ""}</span>` +
+        (last ? `<small class="chat-last"><b>${esc(last.nick)}</b>：${esc(last.text)}・${ago(last.time)}</small>`
+          : c && c.loaded ? '<small class="chat-last">まだコメントはありません。最初のひとことをどうぞ！</small>' : "");
+    }
+    function refreshChat(key) {
+      document.querySelectorAll("a.chat[data-chat]").forEach(a => { if (!key || a.dataset.chat === key) a.innerHTML = chatInner(a.dataset.chat); });
+    }
+    function acceptChat(key, m) {
+      const c = chats.get(key);
+      if (!m || m.event !== "message" || !m.id || c.ids.has(m.id)) return;
+      let d;
+      try { d = JSON.parse(m.message); } catch { return; }
+      if (!d || d.type !== "kings-chat" || d.game !== key || !d.nick) return;
+      c.ids.add(m.id);
+      c.msgs.push({ time: m.time || 0, nick: String(d.nick).slice(0, 20), text: String(d.text || "").slice(0, 60) || "📷 写真", cid: d.cid });
+      c.msgs.sort((a, b) => a.time - b.time);
+    }
+    function watchChat(key) {
+      if (!key || chats.has(key)) return;
+      const c = { msgs: [], ids: new Set(), loaded: false };
+      chats.set(key, c);
+      const topic = CHAT_PREFIX + key;
+      if ("EventSource" in window) {
+        const src = new EventSource(`${NTFY}/${topic}/sse`);
+        src.onmessage = e => { try { acceptChat(key, JSON.parse(e.data)); refreshChat(key); } catch {} };
+      }
+      fetch(`${NTFY}/${topic}/json?poll=1&since=12h`, { cache: "no-store" })
+        .then(r => r.ok ? r.text() : "")
+        .then(t => t.split("\n").forEach(line => { if (line.trim()) { try { acceptChat(key, JSON.parse(line)); } catch {} } }))
+        .catch(() => {})
+        .finally(() => { c.loaded = true; refreshChat(key); });
+    }
+    function chatLink(key) {
+      if (!key) return "";
+      watchChat(key);
+      return `<a class="chat" data-chat="${esc(key)}" href="chat.html?game=${encodeURIComponent(key)}">${chatInner(key)}</a>`;
+    }
+    setInterval(() => refreshChat(), 60 * 1000);   // 「○分前」を進める
+    // チャットから戻ってきたら、読んだぶんの「新着」を消す
+    window.addEventListener("pageshow", () => refreshChat());
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) refreshChat(); });
+
     function upcoming(now) {
       return games
         .map(g => ({ ...g, start: new Date(g.datetime) }))
@@ -674,7 +742,7 @@
           <div class="live-tabs">${tab("score", "スコア")}${tab("box", "統計")}${tab("plays", "プレー")}</div>
           ${liveTab === "box" ? boxHtml(d) : liveTab === "plays" ? playsHtml(d) : scoreTabHtml(d, state)}
           <div id="fanSlot"></div>
-          ${d.key ? `<a class="chat" href="chat.html?game=${encodeURIComponent(d.key)}">💬 試合チャットに参加する</a>` : ""}
+          ${chatLink(d.key ? String(d.key) : "")}
           <p class="sub">${fmtTime.format(new Date(d.updated))} 更新${d.key ? `・<a class="official" href="https://www.bleague.jp/game_detail/?ScheduleKey=${encodeURIComponent(d.key)}&tab=1" target="_blank" rel="noopener">B.LEAGUE 公式 ›</a>` : ""}</p>
         </div>`;
     }
@@ -939,7 +1007,7 @@
               ${next.ticket ? `<a class="ticket" href="${esc(next.ticket)}" target="_blank" rel="noopener">チケットを買う</a>` : ""}
               ${next.live ? `<a class="watch" href="${esc(next.live)}" target="_blank" rel="noopener">ライブ配信を見る</a>` : ""}
             </div>` : ""}
-          ${chatKey(next) ? `<a class="chat" href="chat.html?game=${encodeURIComponent(chatKey(next))}">💬 試合チャットに参加する</a>` : ""}
+          ${chatLink(chatKey(next))}
           ${next.url ? `<a class="official" href="${esc(next.url)}" target="_blank" rel="noopener">B.LEAGUE 公式の試合ページ ›</a>` : ""}
           <div class="countdown">
             <div class="label">${started ? "試合開始から" : "試合開始まで"}</div>
