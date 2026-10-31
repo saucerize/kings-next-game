@@ -661,7 +661,9 @@
       return null;
     }
 
-    function acceptFan(m) {
+    // live: リアルタイムの受信(SSE)で届いたもの。ページを開いたときに読み込む過去の分は false
+    const FLOAT_RECENT_SEC = 15;   // 届いてから何秒以内のリアクションなら浮かび上がらせるか
+    function acceptFan(m, live = false) {
       if (!m || m.event !== "message" || !m.message || fan.seen.has(m.id)) return;
       fan.seen.add(m.id);
       let d;
@@ -674,7 +676,8 @@
           const n = Math.min(REACT_MAX_PER_MSG, Math.max(0, Math.floor(Number(d.counts[e]) || 0)));
           if (!n) continue;
           fan.reacts[e] = (fan.reacts[e] || 0) + n;
-          if (d.cid !== cid) floatEmoji(e, Math.min(n, 4));   // 自分の分は押したときに出しているので出さない
+          // 浮かび上がらせるのは、いま届いた他の人のリアクションだけ(過去の分は数に足すだけ。自分の分は押したときに出している)
+          if (live && d.cid !== cid && Date.now() / 1000 - (m.time || 0) <= FLOAT_RECENT_SEC) floatEmoji(e, Math.min(n, 4));
         }
       }
       updateFanView();
@@ -786,7 +789,7 @@
         fan.seen = new Set();
         if (fan.source) fan.source.close();
         fan.source = "EventSource" in window ? new EventSource(`${NTFY}/${FAN_TOPIC}/sse`) : null;
-        if (fan.source) fan.source.onmessage = e => { try { acceptFan(JSON.parse(e.data)); } catch {} };
+        if (fan.source) fan.source.onmessage = e => { try { acceptFan(JSON.parse(e.data), true); } catch {} };
         fetch(`${NTFY}/${FAN_TOPIC}/json?poll=1&since=8h`, { cache: "no-store" })
           .then(r => r.ok ? r.text() : "")
           .then(t => t.split("\n").forEach(line => { if (line.trim()) { try { acceptFan(JSON.parse(line)); } catch {} } }))
