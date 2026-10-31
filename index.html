@@ -873,6 +873,28 @@
       setTimeout(() => KingsFireworks.launch({ sub: "（これは試し打ちです）" }), 600);
     }
 
+    // ---------------------------------------------------------------- 勝利の花火
+    // 試合終了(FINAL)でキングスが勝っていたら打ち上げる。終了から30分以内にページを開いた人にも1回だけ。
+    // 同じ試合では1台につき1回(ブラウザに覚える)
+    const WIN_FW_LATE_MS = 30 * 60 * 1000;
+    const WIN_FW_MS = 10000;
+    function winFireworks(d, preview) {
+      KingsFireworks.launch({
+        icon: "🏆", title: "KINGS WIN!", duration: WIN_FW_MS,
+        sub: preview ? "（これは試し打ちです）" : `琉球 ${d.kings} - ${d.opp} ${d.opp_short || d.opponent || ""}`.trim(),
+      });
+    }
+    function maybeWinFireworks(d) {
+      if (!d || d.period !== "FINAL" || !(d.kings > d.opp)) return;
+      if (Date.now() - new Date(d.updated).getTime() > WIN_FW_LATE_MS) return;
+      const key = "kings-winfw:" + (d.key || gameId(d.datetime));
+      try { if (localStorage.getItem(key)) return; localStorage.setItem(key, "1"); } catch {}
+      winFireworks(d);
+    }
+    if (new URLSearchParams(location.search).has("winfireworks")) {
+      setTimeout(() => winFireworks({}, true), 600);
+    }
+
     // ---------------------------------------------------------------- 画面
     function render() {
       const now = Date.now();
@@ -883,6 +905,7 @@
 
       const liveHtml = state ? liveCard(state) : "";
       if (state === "live") maybeFireworks(live.datetime);
+      if (state === "final") maybeWinFireworks(live);
       clearInterval(timer);
 
       if (list.length === 0) {

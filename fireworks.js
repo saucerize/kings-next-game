@@ -17,9 +17,10 @@
     setTimeout(() => el.remove(), ms);
   }
 
-  function launch({ icon = "🏀", title = "TIP OFF!", sub = "みんなで応援しよう！" } = {}) {
+  // duration: 打ち上げ続ける時間(ミリ秒)。勝利のときは長めにする
+  function launch({ icon = "🏀", title = "TIP OFF!", sub = "みんなで応援しよう！", duration = DURATION_MS } = {}) {
     if (document.querySelector(".fw-canvas") || document.querySelector(".fw-message")) return;   // 打ち上げ中なら重ねない
-    showMessage(icon, title, sub, DURATION_MS + 1200);
+    showMessage(icon, title, sub, duration + 1200);
     if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const canvas = document.createElement("canvas");
@@ -65,7 +66,7 @@
 
     function frame(now) {
       const elapsed = now - start;
-      if (elapsed < DURATION_MS && now - lastLaunch > LAUNCH_EVERY_MS) {
+      if (elapsed < duration && now - lastLaunch > LAUNCH_EVERY_MS) {
         lastLaunch = now;
         addRocket();
         if (Math.random() < 0.35) addRocket();
@@ -94,7 +95,7 @@
       }
       ctx.globalAlpha = 1;
 
-      if (elapsed < DURATION_MS || rockets.length || sparks.length) {
+      if (elapsed < duration || rockets.length || sparks.length) {
         requestAnimationFrame(frame);
       } else {
         window.removeEventListener("resize", resize);
