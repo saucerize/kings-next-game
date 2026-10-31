@@ -194,6 +194,86 @@
     h2.section:first-child { margin-top: 0; }
 
     .live-card { margin-bottom: 8px; border-color: var(--gold); }
+
+    /* スコアボード(X の試合ページ風) */
+    .board { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 6px; margin: 16px 0 6px; }
+    .board .team { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; margin: 0; color: var(--text); letter-spacing: normal; font-size: inherit; }
+    .board .tmark {
+      width: 42px; height: 42px; border-radius: 50%;
+      display: grid; place-items: center;
+      font-size: 13px; font-weight: 800;
+      border: 2px solid var(--gold);
+    }
+    .board .kings .tmark { background: var(--gold); color: #111; }
+    .board .opp .tmark { background: #26221a; color: var(--text); border-color: #5a5040; }
+    .board .tname { font-size: 12px; color: var(--muted); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .board .pts { font-size: 54px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+    .board .kings .pts { color: var(--gold-soft); }
+    .board .mid { text-align: center; }
+    .board .per { font-size: 15px; font-weight: 800; color: var(--text); white-space: nowrap; }
+    .board .clock { margin-top: 4px; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .court-wrap { margin: 10px -6px 0; perspective: 700px; }
+    .court { display: block; width: 100%; transform: rotateX(32deg); transform-origin: 50% 100%; filter: drop-shadow(0 10px 18px rgba(0,0,0,.5)); }
+    .lastplay {
+      position: relative; z-index: 1;
+      margin-top: -6px; padding: 10px 12px;
+      border-radius: 12px; background: rgba(38,34,26,.95); border: 1px solid var(--line);
+      font-size: 13px; line-height: 1.5;
+    }
+    .lastplay small { color: var(--muted); margin-left: 6px; }
+    .lastplay b { color: var(--gold-soft); }
+    .live-tabs { display: grid; grid-template-columns: repeat(3, 1fr); margin: 16px 0 4px; border-bottom: 1px solid var(--line); }
+    .live-tabs button {
+      min-height: 44px; border: 0; background: none; color: var(--muted);
+      font: inherit; font-size: 14px; font-weight: 700; cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+    .live-tabs button.on { color: var(--text); border-bottom-color: var(--gold); }
+    table.box { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+    .box th { padding: 6px 4px; font-size: 10px; font-weight: 600; color: var(--gold); text-align: right; border-bottom: 1px solid var(--line); }
+    .box td { padding: 6px 4px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+    .box th:first-child, .box td:first-child { text-align: left; white-space: normal; }
+    .box h3 { margin: 14px 0 4px; font-size: 13px; }
+    .plays { list-style: none; margin: 0; padding: 0; }
+    .plays li { display: grid; grid-template-columns: 52px 1fr auto; gap: 8px; padding: 9px 2px; border-bottom: 1px solid var(--line); font-size: 13px; }
+    .plays .t { color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+    .plays .sc { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .plays li.k .what { color: var(--gold-soft); }
+
+    /* 勝敗予想と応援リアクション */
+    .fan { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .fan-title { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; }
+    .fan-title small { color: var(--muted); font-weight: 400; }
+    .vote { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .vote button {
+      position: relative; overflow: hidden;
+      min-height: 50px; padding: 4px 26px; border-radius: 999px; border: 1px solid var(--line);
+      font: inherit; font-size: 14px; font-weight: 800; cursor: pointer; white-space: nowrap;
+    }
+    .vote .vk { background: var(--gold); color: #111; border-color: var(--gold); }
+    .vote .vo { background: #2a261e; color: var(--text); }
+    .vote button.mine::after { content: "✓"; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); }
+    .vote button:disabled { cursor: default; }
+    .vote button:not(:disabled):active { transform: scale(.97); }
+    .reacts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 10px; }
+    .reacts button {
+      min-height: 52px; border-radius: 14px; border: 1px solid var(--line); background: #161411;
+      font: inherit; font-size: 22px; line-height: 1; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .reacts button:active { transform: scale(.92); }
+    .reacts small { font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .fan-note { margin: 8px 0 0; font-size: 10px; color: var(--muted); }
+    .float-emoji {
+      position: fixed; bottom: 90px; z-index: 50; pointer-events: none;
+      font-size: 30px; animation: floatUp 2.2s ease-out forwards;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(.6); opacity: 0; }
+      15% { opacity: 1; transform: translateY(-30px) scale(1.1); }
+      100% { transform: translateY(-320px) scale(1); opacity: 0; }
+    }
     .winprob { margin-top: 14px; }
     .winprob-head { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; color: var(--muted); }
     .winprob-head b { font-size: 20px; color: var(--gold-soft); font-variant-numeric: tabular-nums; }
@@ -444,39 +524,277 @@
       if (near) pollLive();   // 受信が切れていた間の取りこぼし対策
     }
 
+    // コートの絵(上から見たコートを、CSS で手前に傾けて立体的に見せる)
+    const COURT_SVG = `
+      <svg class="court" viewBox="0 0 400 214" aria-hidden="true">
+        <rect x="1" y="1" width="398" height="212" rx="6" fill="#2a2213" stroke="#d4af37" stroke-width="2"/>
+        <g fill="none" stroke="#d4af37" stroke-opacity=".75" stroke-width="2">
+          <line x1="200" y1="1" x2="200" y2="213"/>
+          <circle cx="200" cy="107" r="26"/>
+          <rect x="1" y="72" width="70" height="70" fill="rgba(212,175,55,.18)"/>
+          <rect x="329" y="72" width="70" height="70" fill="rgba(212,175,55,.18)"/>
+          <path d="M71 86a21 21 0 0 1 0 42M329 86a21 21 0 0 0 0 42"/>
+          <path d="M1 20h28a90 90 0 0 1 0 174H1M399 20h-28a90 90 0 0 0 0 174h28"/>
+          <circle cx="16" cy="107" r="5"/><circle cx="384" cy="107" r="5"/>
+        </g>
+        <g transform="translate(200 107)" fill="#d4af37">
+          <path d="M-14 6L-17 -10L-7 -2L0 -14L7 -2L17 -10L14 6Z"/>
+        </g>
+      </svg>`;
+
+    let liveTab = "score";   // 速報カードの中のタブ(score / box / plays)
+
+    const teamMark = name => esc((name || "").replace(/^(.{2}).*$/, "$1"));
+
+    function lastPlayHtml(d) {
+      const p = Array.isArray(d.plays) && d.plays.length ? d.plays[0] : null;
+      if (!p) return "";
+      return `<div class="lastplay"><b>${esc(p.team === "kings" ? "琉球" : p.team === "opp" ? (d.opp_short || "相手") : "")}</b>
+        ${esc(p.text || "")}<small>${esc([periodLabel(p.period), p.clock].filter(Boolean).join(" "))} 直近のプレー</small></div>`;
+    }
+
+    function boxHtml(d) {
+      const sides = [["琉球", d.box && d.box.kings], [d.opponent || "相手", d.box && d.box.opp]];
+      if (!sides.some(([, rows]) => Array.isArray(rows) && rows.length)) {
+        return '<p class="sub">両チームの選手ごとの成績は、試合が始まると出ます</p>';
+      }
+      return sides.map(([name, rows]) => Array.isArray(rows) && rows.length ? `
+        <h3 class="box">${esc(name)}</h3>
+        <table class="box">
+          <tr><th>選手</th><th>分</th><th>点</th><th>リバ</th><th>アシ</th></tr>
+          ${rows.map(r => `<tr><td>${esc(r.name)}</td><td>${esc(r.min || "")}</td><td>${r.pts ?? 0}</td><td>${r.reb ?? 0}</td><td>${r.ast ?? 0}</td></tr>`).join("")}
+        </table>` : "").join("");
+    }
+
+    function playsHtml(d) {
+      const plays = Array.isArray(d.plays) ? d.plays : [];
+      if (!plays.length) return '<p class="sub">プレーの記録は、試合が始まると出ます</p>';
+      return `<ol class="plays">${plays.map(p => `
+        <li class="${p.team === "kings" ? "k" : ""}">
+          <span class="t">${esc([periodLabel(p.period), p.clock].filter(Boolean).join(" "))}</span>
+          <span class="what">${esc(p.text || "")}</span>
+          <span class="sc">${Number.isFinite(p.kings) && Number.isFinite(p.opp) ? `${p.kings}-${p.opp}` : ""}</span>
+        </li>`).join("")}</ol>`;
+    }
+
+    function scoreTabHtml(d, state) {
+      const qs = Array.isArray(d.quarters) ? d.quarters.filter(q => Array.isArray(q) && q.length === 3) : [];
+      const scorers = Array.isArray(d.scorers) ? d.scorers.filter(s => Array.isArray(s) && Number.isFinite(s[1])) : [];
+      return `
+        ${state === "live" ? winProbHtml(d) : ""}
+        ${qs.length ? `
+          <table class="quarters">
+            <tr><th></th>${qs.map(q => `<th>${esc(q[0])}</th>`).join("")}</tr>
+            <tr><td>琉球</td>${qs.map(q => `<td>${esc(q[1])}</td>`).join("")}</tr>
+            <tr><td>相手</td>${qs.map(q => `<td>${esc(q[2])}</td>`).join("")}</tr>
+          </table>` : ""}
+        <h2>キングスの得点</h2>
+        ${scorers.length ? `
+          <ol class="scorers">
+            ${scorers.map(s => `<li><span>${esc(s[0])}</span><span class="spts">${s[1]}<small>点</small></span></li>`).join("")}
+          </ol>` : '<p class="sub">選手ごとの得点はまだ読み取れていません</p>'}`;
+    }
+
     function liveCard(state) {
       const d = live;
       const win = d.kings > d.opp;
-      const status = state === "final"
-        ? `<span class="final">試合終了${d.kings === d.opp ? "" : win ? "・WIN" : "・LOSE"}</span>`
-        : `<span class="live">● LIVE ${esc(periodLabel(d.period))}</span>`;
-      const qs = Array.isArray(d.quarters) ? d.quarters.filter(q => Array.isArray(q) && q.length === 3) : [];
-      const scorers = Array.isArray(d.scorers) ? d.scorers.filter(s => Array.isArray(s) && Number.isFinite(s[1])) : [];
+      const mid = state === "final"
+        ? `<div class="per">試合終了</div><div class="clock">${d.kings === d.opp ? "" : win ? "WIN" : "LOSE"}</div>`
+        : `<div class="per"><span class="live">●</span> ${esc(periodLabel(d.period))}</div><div class="clock">${esc(d.clock || "LIVE")}</div>`;
+      const tab = (key, label) => `<button type="button" data-live-tab="${key}" class="${liveTab === key ? "on" : ""}">${label}</button>`;
       return `
         <div class="card live-card">
           <div class="top">
             <span class="badge ${d.home ? "home" : "away"}">${d.home ? "HOME" : "AWAY"}</span>
-            ${status}
+            ${state === "final" ? '<span class="final">試合終了</span>' : '<span class="live">● LIVE</span>'}
           </div>
-          <div class="score">
-            <div class="side kings"><span class="tname">琉球</span><span class="pts">${d.kings}</span></div>
-            <span class="dash">-</span>
-            <div class="side"><span class="tname">${esc(d.opponent || "")}</span><span class="pts">${d.opp}</span></div>
+          <div class="board">
+            <div class="team kings"><span class="tmark">琉球</span><span class="pts">${d.kings}</span><span class="tname">琉球</span></div>
+            <div class="mid">${mid}</div>
+            <div class="team opp"><span class="tmark">${teamMark(d.opp_short || d.opponent)}</span><span class="pts">${d.opp}</span><span class="tname">${esc(d.opponent || "")}</span></div>
           </div>
-          ${state === "live" ? winProbHtml(d) : ""}
-          ${qs.length ? `
-            <table class="quarters">
-              <tr><th></th>${qs.map(q => `<th>${esc(q[0])}</th>`).join("")}</tr>
-              <tr><td>琉球</td>${qs.map(q => `<td>${esc(q[1])}</td>`).join("")}</tr>
-              <tr><td>相手</td>${qs.map(q => `<td>${esc(q[2])}</td>`).join("")}</tr>
-            </table>` : ""}
-          <h2>キングスの得点</h2>
-          ${scorers.length ? `
-            <ol class="scorers">
-              ${scorers.map(s => `<li><span>${esc(s[0])}</span><span class="spts">${s[1]}<small>点</small></span></li>`).join("")}
-            </ol>` : '<p class="sub">選手ごとの得点はまだ読み取れていません</p>'}
+          <div class="court-wrap">${COURT_SVG}</div>
+          ${lastPlayHtml(d)}
+          <div class="live-tabs">${tab("score", "スコア")}${tab("box", "統計")}${tab("plays", "プレー")}</div>
+          ${liveTab === "box" ? boxHtml(d) : liveTab === "plays" ? playsHtml(d) : scoreTabHtml(d, state)}
+          <div id="fanSlot"></div>
           <p class="sub">${fmtTime.format(new Date(d.updated))} 更新${d.key ? `・<a class="official" href="https://www.bleague.jp/game_detail/?ScheduleKey=${encodeURIComponent(d.key)}&tab=1" target="_blank" rel="noopener">B.LEAGUE 公式 ›</a>` : ""}</p>
         </div>`;
+    }
+
+    app.addEventListener("click", e => {
+      const b = e.target.closest("button[data-live-tab]");
+      if (!b) return;
+      liveTab = b.dataset.liveTab;
+      render();
+    });
+
+    // ---------------------------------------------------------------- 勝敗予想と応援リアクション
+    // ntfy の公開トピックをみんなの掲示板のように使う。投票・リアクションを送り合い、各自のブラウザで数える。
+    // 同じスマホからの二重投票は防ぐ(ブラウザに覚える)が、何回も投票されるのを完全には防げない
+    const FAN_TOPIC = "kings-fan-a38853caea";
+    const REACTIONS = ["🔥", "👏", "😱", "❤️", "🏀"];
+    const FAN_BEFORE_MS = 3 * 60 * 60 * 1000;   // 試合開始の何時間前から投票できるか
+    const REACT_MAX_PER_MSG = 20;               // 1回の送信で数えるリアクションの上限(いたずら対策)
+
+    const fan = { game: null, votes: new Map(), reacts: {}, seen: new Set(), pending: {}, source: null, el: null, flushTimer: null };
+    const cid = (() => {
+      try {
+        let v = localStorage.getItem("kings-cid");
+        if (!v) { v = Math.random().toString(36).slice(2, 12); localStorage.setItem("kings-cid", v); }
+        return v;
+      } catch { return Math.random().toString(36).slice(2, 12); }
+    })();
+    const gameId = dt => new Date(dt).toISOString();
+    const myVoteKey = game => "kings-vote:" + game;
+    const myVote = game => { try { return localStorage.getItem(myVoteKey(game)); } catch { return null; } };
+
+    // 投票・リアクションを受け付ける試合(速報中の試合か、開始3時間前からの次の試合)
+    let shortNames = {};   // 正式名 → 略称(standings.json から。投票ボタンに短く出すため)
+    const oppShort = (full, short) => short || shortNames[full] || (full || "相手").slice(0, 4);
+
+    function fanTarget(state, next) {
+      if (state && live) return { game: gameId(live.datetime), opp: oppShort(live.opponent, live.opp_short), closed: state === "final" };
+      if (next && next.start.getTime() - FAN_BEFORE_MS < Date.now()) return { game: gameId(next.datetime), opp: oppShort(next.opponent), closed: false };
+      return null;
+    }
+
+    function acceptFan(m) {
+      if (!m || m.event !== "message" || !m.message || fan.seen.has(m.id)) return;
+      fan.seen.add(m.id);
+      let d;
+      try { d = JSON.parse(m.message); } catch { return; }
+      if (d.type !== "kings-fan" || d.game !== fan.game || typeof d.cid !== "string") return;
+      if (d.kind === "vote" && (d.pick === "kings" || d.pick === "opp")) {
+        fan.votes.set(d.cid, d.pick);
+      } else if (d.kind === "react" && d.counts && typeof d.counts === "object") {
+        for (const e of REACTIONS) {
+          const n = Math.min(REACT_MAX_PER_MSG, Math.max(0, Math.floor(Number(d.counts[e]) || 0)));
+          if (!n) continue;
+          fan.reacts[e] = (fan.reacts[e] || 0) + n;
+          if (d.cid !== cid) floatEmoji(e, Math.min(n, 4));   // 自分の分は押したときに出しているので出さない
+        }
+      }
+      updateFanView();
+    }
+
+    function sendFan(body) {
+      fetch(`${NTFY}/${FAN_TOPIC}`, { method: "POST", body: JSON.stringify({ type: "kings-fan", v: 1, game: fan.game, cid, ...body }) })
+        .catch(() => {});
+    }
+
+    function vote(pick) {
+      if (!fan.game || myVote(fan.game)) return;
+      try { localStorage.setItem(myVoteKey(fan.game), pick); } catch {}
+      fan.votes.set(cid, pick);
+      sendFan({ kind: "vote", pick });
+      updateFanView();
+    }
+
+    // リアクションは押すたびにすぐ画面に出し、送信は2秒ごとにまとめる(ntfy の送信回数の制限に配慮)
+    function react(e) {
+      if (!fan.game) return;
+      fan.reacts[e] = (fan.reacts[e] || 0) + 1;
+      fan.pending[e] = Math.min(REACT_MAX_PER_MSG, (fan.pending[e] || 0) + 1);
+      floatEmoji(e, 1);
+      updateFanView();
+      if (!fan.flushTimer) {
+        fan.flushTimer = setTimeout(() => {
+          fan.flushTimer = null;
+          const counts = fan.pending;
+          fan.pending = {};
+          if (Object.keys(counts).length) sendFan({ kind: "react", counts });
+        }, 2000);
+      }
+    }
+
+    let floating = 0;
+    function floatEmoji(e, n) {
+      for (let i = 0; i < n && floating < 25; i++) {
+        floating++;
+        const el = document.createElement("span");
+        el.className = "float-emoji";
+        el.textContent = e;
+        el.style.left = (10 + Math.random() * 75) + "vw";
+        el.style.animationDelay = (i * 0.15) + "s";
+        el.addEventListener("animationend", () => { el.remove(); floating--; });
+        document.body.appendChild(el);
+      }
+    }
+
+    function fanElement() {
+      if (fan.el) return fan.el;
+      const el = document.createElement("div");
+      el.className = "fan";
+      el.innerHTML = `
+        <div class="fan-title"><span>どっちが勝つ？</span><small id="fanVotes"></small></div>
+        <div class="vote">
+          <button type="button" class="vk" data-vote="kings"></button>
+          <button type="button" class="vo" data-vote="opp"></button>
+        </div>
+        <div class="fan-title" style="margin-top:14px"><span>みんなで応援</span><small id="fanReactTotal"></small></div>
+        <div class="reacts">${REACTIONS.map(e => `<button type="button" data-react="${e}">${e}<small>0</small></button>`).join("")}</div>
+        <p class="fan-note">投票とリアクションは、このページを見ているみんなにリアルタイムで共有されます</p>`;
+      el.addEventListener("click", ev => {
+        const v = ev.target.closest("button[data-vote]");
+        if (v && !v.disabled) return vote(v.dataset.vote);
+        const r = ev.target.closest("button[data-react]");
+        if (r) react(r.dataset.react);
+      });
+      fan.el = el;
+      return el;
+    }
+
+    function updateFanView() {
+      if (!fan.el || !fan.game) return;
+      let k = 0, o = 0;
+      for (const v of fan.votes.values()) v === "kings" ? k++ : o++;
+      const total = k + o;
+      const pk = total ? Math.round(k / total * 100) : 50;
+      const mine = myVote(fan.game);
+      const closed = fan.closed;
+      const bk = fan.el.querySelector('[data-vote="kings"]');
+      const bo = fan.el.querySelector('[data-vote="opp"]');
+      bk.textContent = `キングス ${pk}%`;
+      bo.textContent = `${fan.opp || "相手"} ${100 - pk}%`;
+      bk.classList.toggle("mine", mine === "kings");
+      bo.classList.toggle("mine", mine === "opp");
+      bk.disabled = bo.disabled = !!mine || closed;
+      fan.el.querySelector("#fanVotes").textContent = `${total}票${closed ? "（締め切り）" : mine ? "（投票済み）" : ""}`;
+      let sum = 0;
+      fan.el.querySelectorAll("button[data-react]").forEach(b => {
+        const n = fan.reacts[b.dataset.react] || 0;
+        sum += n;
+        b.querySelector("small").textContent = n > 999 ? (n / 1000).toFixed(1) + "K" : n;
+      });
+      fan.el.querySelector("#fanReactTotal").textContent = `${sum.toLocaleString()} 回`;
+    }
+
+    // 描き直したカードの置き場所(#fanSlot)に、いつもの1つの要素を差し込む(数やアニメーションが消えないように)
+    function placeFan(target) {
+      if (!target) {
+        if (fan.source) { fan.source.close(); fan.source = null; }
+        fan.game = null;
+        return;
+      }
+      if (fan.game !== target.game) {
+        fan.game = target.game;
+        fan.votes = new Map();
+        fan.reacts = {};
+        fan.seen = new Set();
+        if (fan.source) fan.source.close();
+        fan.source = "EventSource" in window ? new EventSource(`${NTFY}/${FAN_TOPIC}/sse`) : null;
+        if (fan.source) fan.source.onmessage = e => { try { acceptFan(JSON.parse(e.data)); } catch {} };
+        fetch(`${NTFY}/${FAN_TOPIC}/json?poll=1&since=8h`, { cache: "no-store" })
+          .then(r => r.ok ? r.text() : "")
+          .then(t => t.split("\n").forEach(line => { if (line.trim()) { try { acceptFan(JSON.parse(line)); } catch {} } }))
+          .catch(() => {});
+      }
+      fan.opp = target.opp;
+      fan.closed = target.closed;
+      const slot = document.getElementById("fanSlot");
+      if (slot) slot.replaceWith(fanElement());
+      updateFanView();
     }
 
     // ---------------------------------------------------------------- 画面
@@ -492,6 +810,7 @@
 
       if (list.length === 0) {
         app.innerHTML = liveHtml + (state ? "" : '<div class="card"><p class="message">登録されている次の試合はありません。</p></div>');
+        placeFan(fanTarget(state, null));
         timer = setInterval(() => { if (liveState(Date.now()) !== state) render(); }, 30000);
         return;
       }
@@ -514,6 +833,7 @@
             <dt>会場</dt><dd>${esc(next.venue || "未定")}</dd>
           </dl>
           ${milestoneHtml()}
+          ${!state && fanTarget(null, next) ? '<div id="fanSlot"></div>' : ""}
           ${next.ticket || next.live ? `
             <div class="actions">
               ${next.ticket ? `<a class="ticket" href="${esc(next.ticket)}" target="_blank" rel="noopener">チケットを買う</a>` : ""}
@@ -547,6 +867,7 @@
         if (t >= next.start.getTime() + GAME_LENGTH_MS) return render();
         if (!started && t >= next.start.getTime()) return render();
         if (liveState(t) !== state) return render();
+        if (!state && !!fanTarget(null, next) !== hadFan) return render();   // 開始3時間前になったら投票欄を出す
 
         const diff = Math.abs(next.start.getTime() - t);
         const sec = Math.floor(diff / 1000);
@@ -555,6 +876,8 @@
         document.getElementById("m").textContent = String(Math.floor(sec / 60) % 60).padStart(2, "0");
         document.getElementById("s").textContent = String(sec % 60).padStart(2, "0");
       };
+      const hadFan = !state && !!fanTarget(null, next);
+      placeFan(fanTarget(state, next));
       tick();
       timer = setInterval(tick, 1000);
     }
@@ -564,6 +887,14 @@
     const calUrl = "webcal://" + location.host + location.pathname.replace(/[^/]*$/, "") + "calendar.ics";
     document.getElementById("calApple").href = calUrl;
     document.getElementById("calGoogle").href = "https://calendar.google.com/calendar/render?cid=" + encodeURIComponent(calUrl);
+
+    fetch("standings.json", { cache: "no-store" })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        for (const row of (data && data.rows) || []) if (row.team && row.short) shortNames[row.team] = row.short;
+        if (games.length) render();
+      })
+      .catch(() => {});
 
     fetch("players.json", { cache: "no-store" })
       .then(r => r.ok ? r.json() : null)
