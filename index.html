@@ -196,6 +196,31 @@
 
     .live-card { margin-bottom: 8px; border-color: var(--gold); }
 
+    /* 試合開始の花火(fireworks.js) */
+    .fw-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 60; pointer-events: none; }
+    .fw-message {
+      position: fixed; left: 50%; top: 38%; z-index: 61; pointer-events: none;
+      transform: translate(-50%, -50%);
+      padding: 16px 26px 18px;
+      border: 1px solid rgba(212,175,55,.7); border-radius: 20px;
+      background: rgba(8,7,4,.72);
+      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+      box-shadow: 0 10px 40px rgba(0,0,0,.6);
+      text-align: center; white-space: nowrap;
+      animation: fwIn .6s cubic-bezier(.2, 1.4, .4, 1) both;
+      transition: opacity .7s, transform .7s;
+    }
+    .fw-message b {
+      display: block; font-size: 44px; font-weight: 900; letter-spacing: .04em;
+      background: linear-gradient(180deg, #fff6c8, var(--gold) 70%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 4px 14px rgba(0,0,0,.8));
+    }
+    .fw-message i { display: block; font-style: normal; font-size: 40px; line-height: 1; margin-bottom: 4px; }
+    .fw-message span { display: block; margin-top: 6px; font-size: 17px; font-weight: 800; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,.9); }
+    .fw-message.out { opacity: 0; transform: translate(-50%, -60%); }
+    @keyframes fwIn { from { opacity: 0; transform: translate(-50%, -50%) scale(.5); } }
+
     /* スコアボード(X の試合ページ風) */
     .board { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 6px; margin: 16px 0 6px; }
     .board .team { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; margin: 0; color: var(--text); letter-spacing: normal; font-size: inherit; }
@@ -363,6 +388,7 @@
   </main>
 
   <script src="extras.js"></script>
+  <script src="fireworks.js"></script>
   <script>
     // 試合開始からこの時間が過ぎたら「終わった試合」とみなして次へ進む
     const GAME_LENGTH_MS = 2.5 * 60 * 60 * 1000;
@@ -802,6 +828,22 @@
       updateFanView();
     }
 
+    // ---------------------------------------------------------------- 試合開始の花火
+    // カウントダウンが 0 になった瞬間に打ち上げる。開始から5分以内にページを開いた人にも1回だけ。
+    // 同じ試合では1台につき1回(ブラウザに覚える)
+    const FW_LATE_MS = 5 * 60 * 1000;
+    function maybeFireworks(datetime) {
+      const start = new Date(datetime).getTime();
+      const now = Date.now();
+      if (!(now >= start && now < start + FW_LATE_MS)) return;
+      const key = "kings-fw:" + gameId(datetime);
+      try { if (localStorage.getItem(key)) return; localStorage.setItem(key, "1"); } catch {}
+      KingsFireworks.launch();
+    }
+    if (new URLSearchParams(location.search).has("fireworks")) {
+      setTimeout(() => KingsFireworks.launch({ sub: "（これは試し打ちです）" }), 600);
+    }
+
     // ---------------------------------------------------------------- 画面
     function render() {
       const now = Date.now();
@@ -811,6 +853,7 @@
       if (state) list = list.filter(g => new Date(g.datetime).getTime() !== new Date(live.datetime).getTime());
 
       const liveHtml = state ? liveCard(state) : "";
+      if (state === "live") maybeFireworks(live.datetime);
       clearInterval(timer);
 
       if (list.length === 0) {
@@ -870,7 +913,7 @@
         const t = Date.now();
         // 試合が終わる時刻を過ぎた・試合が始まった・速報の表示が変わったら描き直す
         if (t >= next.start.getTime() + GAME_LENGTH_MS) return render();
-        if (!started && t >= next.start.getTime()) return render();
+        if (!started && t >= next.start.getTime()) { maybeFireworks(next.datetime); return render(); }
         if (liveState(t) !== state) return render();
         if (!state && !!fanTarget(null, next) !== hadFan) return render();   // 開始3時間前になったら投票欄を出す
 
@@ -881,6 +924,7 @@
         document.getElementById("m").textContent = String(Math.floor(sec / 60) % 60).padStart(2, "0");
         document.getElementById("s").textContent = String(sec % 60).padStart(2, "0");
       };
+      if (started) maybeFireworks(next.datetime);
       const hadFan = !state && !!fanTarget(null, next);
       placeFan(fanTarget(state, next));
       tick();
