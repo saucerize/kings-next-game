@@ -157,6 +157,9 @@
     .viewer { position: fixed; inset: 0; z-index: 10; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(0, 0, 0, .92); }
     .viewer.open { display: flex; }
     .viewer img { max-width: 100%; max-height: 90vh; border-radius: 10px; }
+    .log li.sys { align-self: center; max-width: 95%; text-align: center; }
+    .log li.sys .bubble { background: transparent; color: var(--gold-soft); border: 1px dashed var(--gold); font-weight: 800; border-radius: 999px; }
+    .log li.sys .rbtn { display: none; }
     .log .empty { align-self: center; max-width: none; color: var(--muted); font-size: 13px; padding: 40px 0; text-align: center; }
     .note { margin-top: 16px; text-align: center; font-size: 11px; color: var(--muted); line-height: 1.7; }
   </style>
@@ -334,7 +337,7 @@
       log.querySelector(".empty")?.remove();
       const nearBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 80;
       const li = document.createElement("li");
-      li.className = [d.cid === cid && "mine", rp && rp.cid === cid && d.cid !== cid && "tome"].filter(Boolean).join(" ");
+      li.className = [d.bingo && "sys", d.cid === cid && !d.bingo && "mine", rp && rp.cid === cid && d.cid !== cid && "tome"].filter(Boolean).join(" ");
       li.dataset.t = m.time || 0;
       li.id = "m-" + m.id;
       li.dataset.id = m.id;
