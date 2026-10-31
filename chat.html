@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0b">
+  <meta name="apple-mobile-web-app-title" content="キングス">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
+  <link rel="icon" type="image/png" href="favicon.png?v=2">
+  <title>キングス 試合チャット</title>
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --card: #161411;
+      --line: #3a3120;
+      --gold: #d4af37;
+      --gold-soft: #f1d77a;
+      --text: #f5f1e6;
+      --muted: #a39c8a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: radial-gradient(120% 60% at 50% 0%, #2a2210 0%, var(--bg) 60%) fixed, var(--bg);
+      color: var(--text);
+      font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", system-ui, sans-serif;
+      line-height: 1.5;
+      padding: max(20px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+    }
+    main { max-width: 480px; margin: 0 auto; }
+
+    /* 上のタブ: 横幅いっぱいの4つのボタン(アイコン+名前)。指で押しやすい高さにする */
+    .tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin: 0 0 18px; }
+    .tabs a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      min-height: 58px;
+      padding: 6px 2px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--muted);
+      text-decoration: none;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tabs a:active { transform: scale(.96); }
+    .tabs svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .tabs a[aria-current="page"] { background: var(--gold); border-color: var(--gold); color: #111; }
+
+    header { text-align: center; margin-bottom: 20px; }
+    .team { margin: 0; font-size: 13px; letter-spacing: .2em; color: var(--gold); }
+    h1 {
+      margin: 4px 0 0;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      background: linear-gradient(180deg, var(--gold-soft), var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+
+    .game { display: grid; gap: 6px; margin-bottom: 14px; }
+    .game select {
+      width: 100%; min-height: 46px; padding: 10px 12px; border-radius: 12px;
+      border: 1px solid var(--line); background: var(--card); color: var(--text); font: inherit; font-size: 15px; font-weight: 700;
+    }
+    .game small { font-size: 11px; color: var(--muted); text-align: center; }
+
+    .box { border: 1px solid var(--line); border-radius: 14px; background: var(--card); padding: 14px; }
+    .box label { font-size: 12px; color: var(--muted); display: grid; gap: 6px; }
+    .row { display: flex; gap: 8px; }
+    .box input[type=text] {
+      flex: 1; min-width: 0; padding: 11px 12px; border-radius: 10px;
+      border: 1px solid var(--line); background: #0f0e0b; color: var(--text); font: inherit; font-size: 16px;
+    }
+    .btn {
+      flex: none; min-height: 46px; padding: 0 16px; border: 0; border-radius: 10px;
+      background: var(--gold); color: #111; font: inherit; font-size: 15px; font-weight: 800; cursor: pointer;
+    }
+    .btn:disabled { opacity: .5; cursor: default; }
+    .me { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+    .me b { color: var(--gold-soft); }
+    .link { border: 0; background: none; color: var(--gold); font: inherit; font-size: 13px; cursor: pointer; padding: 6px 0; }
+    .hint { margin: 8px 0 0; font-size: 11px; color: var(--muted); line-height: 1.6; }
+    .status { margin: 6px 0 0; font-size: 12px; color: var(--gold-soft); min-height: 1.2em; }
+
+    .log {
+      list-style: none; margin: 0 0 12px; padding: 4px 2px;
+      height: 55vh; height: 55dvh; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;
+      overscroll-behavior: contain;
+    }
+    .log li { max-width: 85%; align-self: flex-start; }
+    .log li.mine { align-self: flex-end; text-align: right; }
+    .log .who { font-size: 11px; color: var(--muted); margin: 0 4px 2px; }
+    .log .who b { color: var(--gold-soft); font-weight: 700; }
+    .log .bubble {
+      display: inline-block; text-align: left; padding: 8px 12px; border-radius: 16px 16px 16px 4px;
+      background: #24201a; font-size: 15px; line-height: 1.5; word-break: break-word; white-space: pre-wrap;
+    }
+    .log li.mine .bubble { background: var(--gold); color: #111; border-radius: 16px 16px 4px 16px; }
+    .log .empty { align-self: center; max-width: none; color: var(--muted); font-size: 13px; padding: 40px 0; text-align: center; }
+    .note { margin-top: 16px; text-align: center; font-size: 11px; color: var(--muted); line-height: 1.7; }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="tabs">
+      <a href="./"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><circle cx="12" cy="15.5" r="2.2"/></svg><span>次の試合</span></a>
+      <a href="players.html"><svg viewBox="0 0 24 24"><path d="M8 3l-4 3 2 4h2v11h8V10h2l2-4-4-3c-.5 1.7-2 3-4 3s-3.5-1.3-4-3z"/></svg><span>選手一覧</span></a>
+      <a href="stats.html"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>成績</span></a>
+      <a href="dancers.html"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg><span>ダンサーズ</span></a>
+      <a href="album.html"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><span>アルバム</span></a>
+    </nav>
+    <header>
+      <p class="team">RYUKYU GOLDEN KINGS</p>
+      <h1>GAME CHAT</h1>
+    </header>
+
+    <div class="game">
+      <select id="gameSel" aria-label="試合を選ぶ"></select>
+      <small>試合ごとに別々のチャットです</small>
+    </div>
+
+    <ol class="log" id="log"><li class="empty">読み込み中…</li></ol>
+
+    <!-- ニックネームの登録(初回だけ) -->
+    <form class="box" id="nickForm" hidden>
+      <label>ニックネームを決めてください（必須・20文字まで）
+        <div class="row">
+          <input type="text" id="nickInput" maxlength="20" placeholder="例：キングス太郎" autocomplete="nickname">
+          <button type="submit" class="btn" id="nickSave" disabled>決定</button>
+        </div>
+      </label>
+      <p class="hint">このスマホに覚えておくので、次からは同じニックネームで参加できます。あとから変えることもできます。</p>
+    </form>
+
+    <!-- 発言 -->
+    <div class="box" id="chatBox" hidden>
+      <div class="me"><span><b id="myNick"></b> として参加中</span><button type="button" class="link" id="nickChange">変更</button></div>
+      <form class="row" id="sayForm">
+        <input type="text" id="sayInput" maxlength="200" placeholder="メッセージを入力" enterkeyhint="send" autocomplete="off">
+        <button type="submit" class="btn" id="sayBtn" disabled>送信</button>
+      </form>
+      <p class="status" id="status"></p>
+    </div>
+
+    <p class="note">チャットはこのページを見ているみんなに公開されます。悪口・個人情報・宣伝は書かないでください。<br>メッセージは約12時間で自動的に消えます。</p>
+  </main>
+
+  <script>
+    const NTFY = "https://ntfy.sh";
+    const CHAT_PREFIX = "kings-chat-a38853caea-";   // + 試合のキー(ScheduleKey)で、試合ごとのトピックにする
+    const NICK_KEY = "kings-nick";                   // ニックネーム(アルバムの投稿でも使う)
+    const NICK_MAX = 20, TEXT_MAX = 200;
+    const COOLDOWN_MS = 3000;                        // 連投の間隔(いたずら対策)
+    const GAME_LENGTH_MS = 2.5 * 60 * 60 * 1000;
+    const TZ = "Asia/Tokyo";
+
+    const $ = id => document.getElementById(id);
+    function esc(s) {
+      return String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    }
+    const clean = (s, n) => String(s ?? "").replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, n);
+    const store = {
+      get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+      set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+    };
+    const cid = (() => {
+      let v = store.get("kings-cid");
+      if (!v) { v = Math.random().toString(36).slice(2, 12); store.set("kings-cid", v); }
+      return v;
+    })();
+    const fmtGame = new Intl.DateTimeFormat("ja-JP", { timeZone: TZ, month: "numeric", day: "numeric", weekday: "short" });
+    const fmtClock = new Intl.DateTimeFormat("ja-JP", { timeZone: TZ, hour: "2-digit", minute: "2-digit" });
+    const keyOf = url => (String(url || "").match(/ScheduleKey=(\d+)/) || [])[1] || "";
+
+    // ---------------------------------------------------------------- ニックネーム
+    let nick = clean(store.get(NICK_KEY), NICK_MAX);
+    function showNick() {
+      $("nickForm").hidden = !!nick;
+      $("chatBox").hidden = !nick;
+      $("myNick").textContent = nick;
+    }
+    $("nickInput").addEventListener("input", () => { $("nickSave").disabled = !clean($("nickInput").value, NICK_MAX); });
+    $("nickForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const v = clean($("nickInput").value, NICK_MAX);
+      if (!v) return;
+      nick = v;
+      store.set(NICK_KEY, nick);
+      showNick();
+      $("sayInput").focus();
+    });
+    $("nickChange").addEventListener("click", () => {
+      $("nickInput").value = nick;
+      $("nickSave").disabled = !nick;
+      nick = "";
+      showNick();
+      $("nickInput").focus();
+    });
+    showNick();
+
+    // ---------------------------------------------------------------- 試合の選択
+    let game = null, source = null;
+    const seen = new Set();
+    function chooseGames(schedule, results) {
+      const map = new Map();
+      for (const g of results) if (g.key) map.set(g.key, { ...g, done: true });
+      for (const g of schedule) { const k = keyOf(g.url); if (k && !map.has(k)) map.set(k, { ...g, key: k }); }
+      const list = [...map.values()].filter(g => !isNaN(new Date(g.datetime))).sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+      const now = Date.now();
+      // 進行中か次の試合を基準に、前後の試合を選べるようにする
+      let i = list.findIndex(g => new Date(g.datetime).getTime() + GAME_LENGTH_MS > now);
+      if (i < 0) i = list.length - 1;
+      return { list: list.slice(Math.max(0, i - 5), i + 4), current: list[i] };
+    }
+    function label(g) {
+      const res = g.done && Number.isFinite(g.kings) ? `  ${g.kings}-${g.opp} ${g.kings > g.opp ? "WIN" : "LOSE"}` : "";
+      return `${fmtGame.format(new Date(g.datetime))} vs ${g.opponent}${res}`;
+    }
+
+    // ---------------------------------------------------------------- チャット
+    function addMessage(m, scroll) {
+      if (!m || m.event !== "message" || !m.id || seen.has(m.id)) return;
+      let d;
+      try { d = JSON.parse(m.message); } catch { return; }
+      if (!d || d.type !== "kings-chat" || d.game !== game.key) return;
+      const who = clean(d.nick, NICK_MAX), text = clean(d.text, TEXT_MAX);
+      if (!who || !text) return;
+      seen.add(m.id);
+      const log = $("log");
+      log.querySelector(".empty")?.remove();
+      const nearBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 80;
+      const li = document.createElement("li");
+      if (d.cid === cid) li.className = "mine";
+      li.dataset.t = m.time || 0;
+      li.innerHTML = `<div class="who"><b>${esc(who)}</b> ${m.time ? fmtClock.format(new Date(m.time * 1000)) : ""}</div><div class="bubble">${esc(text)}</div>`;
+      // 時刻順に差し込む
+      const after = [...log.children].reverse().find(x => Number(x.dataset.t) <= (m.time || 0));
+      after ? after.after(li) : log.prepend(li);
+      if (scroll || nearBottom || d.cid === cid) log.scrollTop = log.scrollHeight;
+    }
+    function openGame(g) {
+      game = g;
+      seen.clear();
+      $("log").innerHTML = '<li class="empty">読み込み中…</li>';
+      if (source) source.close();
+      const topic = CHAT_PREFIX + g.key;
+      history.replaceState(null, "", "?game=" + encodeURIComponent(g.key));
+      source = "EventSource" in window ? new EventSource(`${NTFY}/${topic}/sse`) : null;
+      if (source) source.onmessage = e => { try { addMessage(JSON.parse(e.data)); } catch {} };
+      fetch(`${NTFY}/${topic}/json?poll=1&since=all`, { cache: "no-store" })
+        .then(r => r.ok ? r.text() : "")
+        .then(t => {
+          if (game !== g) return;
+          t.split("\n").forEach(line => { if (line.trim()) { try { addMessage(JSON.parse(line)); } catch {} } });
+          $("log").scrollTop = $("log").scrollHeight;
+        })
+        .catch(() => {})
+        .finally(() => {
+          if (game === g && !$("log").querySelector("li:not(.empty)")) {
+            $("log").innerHTML = '<li class="empty">まだメッセージはありません。<br>最初のひとことをどうぞ！</li>';
+          }
+        });
+      updateSay();
+    }
+
+    let lastSent = 0, sending = false;
+    function updateSay() { $("sayBtn").disabled = sending || !game || !clean($("sayInput").value, TEXT_MAX); }
+    $("sayInput").addEventListener("input", updateSay);
+    $("sayForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const text = clean($("sayInput").value, TEXT_MAX);
+      if (!text || !nick || !game || sending) return;
+      const wait = lastSent + COOLDOWN_MS - Date.now();
+      if (wait > 0) { $("status").textContent = `あと${Math.ceil(wait / 1000)}秒待ってから送ってください`; return; }
+      sending = true; updateSay();
+      try {
+        const r = await fetch(`${NTFY}/${CHAT_PREFIX}${game.key}`, {
+          method: "POST", body: JSON.stringify({ type: "kings-chat", v: 1, game: game.key, cid, nick, text }),
+        });
+        if (!r.ok) throw new Error(r.status);
+        lastSent = Date.now();
+        $("sayInput").value = "";
+        $("status").textContent = "";
+      } catch {
+        $("status").textContent = "送れませんでした。電波のよいところでもう一度お試しください";
+      } finally {
+        sending = false; updateSay();
+      }
+    });
+
+    Promise.all([
+      fetch("schedule.json", { cache: "no-store" }).then(r => r.ok ? r.json() : {}).catch(() => ({})),
+      fetch("games.json", { cache: "no-store" }).then(r => r.ok ? r.json() : {}).catch(() => ({})),
+    ]).then(([sj, gj]) => {
+      const { list, current } = chooseGames(sj.games || [], gj.games || []);
+      if (!list.length) { $("log").innerHTML = '<li class="empty">試合の予定を読み込めませんでした</li>'; return; }
+      const want = new URLSearchParams(location.search).get("game");
+      const start = list.find(g => g.key === want) || current || list[list.length - 1];
+      $("gameSel").innerHTML = list.map(g => `<option value="${esc(g.key)}"${g === start ? " selected" : ""}>${esc(label(g))}</option>`).join("");
+      $("gameSel").addEventListener("change", () => openGame(list.find(g => g.key === $("gameSel").value)));
+      openGame(start);
+    });
+  </script>
+</body>
+</html>
