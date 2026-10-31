@@ -176,6 +176,7 @@
   <script>
     const NTFY = "https://ntfy.sh";
     const PHOTO_TOPIC = "kings-photo-a38853caea";
+    try { document.getElementById("nick").value = localStorage.getItem("kings-nick") || ""; } catch {}
     const MAX_SIDE = 1600;          // 送る前に長い辺をここまで縮める
     const DAILY_LIMIT = 5;
     const TZ = "Asia/Tokyo";

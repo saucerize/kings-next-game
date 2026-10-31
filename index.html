@@ -147,6 +147,14 @@
     .actions .ticket { background: var(--gold); color: #111; }
     .actions .watch { border: 1px solid var(--gold); color: var(--gold-soft); }
     .actions a:only-child { grid-column: 1 / -1; }
+    /* 試合チャットへのボタン */
+    a.chat {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      min-height: 48px; margin-top: 10px; border-radius: 12px;
+      border: 1px solid var(--gold); background: rgba(212, 175, 55, .08);
+      color: var(--gold-soft); font-size: 15px; font-weight: 800; text-decoration: none;
+    }
+    a.chat:active { transform: scale(.98); }
     .calendar { margin-top: 20px; padding: 14px 12px 12px; border: 1px dashed var(--line); border-radius: 12px; text-align: center; }
     .calendar p { margin: 0; font-size: 14px; font-weight: 700; color: var(--gold-soft); }
     .calendar small { display: block; margin-top: 2px; font-size: 11px; color: var(--muted); }
@@ -438,6 +446,8 @@
       return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
     }
 
+    const chatKey = g => (String(g.url || "").match(/ScheduleKey=(\d+)/) || [])[1] || "";
+
     function upcoming(now) {
       return games
         .map(g => ({ ...g, start: new Date(g.datetime) }))
@@ -664,6 +674,7 @@
           <div class="live-tabs">${tab("score", "スコア")}${tab("box", "統計")}${tab("plays", "プレー")}</div>
           ${liveTab === "box" ? boxHtml(d) : liveTab === "plays" ? playsHtml(d) : scoreTabHtml(d, state)}
           <div id="fanSlot"></div>
+          ${d.key ? `<a class="chat" href="chat.html?game=${encodeURIComponent(d.key)}">💬 試合チャットに参加する</a>` : ""}
           <p class="sub">${fmtTime.format(new Date(d.updated))} 更新${d.key ? `・<a class="official" href="https://www.bleague.jp/game_detail/?ScheduleKey=${encodeURIComponent(d.key)}&tab=1" target="_blank" rel="noopener">B.LEAGUE 公式 ›</a>` : ""}</p>
         </div>`;
     }
@@ -905,6 +916,7 @@
               ${next.ticket ? `<a class="ticket" href="${esc(next.ticket)}" target="_blank" rel="noopener">チケットを買う</a>` : ""}
               ${next.live ? `<a class="watch" href="${esc(next.live)}" target="_blank" rel="noopener">ライブ配信を見る</a>` : ""}
             </div>` : ""}
+          ${chatKey(next) ? `<a class="chat" href="chat.html?game=${encodeURIComponent(chatKey(next))}">💬 試合チャットに参加する</a>` : ""}
           ${next.url ? `<a class="official" href="${esc(next.url)}" target="_blank" rel="noopener">B.LEAGUE 公式の試合ページ ›</a>` : ""}
           <div class="countdown">
             <div class="label">${started ? "試合開始から" : "試合開始まで"}</div>
