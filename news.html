@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0b">
+  <meta name="apple-mobile-web-app-title" content="キングス">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
+  <link rel="icon" type="image/png" href="favicon.png?v=2">
+  <title>キングス ニュース</title>
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --card: #161411;
+      --line: #3a3120;
+      --gold: #d4af37;
+      --gold-soft: #f1d77a;
+      --text: #f5f1e6;
+      --muted: #a39c8a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: radial-gradient(120% 60% at 50% 0%, #2a2210 0%, var(--bg) 60%) fixed, var(--bg);
+      color: var(--text);
+      font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", system-ui, sans-serif;
+      line-height: 1.5;
+      padding: max(20px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+    }
+    main { max-width: 480px; margin: 0 auto; }
+
+    /* 上のタブ: 横幅いっぱいの6つのボタン(アイコン+名前)。指で押しやすい高さにする */
+    .tabs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin: 0 0 18px; }
+    .tabs a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      min-height: 58px;
+      padding: 6px 2px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--muted);
+      text-decoration: none;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tabs a:active { transform: scale(.96); }
+    .tabs svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .tabs a[aria-current="page"] { background: var(--gold); border-color: var(--gold); color: #111; }
+
+    header { text-align: center; margin-bottom: 18px; }
+    .team { margin: 0; font-size: 13px; letter-spacing: .2em; color: var(--gold); }
+    h1 {
+      margin: 4px 0 0; font-size: 28px; font-weight: 800; letter-spacing: .08em;
+      background: linear-gradient(180deg, var(--gold-soft), var(--gold)); -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    h2 { display: flex; align-items: baseline; justify-content: space-between; margin: 24px 0 10px; font-size: 16px; }
+    h2 a { font-size: 12px; font-weight: 700; color: var(--gold); text-decoration: none; }
+    .links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .links a {
+      display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 44px;
+      border: 1px solid var(--line); border-radius: 12px; background: var(--card);
+      color: var(--gold-soft); font-size: 12.5px; font-weight: 800; text-decoration: none;
+    }
+    .links svg { width: 16px; height: 16px; fill: currentColor; }
+    /* 動画: 横にスワイプして選ぶ */
+    .videos { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -16px; padding: 0 16px 6px; -webkit-overflow-scrolling: touch; }
+    .video { flex: 0 0 72%; max-width: 300px; scroll-snap-align: start; padding: 0; border: 0; background: none; color: var(--text); text-align: left; font: inherit; cursor: pointer; }
+    .video .th { position: relative; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: #1a1712; }
+    .video img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .video .play { position: absolute; inset: 0; display: grid; place-items: center; }
+    .video .play span { width: 46px; height: 32px; border-radius: 9px; background: rgba(0,0,0,.6); display: grid; place-items: center; }
+    .video .play span::after { content: ""; border-left: 13px solid #fff; border-top: 8px solid transparent; border-bottom: 8px solid transparent; margin-left: 3px; }
+    .video b { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 6px; font-size: 13px; line-height: 1.45; }
+    .video small { font-size: 11px; color: var(--muted); }
+    /* ニュース */
+    .news { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+    .news a { display: flex; gap: 10px; padding: 8px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); color: var(--text); text-decoration: none; }
+    .news img { flex: none; width: 104px; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 8px; background: #1a1712; }
+    .news .tx { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+    .news .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); }
+    .news .tag { padding: 1px 6px; border-radius: 999px; border: 1px solid var(--line); color: var(--gold-soft); font-size: 10px; font-weight: 700; }
+    .news .new { padding: 1px 6px; border-radius: 999px; background: #e5484d; color: #fff; font-size: 10px; font-weight: 800; }
+    .news b { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-size: 13.5px; line-height: 1.5; }
+    .message { text-align: center; color: var(--muted); padding: 24px 0; font-size: 13px; }
+    .note { margin-top: 22px; text-align: center; font-size: 11px; color: var(--muted); line-height: 1.7; }
+    /* 動画をその場で再生する画面 */
+    .player { position: fixed; inset: 0; z-index: 10; display: none; flex-direction: column; justify-content: center; gap: 10px; padding: 16px; background: rgba(0,0,0,.92); }
+    .player.open { display: flex; }
+    .player .frame { position: relative; width: 100%; max-width: 720px; margin: 0 auto; aspect-ratio: 16 / 9; }
+    .player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 10px; }
+    .player p { max-width: 720px; margin: 0 auto; width: 100%; font-size: 14px; font-weight: 700; }
+    .player .row { max-width: 720px; margin: 0 auto; width: 100%; display: flex; gap: 8px; }
+    .player .row a, .player .row button {
+      flex: 1; min-height: 44px; border-radius: 10px; border: 1px solid var(--line); background: var(--card);
+      color: var(--gold-soft); font: inherit; font-size: 14px; font-weight: 800; text-decoration: none; display: grid; place-items: center; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="tabs">
+      <a href="./"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><circle cx="12" cy="15.5" r="2.2"/></svg><span>次の試合</span></a>
+      <a href="players.html"><svg viewBox="0 0 24 24"><path d="M8 3l-4 3 2 4h2v11h8V10h2l2-4-4-3c-.5 1.7-2 3-4 3s-3.5-1.3-4-3z"/></svg><span>選手一覧</span></a>
+      <a href="stats.html"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>成績</span></a>
+      <a href="dancers.html"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg><span>ダンサーズ</span></a>
+      <a href="album.html"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><span>アルバム</span></a>
+      <a href="news.html" aria-current="page"><svg viewBox="0 0 24 24"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2"/><path d="M7 9h7M7 12h7M7 15h4"/></svg><span>ニュース</span></a>
+    </nav>
+    <header>
+      <p class="team">RYUKYU GOLDEN KINGS</p>
+      <h1>NEWS</h1>
+    </header>
+
+    <div class="links">
+      <a href="https://x.com/RyukyuKings" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.2-8.3L2 3h6.4l4.4 5.8zm-1.1 16.2h1.7L7.4 4.7H5.6z"/></svg>公式X</a>
+      <a href="https://www.youtube.com/channel/UCBUFfz9DwYS5nECTHql8mAQ" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15V9l5.8 3z"/></svg>YouTube</a>
+      <a href="https://goldenkings.jp/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 6h-3a15.7 15.7 0 0 0-1.4-3.6A8 8 0 0 1 18.9 8zM12 4c.8 1.2 1.5 2.5 1.9 4h-3.8c.4-1.5 1.1-2.8 1.9-4zM4.3 14a8 8 0 0 1 0-4h3.4a16.5 16.5 0 0 0 0 4zm.8 2h3a15.7 15.7 0 0 0 1.4 3.6A8 8 0 0 1 5.1 16zm3-8h-3a8 8 0 0 1 4.4-3.6C8.9 5.5 8.4 6.7 8.1 8zM12 20c-.8-1.2-1.5-2.5-1.9-4h3.8c-.4 1.5-1.1 2.8-1.9 4zm2.3-6H9.7a14.7 14.7 0 0 1 0-4h4.6a14.7 14.7 0 0 1 0 4zm.3 5.6c.6-1.1 1.1-2.3 1.4-3.6h3a8 8 0 0 1-4.4 3.6zm1.7-5.6a16.5 16.5 0 0 0 0-4h3.4a8 8 0 0 1 0 4z"/></svg>公式サイト</a>
+    </div>
+
+    <h2>▶️ 公式YouTube<a href="https://www.youtube.com/channel/UCBUFfz9DwYS5nECTHql8mAQ" target="_blank" rel="noopener">もっと見る ›</a></h2>
+    <div class="videos" id="videos"><p class="message">読み込み中…</p></div>
+
+    <h2>📰 公式ニュース<a href="https://goldenkings.jp/news/" target="_blank" rel="noopener">もっと見る ›</a></h2>
+    <ul class="news" id="news"><li class="message">読み込み中…</li></ul>
+
+    <p class="note" id="note"></p>
+  </main>
+
+  <div class="player" id="player" role="dialog" aria-modal="true">
+    <div class="frame" id="frame"></div>
+    <p id="playerTitle"></p>
+    <div class="row"><a id="playerOpen" href="#" target="_blank" rel="noopener">YouTubeで開く</a><button type="button" id="playerClose">閉じる</button></div>
+  </div>
+
+  <script>
+    const TZ = "Asia/Tokyo";
+    const NEW_DAYS = 3;   // この日数以内のニュースに「NEW」を付ける
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const safeUrl = u => /^https:\/\//.test(String(u || "")) ? u : "";
+    const fmtDay = new Intl.DateTimeFormat("ja-JP", { timeZone: TZ, month: "numeric", day: "numeric", weekday: "short" });
+    const today = new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(new Date());
+    const daysAgo = ymd => (new Date(today) - new Date(ymd)) / 86400000;
+    function ago(iso) {
+      const h = (Date.now() - new Date(iso)) / 3600000;
+      if (!(h >= 0)) return "";
+      return h < 1 ? "たった今" : h < 24 ? `${Math.floor(h)}時間前` : h < 24 * 7 ? `${Math.floor(h / 24)}日前` : fmtDay.format(new Date(iso));
+    }
+
+    let videos = [];
+    function renderVideos(list) {
+      videos = list.filter(v => /^[\w-]{6,20}$/.test(v.id || ""));
+      $("videos").innerHTML = videos.length ? videos.map((v, i) => `
+        <button type="button" class="video" data-i="${i}">
+          <div class="th"><img src="${esc(safeUrl(v.thumb))}" alt="" loading="lazy"><div class="play"><span></span></div></div>
+          <b>${esc(v.title)}</b><small>${esc(ago(v.published))}</small>
+        </button>`).join("") : '<p class="message">動画を読み込めませんでした</p>';
+    }
+    function renderNews(list) {
+      const items = list.filter(n => safeUrl(n.url) && n.title);
+      $("news").innerHTML = items.length ? items.map(n => `
+        <li><a href="${esc(n.url)}" target="_blank" rel="noopener">
+          ${safeUrl(n.image) ? `<img src="${esc(n.image)}" alt="" loading="lazy">` : ""}
+          <div class="tx">
+            <div class="meta">${n.date && daysAgo(n.date) <= NEW_DAYS ? '<span class="new">NEW</span>' : ""}${n.date ? `<span>${esc(fmtDay.format(new Date(n.date + "T00:00:00+09:00")))}</span>` : ""}${(n.tags || []).map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+            <b>${esc(n.title)}</b>
+          </div>
+        </a></li>`).join("") : '<li class="message">ニュースを読み込めませんでした</li>';
+    }
+
+    // 動画は、このページの中でそのまま再生する(YouTube のプライバシー強化モード)
+    $("videos").addEventListener("click", e => {
+      const b = e.target.closest("[data-i]");
+      if (!b) return;
+      const v = videos[Number(b.dataset.i)];
+      $("frame").innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&playsinline=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="${esc(v.title)}"></iframe>`;
+      $("playerTitle").textContent = v.title;
+      $("playerOpen").href = `https://www.youtube.com/watch?v=${encodeURIComponent(v.id)}`;
+      $("player").classList.add("open");
+    });
+    function closePlayer() { $("player").classList.remove("open"); $("frame").innerHTML = ""; }
+    $("playerClose").addEventListener("click", closePlayer);
+    $("player").addEventListener("click", e => { if (e.target.id === "player") closePlayer(); });
+
+    fetch("news.json", { cache: "no-store" })
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(d => {
+        renderVideos(Array.isArray(d.videos) ? d.videos : []);
+        renderNews(Array.isArray(d.news) ? d.news : []);
+        $("note").textContent = `キングス公式サイト・公式YouTubeから1時間おきに自動で更新しています（最終更新 ${d.updated || "-"}）`;
+      })
+      .catch(() => {
+        $("videos").innerHTML = '<p class="message">まだ準備中です。しばらくしてからもう一度開いてください</p>';
+        $("news").innerHTML = "";
+      });
+  </script>
+</body>
+</html>
