@@ -9,22 +9,9 @@ jobs:
     steps:
       - run: |
           UA="Mozilla/5.0 (kings-next-game personal use)"
-          curl -sL -A "$UA" https://goldenkings.jp/ > top.html; echo "top bytes $(wc -c < top.html)"
-          grep -oE 'https?://(www\.)?(youtube\.com|youtu\.be|x\.com|twitter\.com)/[^"'"'"' <>]+' top.html | sort -u | head -20
-          grep -oE 'href="[^"]*news[^"]*"' top.html | sort -u | head -20
-          for u in https://goldenkings.jp/news/ https://goldenkings.jp/news; do
-            echo "=== $u"; curl -sL -A "$UA" -o news.html -w "%{http_code} %{url_effective}\n" "$u"; echo "bytes $(wc -c < news.html)"
-          done
+          curl -sL -A "$UA" https://goldenkings.jp/RSS.rdf > rss.xml; echo "rss bytes $(wc -c < rss.xml)"; head -c 2500 rss.xml; echo
+          grep -c "<item" rss.xml
+          curl -sL -A "$UA" "https://www.youtube.com/feeds/videos.xml?channel_id=UCBUFfz9DwYS5nECTHql8mAQ" > yt.xml; echo "yt bytes $(wc -c < yt.xml)"; grep -c "<entry>" yt.xml
           python3 - <<'PY'
-          import re
-          h = open("news.html", encoding="utf-8", errors="ignore").read()
-          i = h.find("/news/")
-          for m in list(re.finditer(r'<a[^>]+href="([^"]*/news/[^"]+)"[^>]*>(.*?)</a>', h, re.S))[:6]:
-              print("LINK", m.group(1), re.sub(r"\s+", " ", re.sub("<[^>]+>", " ", m.group(2)))[:160])
-          j = h.find('href="/news/')
-          if j < 0: j = h.find('/news/2')
-          print("SNIPPET", re.sub(r"\s+", " ", h[max(0,j-600):j+1400]))
+          h = open("yt.xml", encoding="utf-8").read(); i = h.find("<entry>"); print(h[i:i+1800])
           PY
-          for c in $(grep -oE 'youtube\.com/(channel/UC[0-9A-Za-z_-]+|@[0-9A-Za-z_.-]+|c/[0-9A-Za-z_.-]+|user/[0-9A-Za-z_.-]+)' top.html | sort -u | head -3); do
-            echo "=== https://www.$c"; curl -sL -A "$UA" "https://www.$c" | grep -oE '"(channelId|externalId)":"UC[0-9A-Za-z_-]+"' | sort -u | head -3
-          done
