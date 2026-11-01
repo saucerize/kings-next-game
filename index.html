@@ -273,6 +273,7 @@
       font-size: 34px; font-weight: 900; color: var(--gold-soft); text-shadow: 0 2px 12px rgba(0,0,0,.7), 0 0 18px rgba(241,215,122,.6);
       animation: shotPts 1.6s ease-out forwards;
     }
+    .shot-pts small { display: block; margin-top: -4px; font-size: 14px; font-weight: 800; letter-spacing: .02em; white-space: nowrap; }
     .shot-pts.k { left: 14%; }
     .shot-pts.o { right: 14%; color: #fff; text-shadow: 0 2px 12px rgba(0,0,0,.7); }
     @keyframes shotPts { 0% { opacity: 0; transform: translateY(14px) scale(.6); } 20% { opacity: 1; transform: translateY(0) scale(1.15); } 70% { opacity: 1; transform: translateY(-10px) scale(1); } 100% { opacity: 0; transform: translateY(-26px) scale(1); } }
@@ -693,13 +694,14 @@
       for (const k in attrs) el.setAttribute(k, attrs[k]);
       return el;
     }
-    function shotMotion(team, pts) {
+    function shotMotion(team, pts, who) {
       const wrap = document.querySelector(".court-wrap");
       const court = wrap && wrap.querySelector("svg.court");
       if (!court || !(pts > 0)) return;
       const label = document.createElement("div");
       label.className = "shot-pts " + (team === "kings" ? "k" : "o");
       label.textContent = "+" + pts;
+      if (who) { const sm = document.createElement("small"); sm.textContent = who; label.appendChild(sm); }
       const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduce) { wrap.appendChild(label); setTimeout(() => label.remove(), 1700); return; }
 
@@ -754,14 +756,26 @@
       }
       requestAnimationFrame(step);
     }
+    // 前回の速報から今回までに決めた選手の名前(直近のプレーの「#17 ヌワバ 3Pシュート○ …」から拾う)
+    function shotNames(prev, d, team) {
+      const plays = Array.isArray(d.plays) ? d.plays : [];
+      const names = [];
+      for (const p of plays.slice().reverse()) {   // 古い順
+        const sc = p[team];
+        if (p.team !== team || !/○/.test(p.text || "") || !Number.isFinite(sc) || sc <= prev[team] || sc > d[team]) continue;
+        const m = String(p.text).replace(/^#\d+\s*/, "").match(/^(\S+)/);
+        if (m && !names.includes(m[1])) names.push(m[1]);
+      }
+      return names.join("・");
+    }
     function shotMotions(prev, d) {
       if (!prev || prev.key !== d.key || !Number.isFinite(prev.kings) || !Number.isFinite(prev.opp)) return;
       const dk = d.kings - prev.kings, dop = d.opp - prev.opp;
-      if (dk > 0) shotMotion("kings", dk);
-      if (dop > 0) setTimeout(() => shotMotion("opp", dop), dk > 0 ? 1300 : 0);
+      if (dk > 0) shotMotion("kings", dk, shotNames(prev, d, "kings"));
+      if (dop > 0) setTimeout(() => shotMotion("opp", dop, shotNames(prev, d, "opp")), dk > 0 ? 1300 : 0);
     }
     if (new URLSearchParams(location.search).has("shot")) {   // 試し打ち: ?shot=1
-      setTimeout(() => { shotMotion("kings", 3); setTimeout(() => shotMotion("opp", 2), 1500); }, 1500);
+      setTimeout(() => { shotMotion("kings", 3, "ヌワバ"); setTimeout(() => shotMotion("opp", 2), 1500); }, 1500);
     }
 
     const teamMark = name => esc((name || "").replace(/^(.{2}).*$/, "$1"));
