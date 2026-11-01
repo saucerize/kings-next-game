@@ -9,9 +9,17 @@ jobs:
     steps:
       - run: |
           UA="Mozilla/5.0 (kings-next-game personal use)"
-          curl -sL -A "$UA" https://goldenkings.jp/RSS.rdf > rss.xml; echo "rss bytes $(wc -c < rss.xml)"; head -c 2500 rss.xml; echo
-          grep -c "<item" rss.xml
-          curl -sL -A "$UA" "https://www.youtube.com/feeds/videos.xml?channel_id=UCBUFfz9DwYS5nECTHql8mAQ" > yt.xml; echo "yt bytes $(wc -c < yt.xml)"; grep -c "<entry>" yt.xml
+          curl -sL -A "$UA" https://goldenkings.jp/news/ > news.html
           python3 - <<'PY'
-          h = open("yt.xml", encoding="utf-8").read(); i = h.find("<entry>"); print(h[i:i+1800])
+          import re
+          h = open("news.html", encoding="utf-8", errors="ignore").read()
+          ids = [m.start() for m in re.finditer(r'news/detail/id=\d+', h)]
+          print("detail links", len(ids))
+          # 3つ目くらいの記事のまわりの HTML を出す(一覧の1件の形を知るため)
+          for k in (4, 5):
+              if len(ids) > k:
+                  i = ids[k]; print("----", re.sub(r"\s+", " ", h[i-900:i+700]))
           PY
+          curl -sL -A "$UA" "https://www.youtube.com/feeds/videos.xml?channel_id=UCBUFfz9DwYS5nECTHql8mAQ" > yt.xml
+          echo "yt bytes $(wc -c < yt.xml)"; grep -c "<entry>" yt.xml || true
+          python3 -c "h=open('yt.xml',encoding='utf-8').read(); i=h.find('<entry>'); print(h[i:i+1500] if i>=0 else h[:800])"
