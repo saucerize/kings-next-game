@@ -25,4 +25,14 @@ jobs:
               print("genius_state", n.genius_state(d))
               out = n.genius_live(d, g.kings_home)
               print("stats", out.get("stats"), "plays", out["plays"][:2])
+          import requests, json
+          n.LIVE_TOPIC = "kings-live-difftest-a38853caea"
+          n.publish_live(g, None, [], force=True, extra=out)
+          r = requests.get("https://ntfy.sh/kings-live-difftest-a38853caea/json?poll=1&since=5m")
+          print("test topic lines", len(r.text.splitlines()))
+          r = requests.get("https://ntfy.sh/kings-live-a38853caea/json?poll=1&since=24h")
+          lines = r.text.splitlines()
+          print("REAL topic last 24h:", len(lines))
+          for line in lines[-3:]:
+              m = json.loads(line); d = json.loads(m["message"]); print(m["time"], d.get("key"), d.get("period"), d.get("kings"), d.get("opp"))
           PY
