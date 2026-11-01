@@ -2,37 +2,16 @@ name: diag-live
 on:
   push:
     branches: [claude/ryukyu-kings-next-game-5n8x6r]
-    paths: [.github/workflows/diag.yml, diag/**]
+    paths: [.github/workflows/diag.yml]
 jobs:
   look:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - run: pip install requests beautifulsoup4 playwright >/dev/null 2>&1 || pip install requests
       - run: |
-          cd diag
-          date -u
-          python - <<'PY'
-          import notifier as n
-          g = n.parse_game("506544", n.fetch(n.DETAIL_URL.format(key="506544")))
-          print("GAME", g)
-          print("started", g.started, "period", g.period, "status", repr(g.status))
-          d = n.fetch_genius("506544")
-          if d:
-              print("genius_state", n.genius_state(d))
-              out = n.genius_live(d, g.kings_home)
-              print("stats", out.get("stats"), "plays", out["plays"][:2])
-          import requests, json
-          n.LIVE_TOPIC = "kings-live-difftest-a38853caea"
-          n.publish_live(g, None, [], force=True, extra=out)
-          r = requests.get("https://ntfy.sh/kings-live-difftest-a38853caea/json?poll=1&since=5m")
-          print("test topic lines", len(r.text.splitlines()))
-          r = requests.get("https://ntfy.sh/kings-live-a38853caea/json?poll=1&since=24h")
-          lines = r.text.splitlines()
-          print("REAL topic last 24h:", len(lines))
-          for line in lines[-3:]:
-              m = json.loads(line); d = json.loads(m["message"]); print(m["time"], d.get("key"), d.get("period"), d.get("kings"), d.get("opp"))
-          PY
+          T=kings-difftest-a38853caea
+          echo "--- POST"; curl -s -i -X POST -d '{"hello":1}' https://ntfy.sh/$T | head -20
+          echo "--- GET since=5m"; curl -s -i "https://ntfy.sh/$T/json?poll=1&since=5m" | head -20
+          echo "--- GET since=all"; curl -s "https://ntfy.sh/$T/json?poll=1&since=all" | head -5
+          echo "--- live since=all"; curl -s "https://ntfy.sh/kings-live-a38853caea/json?poll=1&since=all" | tail -c 600
+          echo; echo "--- chat 506544"; curl -s "https://ntfy.sh/kings-chat-a38853caea-506544/json?poll=1&since=all" | head -c 600
+          echo; echo "--- fan"; curl -s "https://ntfy.sh/kings-fan-a38853caea/json?poll=1&since=12h" | wc -l
