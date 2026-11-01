@@ -613,7 +613,8 @@
       return p;
     }
 
-    function acceptLive(m) {
+    // fresh: リアルタイムで届いた速報か(ページを開いたときに読み込む過去の速報は false)
+    function acceptLive(m, fresh = false) {
       if (!m || m.event !== "message" || !m.message) return;
       let d;
       try { d = JSON.parse(m.message); } catch { return; }
@@ -633,7 +634,9 @@
       const prev = live;
       live = d;
       render();
-      if (liveState(Date.now()) === "live" || d.period === "FINAL") shotMotions(prev, d);
+      // シュートのモーションは、いま届いた速報だけ(過去の速報を読み込んだときや、試合後に開き直したときは出さない)
+      const recent = Number.isFinite(m.time) && Date.now() / 1000 - m.time < 120;
+      if (fresh && recent && (liveState(Date.now()) === "live" || d.period === "FINAL")) shotMotions(prev, d);
     }
 
     function pollLive() {
@@ -657,7 +660,7 @@
       const near = nearGame(Date.now());
       if (near && !source && "EventSource" in window) {
         source = new EventSource(`${NTFY}/${LIVE_TOPIC}/sse`);
-        source.onmessage = e => { try { acceptLive(JSON.parse(e.data)); } catch {} };
+        source.onmessage = e => { try { acceptLive(JSON.parse(e.data), true); } catch {} };
       } else if (!near && source) {
         source.close();
         source = null;
