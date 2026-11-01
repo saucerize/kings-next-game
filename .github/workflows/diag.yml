@@ -1,0 +1,20 @@
+name: diag-live
+on:
+  push:
+    branches: [claude/ryukyu-kings-next-game-5n8x6r]
+    paths: [.github/workflows/diag.yml]
+jobs:
+  look:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          date -u
+          curl -s "https://ntfy.sh/kings-live-a38853caea/json?poll=1&since=2h" > live.txt
+          wc -l live.txt
+          python3 - <<'PY'
+          import json
+          for line in open("live.txt").read().splitlines()[-6:]:
+              m = json.loads(line); d = json.loads(m["message"])
+              print(m["time"], d.get("updated"), d.get("key"), d.get("period"), d.get("clock"), d.get("kings"), d.get("opp"),
+                    "plays", len(d.get("plays") or []), (d.get("plays") or [{}])[0], "stats", d.get("stats"))
+          PY
