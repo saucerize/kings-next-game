@@ -1,16 +1,7 @@
 {
   "team": "琉球ゴールデンキングス",
-  "note": "B.LEAGUE 公式サイトから自動で更新しています（最終更新 2026/11/01 18:51）",
+  "note": "B.LEAGUE 公式サイトから自動で更新しています（最終更新 2026/11/01 20:40）",
   "games": [
-    {
-      "datetime": "2026-11-01T18:05:00+09:00",
-      "opponent": "三遠ネオフェニックス",
-      "venue": "沖縄サントリーアリーナ",
-      "home": true,
-      "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506544&tab=1",
-      "ticket": "",
-      "live": "https://basketball.mb.softbank.jp/lives/506544/"
-    },
     {
       "datetime": "2026-11-07T16:00:00+09:00",
       "opponent": "宇都宮ブレックス",
@@ -46,6 +37,15 @@
       "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506600&tab=1",
       "ticket": "https://ticket.bleague.jp/sales/rg/20261116",
       "live": "https://basketball.mb.softbank.jp/lives/506600/"
+    },
+    {
+      "datetime": "2026-11-18T19:05:00+09:00",
+      "opponent": "名古屋ダイヤモンドドルフィンズ",
+      "venue": "IGアリーナ",
+      "home": false,
+      "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506608&tab=1",
+      "ticket": "https://ticket.bleague.jp/sales/dd/20261118",
+      "live": "https://basketball.mb.softbank.jp/lives/506608/"
     }
   ]
 }

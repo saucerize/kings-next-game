@@ -102,17 +102,6 @@ SUMMARY:🏀 キングス 86-80 三遠ネオフェニックス（勝）
 URL:https://www.bleague.jp/game_detail/?ScheduleKey=506531&tab=4
 END:VEVENT
 BEGIN:VEVENT
-UID:506544@kings-next-game
-DTSTAMP:20261101T090500Z
-DTSTART:20261101T090500Z
-DTEND:20261101T110500Z
-SUMMARY:🏀 キングス vs 三遠ネオフェニックス（HOME）
-LOCATION:沖縄サントリーアリーナ
-URL:https://www.bleague.jp/game_detail/?ScheduleKey=506544&tab=1
-DESCRIPTION:ライブ配信: https://basketball.mb.softbank.jp/lives/50654
- 4/
-END:VEVENT
-BEGIN:VEVENT
 UID:506551@kings-next-game
 DTSTAMP:20261107T070000Z
 DTSTART:20261107T070000Z
@@ -155,5 +144,17 @@ LOCATION:沖縄サントリーアリーナ
 URL:https://www.bleague.jp/game_detail/?ScheduleKey=506600&tab=1
 DESCRIPTION:チケット: https://ticket.bleague.jp/sales/rg/20261116\nラ
  イブ配信: https://basketball.mb.softbank.jp/lives/506600/
+END:VEVENT
+BEGIN:VEVENT
+UID:506608@kings-next-game
+DTSTAMP:20261118T100500Z
+DTSTART:20261118T100500Z
+DTEND:20261118T120500Z
+SUMMARY:🏀 キングス vs 名古屋ダイヤモンドドルフィンズ
+ （AWAY）
+LOCATION:IGアリーナ
+URL:https://www.bleague.jp/game_detail/?ScheduleKey=506608&tab=1
+DESCRIPTION:チケット: https://ticket.bleague.jp/sales/dd/20261118\nラ
+ イブ配信: https://basketball.mb.softbank.jp/lives/506608/
 END:VEVENT
 END:VCALENDAR
