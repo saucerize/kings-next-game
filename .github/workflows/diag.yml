@@ -9,17 +9,17 @@ jobs:
     steps:
       - run: |
           UA="Mozilla/5.0 (kings-next-game personal use)"
-          curl -sL -A "$UA" https://goldenkings.jp/news/ > news.html
-          python3 - <<'PY'
-          import re
-          h = open("news.html", encoding="utf-8", errors="ignore").read()
-          ids = [m.start() for m in re.finditer(r'news/detail/id=\d+', h)]
-          print("detail links", len(ids))
-          # 3つ目くらいの記事のまわりの HTML を出す(一覧の1件の形を知るため)
-          for k in (4, 5):
-              if len(ids) > k:
-                  i = ids[k]; print("----", re.sub(r"\s+", " ", h[i-900:i+700]))
+          for u in https://goldenkings.jp/renewal_news/ https://goldenkings.jp/news/; do
+          curl -sL -A "$UA" "$u" > p.html
+          python3 - "$u" <<'PY'
+          import re, sys
+          h = open("p.html", encoding="utf-8", errors="ignore").read()
+          print("=====", sys.argv[1], len(h))
+          ds = [m.start() for m in re.finditer(r'20\d\d[./年-]\s?\d{1,2}[./月-]\s?\d{1,2}', h)]
+          print("dates", len(ds))
+          if len(ds) > 3:
+              i = ds[3]; print(re.sub(r"\s+", " ", h[i-1000:i+600]))
+          hrefs = sorted(set(re.findall(r'href="(https://goldenkings\.jp/[a-z_]+(?:_detail\d*)?/[^"]*id=\d+)"', h)))
+          print("id links", len(hrefs), hrefs[:8])
           PY
-          curl -sL -A "$UA" "https://www.youtube.com/feeds/videos.xml?channel_id=UCBUFfz9DwYS5nECTHql8mAQ" > yt.xml
-          echo "yt bytes $(wc -c < yt.xml)"; grep -c "<entry>" yt.xml || true
-          python3 -c "h=open('yt.xml',encoding='utf-8').read(); i=h.find('<entry>'); print(h[i:i+1500] if i>=0 else h[:800])"
+          done
