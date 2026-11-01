@@ -8,10 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          T=kings-difftest-a38853caea
-          echo "--- POST"; curl -s -i -X POST -d '{"hello":1}' https://ntfy.sh/$T | head -20
-          echo "--- GET since=5m"; curl -s -i "https://ntfy.sh/$T/json?poll=1&since=5m" | head -20
-          echo "--- GET since=all"; curl -s "https://ntfy.sh/$T/json?poll=1&since=all" | head -5
-          echo "--- live since=all"; curl -s "https://ntfy.sh/kings-live-a38853caea/json?poll=1&since=all" | tail -c 600
-          echo; echo "--- chat 506544"; curl -s "https://ntfy.sh/kings-chat-a38853caea-506544/json?poll=1&since=all" | head -c 600
-          echo; echo "--- fan"; curl -s "https://ntfy.sh/kings-fan-a38853caea/json?poll=1&since=12h" | wc -l
+          echo "--- difftest (posted ~1 min ago)"; curl -s "https://ntfy.sh/kings-difftest-a38853caea/json?poll=1&since=all" | head -c 300
+          echo; echo "--- live: listen to the real-time stream for 75s"
+          timeout 75 curl -s -N "https://ntfy.sh/kings-live-a38853caea/json" | cut -c1-260 || true
+          echo; echo "--- live history"; curl -s "https://ntfy.sh/kings-live-a38853caea/json?poll=1&since=all" | wc -l
