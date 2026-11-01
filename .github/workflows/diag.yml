@@ -2,19 +2,27 @@ name: diag-live
 on:
   push:
     branches: [claude/ryukyu-kings-next-game-5n8x6r]
-    paths: [.github/workflows/diag.yml]
+    paths: [.github/workflows/diag.yml, diag/**]
 jobs:
   look:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests beautifulsoup4 playwright >/dev/null 2>&1 || pip install requests
       - run: |
+          cd diag
           date -u
-          curl -s "https://ntfy.sh/kings-live-a38853caea/json?poll=1&since=2h" > live.txt
-          wc -l live.txt
-          python3 - <<'PY'
-          import json
-          for line in open("live.txt").read().splitlines()[-6:]:
-              m = json.loads(line); d = json.loads(m["message"])
-              print(m["time"], d.get("updated"), d.get("key"), d.get("period"), d.get("clock"), d.get("kings"), d.get("opp"),
-                    "plays", len(d.get("plays") or []), (d.get("plays") or [{}])[0], "stats", d.get("stats"))
+          python - <<'PY'
+          import notifier as n
+          g = n.parse_game("506544", n.fetch(n.DETAIL_URL.format(key="506544")))
+          print("GAME", g)
+          print("started", g.started, "period", g.period, "status", repr(g.status))
+          d = n.fetch_genius("506544")
+          if d:
+              print("genius_state", n.genius_state(d))
+              out = n.genius_live(d, g.kings_home)
+              print("stats", out.get("stats"), "plays", out["plays"][:2])
           PY
