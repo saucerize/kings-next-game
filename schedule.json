@@ -1,6 +1,6 @@
 {
   "team": "琉球ゴールデンキングス",
-  "note": "B.LEAGUE 公式サイトから自動で更新しています（最終更新 2026/10/31 20:43）",
+  "note": "B.LEAGUE 公式サイトから自動で更新しています（最終更新 2026/11/01 18:51）",
   "games": [
     {
       "datetime": "2026-11-01T18:05:00+09:00",
@@ -8,7 +8,7 @@
       "venue": "沖縄サントリーアリーナ",
       "home": true,
       "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506544&tab=1",
-      "ticket": "https://ticket.bleague.jp/sales/rg/20261101",
+      "ticket": "",
       "live": "https://basketball.mb.softbank.jp/lives/506544/"
     },
     {
