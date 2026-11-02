@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0b">
+  <meta name="apple-mobile-web-app-title" content="キングス">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
+  <link rel="icon" type="image/png" href="favicon.png?v=2">
+  <title>キングス ウィジェット</title>
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --card: #161411;
+      --line: #3a3120;
+      --gold: #d4af37;
+      --gold-soft: #f1d77a;
+      --text: #f5f1e6;
+      --muted: #a39c8a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: radial-gradient(120% 60% at 50% 0%, #2a2210 0%, var(--bg) 60%) fixed, var(--bg);
+      color: var(--text);
+      font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", system-ui, sans-serif;
+      line-height: 1.5;
+      padding: max(20px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+    }
+    main { max-width: 480px; margin: 0 auto; }
+
+    /* 上のタブ: 横幅いっぱいの6つのボタン(アイコン+名前)。指で押しやすい高さにする */
+    .tabs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin: 0 0 18px; }
+    .tabs a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      min-height: 58px;
+      padding: 6px 2px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--muted);
+      text-decoration: none;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tabs a:active { transform: scale(.96); }
+    .tabs svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .tabs a[aria-current="page"] { background: var(--gold); border-color: var(--gold); color: #111; }
+
+    header { text-align: center; margin-bottom: 18px; }
+    .team { margin: 0; font-size: 13px; letter-spacing: .2em; color: var(--gold); }
+    h1 { margin: 4px 0 0; font-size: 26px; font-weight: 800; letter-spacing: .06em; background: linear-gradient(180deg, var(--gold-soft), var(--gold)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .home { display: inline-flex; align-items: center; gap: 2px; margin: 0 0 10px; min-height: 40px; padding: 0 12px 0 8px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--gold-soft); font-size: 13px; font-weight: 800; text-decoration: none; }
+    .home svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    /* ウィジェットの見本 */
+    .previews { display: flex; gap: 12px; justify-content: center; margin: 4px 0 18px; }
+    .wg { border-radius: 22px; padding: 12px 14px; background: linear-gradient(180deg, #2a2210, #0b0b0b); box-shadow: 0 8px 24px rgba(0,0,0,.5); display: flex; flex-direction: column; gap: 2px; }
+    .wg.s { width: 150px; height: 150px; } .wg.m { width: 100%; max-width: 330px; height: 150px; }
+    .wg .h { display: flex; justify-content: space-between; font-size: 12px; font-weight: 900; color: var(--gold); }
+    .wg .h span { font-size: 10px; color: var(--muted); }
+    .wg .l { margin-top: auto; font-size: 10px; font-weight: 700; color: var(--muted); }
+    .wg .o { font-size: 17px; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .wg .t { font-size: 13px; font-weight: 700; color: var(--gold-soft); }
+    .wg .c { font-size: 19px; font-weight: 900; color: var(--gold); }
+    .wg .p { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cap { text-align: center; font-size: 11px; color: var(--muted); margin: -10px 0 18px; }
+    ol.steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 10px; }
+    ol.steps li { counter-increment: s; position: relative; padding: 12px 12px 12px 46px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); font-size: 14px; line-height: 1.7; }
+    ol.steps li::before { content: counter(s); position: absolute; left: 12px; top: 12px; width: 24px; height: 24px; border-radius: 50%; background: var(--gold); color: #111; font-weight: 900; font-size: 13px; display: grid; place-items: center; }
+    ol.steps b { color: var(--gold-soft); }
+    .btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 48px; margin-top: 8px; border: 0; border-radius: 12px; background: var(--gold); color: #111; font: inherit; font-size: 15px; font-weight: 800; text-decoration: none; cursor: pointer; }
+    .btn.sub { background: transparent; border: 1px solid var(--gold); color: var(--gold-soft); }
+    .msg { min-height: 1.2em; margin: 6px 0 0; font-size: 12px; color: var(--gold-soft); text-align: center; }
+    .note { margin-top: 18px; font-size: 11px; color: var(--muted); line-height: 1.8; }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="tabs">
+      <a href="./"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><circle cx="12" cy="15.5" r="2.2"/></svg><span>次の試合</span></a>
+      <a href="players.html"><svg viewBox="0 0 24 24"><path d="M8 3l-4 3 2 4h2v11h8V10h2l2-4-4-3c-.5 1.7-2 3-4 3s-3.5-1.3-4-3z"/></svg><span>選手一覧</span></a>
+      <a href="stats.html"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>成績</span></a>
+      <a href="dancers.html"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg><span>ダンサーズ</span></a>
+      <a href="album.html"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><span>アルバム</span></a>
+      <a href="news.html"><svg viewBox="0 0 24 24"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2"/><path d="M7 9h7M7 12h7M7 15h4"/></svg><span>ニュース</span></a>
+    </nav>
+    <a class="home" href="./"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>ホームに戻る</a>
+    <header>
+      <p class="team">RYUKYU GOLDEN KINGS</p>
+      <h1>HOME WIDGET</h1>
+    </header>
+
+    <div class="previews">
+      <div class="wg s"><div class="h">👑 KINGS<span id="pvHA">AWAY</span></div><div class="l">NEXT GAME</div><div class="o" id="pvOppS">vs 宇都宮</div><div class="t" id="pvTime">11/7(土) 16:00</div><div class="c" id="pvCd">あと5日</div></div>
+    </div>
+    <div class="previews">
+      <div class="wg m"><div class="h">👑 KINGS<span id="pvHA2">AWAY</span></div><div class="l">NEXT GAME</div><div class="o" id="pvOppM">vs 宇都宮ブレックス</div><div class="t" id="pvTime2">11/7(土) 16:00</div><div class="c" id="pvCd2">あと5日</div><div class="p" id="pvPrev"></div></div>
+    </div>
+    <p class="cap">ホーム画面ではこんなふうに表示されます（試合中はライブのスコア、終わった直後は結果）</p>
+
+    <ol class="steps">
+      <li>App Store で無料アプリ <b>「Scriptable」</b> を入れる<a class="btn sub" href="https://apps.apple.com/app/scriptable/id1405459188" target="_blank" rel="noopener">App Store で Scriptable を開く</a></li>
+      <li>下のボタンで、ウィジェットのプログラムを<b>コピー</b>する<button type="button" class="btn" id="copy">📋 プログラムをコピー</button><p class="msg" id="msg"></p></li>
+      <li>Scriptable を開いて、右上の <b>＋</b> を押し、画面を長押しして<b>「ペースト」</b>。上の名前を <b>「キングス」</b> に変えて、<b>完了</b></li>
+      <li>ホーム画面の何もないところを長押し → 左上の <b>＋</b> →「<b>Scriptable</b>」を探して、<b>小</b>か<b>中</b>のウィジェットを追加</li>
+      <li>置いたウィジェットを長押し →「<b>ウィジェットを編集</b>」→ Script で <b>「キングス」</b> を選ぶ。これで完成！</li>
+    </ol>
+
+    <p class="note">・ウィジェットは iPhone が決めた間隔で更新されます（試合の日はこまめに、ふだんは1時間ごとくらい）。ライブのスコアは数分遅れることがあります。<br>
+    ・ウィジェットをタップすると、このサイトが開きます。<br>
+    ・プログラムはこのサイトのデータ（試合予定・結果・速報）を読むだけで、ほかの情報は送りません。</p>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    let code = "";
+    fetch("widget.js", { cache: "no-store" }).then(r => r.text()).then(t => { code = t; }).catch(() => {});
+    $("copy").addEventListener("click", async () => {
+      try {
+        if (!code) code = await (await fetch("widget.js", { cache: "no-store" })).text();
+        await navigator.clipboard.writeText(code);
+        $("msg").textContent = "コピーしました！ Scriptable に貼り付けてください";
+      } catch {
+        $("msg").innerHTML = 'コピーできませんでした。<a href="widget.js" style="color:inherit">こちら</a>を開いて全部選択→コピーしてください';
+      }
+    });
+
+    // 見本を、本当の次の試合で表示する
+    const WD = ["日", "月", "火", "水", "木", "金", "土"];
+    const jst = dt => { const d = new Date(new Date(dt).getTime() + 9 * 3600e3); return { md: `${d.getUTCMonth() + 1}/${d.getUTCDate()}(${WD[d.getUTCDay()]})`, hm: `${String(d.getUTCHours()).padStart(2, "0")}:${String(d.getUTCMinutes()).padStart(2, "0")}`, ymd: d.toISOString().slice(0, 10) }; };
+    const sn = n => (String(n || "").match(/\p{Script=Han}{2,}/u) || [])[0] || String(n || "").slice(0, 4);
+    Promise.all([fetch("schedule.json").then(r => r.json()), fetch("games.json").then(r => r.json()).catch(() => ({}))]).then(([s, g]) => {
+      const next = (s.games || []).filter(x => new Date(x.datetime).getTime() + 2.5 * 3600e3 > Date.now()).sort((a, b) => new Date(a.datetime) - new Date(b.datetime))[0];
+      if (next) {
+        const t = jst(next.datetime), days = Math.round((new Date(t.ymd) - new Date(jst(Date.now()).ymd)) / 864e5);
+        const cd = days <= 0 ? "今日" : days === 1 ? "明日" : `あと${days}日`;
+        $("pvHA").textContent = $("pvHA2").textContent = next.home ? "HOME" : "AWAY";
+        $("pvOppS").textContent = "vs " + sn(next.opponent); $("pvOppM").textContent = "vs " + next.opponent;
+        $("pvTime").textContent = $("pvTime2").textContent = `${t.md} ${t.hm}`;
+        $("pvCd").textContent = $("pvCd2").textContent = cd;
+      }
+      const done = (g.games || []).filter(x => Number.isFinite(x.kings));
+      if (done.length) {
+        const l = done[done.length - 1], w = done.filter(x => x.kings > x.opp).length;
+        $("pvPrev").textContent = `前回 ${jst(l.datetime).md} ${l.kings > l.opp ? "○" : "●"} ${l.kings}-${l.opp} ${sn(l.opponent)}　今季 ${w}勝${done.length - w}敗`;
+      }
+    }).catch(() => {});
+  </script>
+</body>
+</html>
