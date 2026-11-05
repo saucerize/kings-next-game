@@ -36,6 +36,25 @@
     return out.sort((a, b) => a.games - b.games || a.left - b.left);
   }
 
+  // 選手1人の「次の節目」を種類ごとに出し、今のペースでいちばん早く届くものを返す(試合数の上限なし)。
+  // {kind, total, goal, left, games, pct(今の区切りの中でどこまで来たか 0〜1)}。データが無ければ null
+  function nextGoal(p) {
+    const c = p && p.career, s = p && p.season;
+    if (!c || !c.games) return null;
+    let best = null;
+    for (const k of KINDS) {
+      const total = c[k.key] || 0;
+      const step = k.step(total);
+      const goal = Math.floor(total / step) * step + step;
+      const left = goal - total;
+      const rate = k.key === "games" ? 1 : (s && s.games ? (s[k.key] || 0) / s.games : total / c.games);
+      if (!(rate > 0)) continue;
+      const g = { kind: k, total, goal, left, games: Math.ceil(left / rate), pct: Math.min(1, (total - (goal - step)) / step) };
+      if (!best || g.games < best.games || (g.games === best.games && g.pct > best.pct)) best = g;
+    }
+    return best;
+  }
+
   // 日本時間の「今日」の月日・年
   function todayJst(now = new Date()) {
     const [y, m, d] = new Intl.DateTimeFormat("en-CA", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" })
@@ -73,5 +92,5 @@
     return m ? `${Number(m[1])}月${Number(m[2])}日` : "";
   }
 
-  window.KingsExtras = { milestones, birthdaysToday, nextBirthday, birthdayLabel, shortName };
+  window.KingsExtras = { nextGoal, milestones, birthdaysToday, nextBirthday, birthdayLabel, shortName };
 })();

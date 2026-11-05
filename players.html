@@ -122,6 +122,21 @@
     .body { padding: 10px 12px 12px; }
     .name { font-size: 15px; font-weight: 800; line-height: 1.3; overflow-wrap: anywhere; }
     .pos { margin-top: 4px; font-size: 12px; color: var(--gold); }
+    /* 次の記録(節目)まであと少し */
+    .goal { margin-top: 6px; font-size: 11px; line-height: 1.45; color: var(--muted); }
+    .goal b { color: var(--gold-soft); }
+    .goal .bar { height: 5px; margin-top: 4px; border-radius: 99px; background: #2a2519; overflow: hidden; }
+    .goal .bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--gold), var(--gold-soft)); }
+    .goal.hot .bar i { background: linear-gradient(90deg, #ff8a3d, var(--gold-soft)); box-shadow: 0 0 8px rgba(255,170,60,.7); }
+    .goal.hot b { color: #ffb15c; }
+    /* もうすぐ達成(ページの上) */
+    .soon { margin: 0 0 14px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(135deg, rgba(212,175,55,.14), rgba(212,175,55,.02)); }
+    .soon h2 { margin: 0 0 8px; font-size: 14px; color: var(--gold-soft); }
+    .soon ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+    .soon li { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+    .soon li .n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--gold); color: #111; font-size: 12px; font-weight: 900; display: grid; place-items: center; }
+    .soon li b { color: var(--gold-soft); }
+    .soon li small { margin-left: auto; color: var(--muted); font-size: 11px; white-space: nowrap; }
     .bday { margin-top: 4px; font-size: 12px; color: var(--muted); }
     .bday.today { color: var(--gold-soft); font-weight: 800; }
     .avg { margin-top: 6px; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
@@ -146,6 +161,7 @@
       <p class="team">RYUKYU GOLDEN KINGS</p>
       <h1>PLAYERS</h1>
     </header>
+    <div id="soon"></div>
     <div class="filters" id="filters"></div>
     <div id="app"><p class="message">読み込み中…</p></div>
     <p class="note" id="note"></p>
@@ -195,6 +211,21 @@
         `<a href="${esc(x.url)}" target="_blank" rel="noopener" aria-label="${esc(x.type)}">${SNS_ICON[x.type] || ""}${x.type === "X" ? "" : esc(x.type)}</a>`).join("")}</div>`;
     }
 
+    // 次の節目の記録(今のペースで3試合以内なら「もうすぐ」として目立たせる)
+    function goalHtml(p) {
+      const g = KingsExtras.nextGoal(p);
+      if (!g) return "";
+      const hot = g.games <= 3;
+      return `<div class="goal${hot ? " hot" : ""}">🎯 通算${g.goal.toLocaleString()}${esc(g.kind.label)}まで<br>あと<b>${g.left.toLocaleString()}${esc(g.kind.unit)}</b>（約${g.games}試合）
+        <div class="bar"><i style="width:${Math.round(g.pct * 100)}%"></i></div></div>`;
+    }
+    function renderSoon() {
+      const list = players.map(p => ({ p, g: KingsExtras.nextGoal(p) })).filter(x => x.g && x.g.games <= 5)
+        .sort((a, b) => a.g.games - b.g.games || a.g.left - b.g.left).slice(0, 3);
+      document.getElementById("soon").innerHTML = list.length ? `<div class="soon"><h2>🔥 もうすぐ達成しそうな記録</h2><ol>${list.map((x, i) => `
+        <li><span class="n">${i + 1}</span><span>${esc(KingsExtras.shortName(x.p.name))} 通算${x.g.goal.toLocaleString()}${esc(x.g.kind.label)}まで あと<b>${x.g.left.toLocaleString()}${esc(x.g.kind.unit)}</b></span><small>約${x.g.games}試合</small></li>`).join("")}</ol></div>` : "";
+    }
+
     function renderFilters() {
       filters.innerHTML = ["ALL", ...POSITIONS].map(p =>
         `<button type="button" data-pos="${p}" class="${p === current ? "on" : ""}">${p === "ALL" ? "すべて" : p}</button>`).join("");
@@ -202,6 +233,7 @@
 
     function render() {
       renderFilters();
+      renderSoon();
       // 「PG/SG」のような複数ポジションの選手は、どちらで絞っても出す
       const list = current === "ALL" ? players : players.filter(p => String(p.position || "").split("/").includes(current));
       if (!list.length) {
@@ -219,6 +251,7 @@
             <div class="name">${esc(p.name)}</div>
             <div class="pos">${esc(p.position || "")}</div>
             ${p.birthday ? `<div class="bday${KingsExtras.birthdaysToday([p]).length ? " today" : ""}">🎂 ${KingsExtras.birthdaysToday([p]).length ? "今日が誕生日！" : esc(KingsExtras.birthdayLabel(p))}</div>` : ""}
+            ${goalHtml(p)}
             ${seasonAvg.has(p.name) ? `<div class="avg"><b>${seasonAvg.get(p.name).ppg.toFixed(1)}</b>点／試合（${seasonAvg.get(p.name).gp}試合）</div>` : ""}
           </div>
           </a>
