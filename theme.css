@@ -1,0 +1,38 @@
+/* サイト全体の色(B: プレミアム)。各ページの <style> のあとに読み込み、色と光り方をそろえる */
+:root {
+  --bg: #050505;
+  --card: #14110b;
+  --line: #5a4a22;
+  --gold: #e8c35a;
+  --gold-soft: #fff0b0;
+  --text: #fffaf0;
+  --muted: #b5ab92;
+}
+body { background: radial-gradient(90% 50% at 50% 0%, #4a3a10 0%, #050505 65%) fixed, #050505; }
+
+/* カード: ほんのり金色がかったグラデーションと、金の縁・光 */
+.card, .player, .post, .dancer, .box, .news a, ol.steps li, .soon,
+.tabs a, .links a, a.chat, a.bingo, .home {
+  background: linear-gradient(160deg, #211b0f, #0d0b07);
+  border-color: rgba(232, 195, 90, .45);
+}
+.card, .player, .post, .dancer, .box, .news a, ol.steps li {
+  box-shadow: 0 0 0 1px rgba(255, 240, 176, .06) inset, 0 10px 30px rgba(0, 0, 0, .6), 0 0 24px rgba(232, 195, 90, .08);
+}
+
+/* 見出し: メタリックな金と、まわりの光 */
+h1 {
+  background: linear-gradient(180deg, #fff7d1, #e8c35a 55%, #a8842a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 12px rgba(232, 195, 90, .45));
+}
+
+/* いま開いているタブ */
+.tabs a[aria-current="page"] {
+  background: linear-gradient(180deg, #fff0b0, #d4af37);
+  border-color: #e8c35a;
+  color: #111;
+  box-shadow: 0 0 16px rgba(232, 195, 90, .6);
+}
