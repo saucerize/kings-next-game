@@ -1,6 +1,6 @@
 {
  "division": "西地区",
- "updated": "2026/11/01 22:52",
+ "updated": "2026/11/06 23:24",
  "source": "https://www.bleague.jp/standings/?tab=1",
  "rows": [
   {
@@ -19,28 +19,16 @@
    "rank": 2,
    "team": "広島ドラゴンフライズ",
    "short": "広島",
-   "w": 12,
+   "w": 13,
    "l": 1,
-   "pct": ".923",
+   "pct": ".929",
    "gb": "0",
    "last5": "4-1",
-   "streak": "W3",
+   "streak": "W4",
    "kings": false
   },
   {
    "rank": 3,
-   "team": "シーホース三河",
-   "short": "三河",
-   "w": 8,
-   "l": 2,
-   "pct": ".800",
-   "gb": "2",
-   "last5": "5-0",
-   "streak": "W5",
-   "kings": false
-  },
-  {
-   "rank": 4,
    "team": "三遠ネオフェニックス",
    "short": "三遠",
    "w": 7,
@@ -49,6 +37,18 @@
    "gb": "2.5",
    "last5": "3-2",
    "streak": "W1",
+   "kings": false
+  },
+  {
+   "rank": 4,
+   "team": "シーホース三河",
+   "short": "三河",
+   "w": 8,
+   "l": 3,
+   "pct": ".727",
+   "gb": "2.5",
+   "last5": "4-1",
+   "streak": "L1",
    "kings": false
   },
   {
@@ -77,24 +77,24 @@
   },
   {
    "rank": 7,
-   "team": "長崎ヴェルカ",
-   "short": "長崎",
+   "team": "滋賀レイクス",
+   "short": "滋賀",
    "w": 6,
-   "l": 8,
-   "pct": ".429",
-   "gb": "6",
+   "l": 7,
+   "pct": ".462",
+   "gb": "5.5",
    "last5": "3-2",
-   "streak": "L1",
+   "streak": "W1",
    "kings": false
   },
   {
    "rank": 8,
-   "team": "滋賀レイクス",
-   "short": "滋賀",
-   "w": 5,
-   "l": 7,
-   "pct": ".417",
-   "gb": "6",
+   "team": "長崎ヴェルカ",
+   "short": "長崎",
+   "w": 6,
+   "l": 9,
+   "pct": ".400",
+   "gb": "6.5",
    "last5": "2-3",
    "streak": "L2",
    "kings": false
