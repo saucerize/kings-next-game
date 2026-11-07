@@ -1,6 +1,6 @@
 {
  "team": "琉球ゴールデンキングス",
- "updated": "2026/11/01 21:56",
+ "updated": "2026/11/07 19:50",
  "games": [
   {
    "key": "506381",
@@ -1621,6 +1621,117 @@
      "min": "07:44",
      "pts": 2,
      "reb": 1,
+     "ast": 0
+    }
+   ]
+  },
+  {
+   "key": "506551",
+   "datetime": "2026-11-07T16:00:00+09:00",
+   "opponent": "宇都宮ブレックス",
+   "home": false,
+   "kings": 76,
+   "opp": 79,
+   "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506551&tab=4",
+   "players": [
+    {
+     "number": 3,
+     "starter": true,
+     "name": "大浦 颯太",
+     "position": "PG",
+     "min": "39:35",
+     "pts": 27,
+     "reb": 2,
+     "ast": 6
+    },
+    {
+     "number": 8,
+     "starter": true,
+     "name": "佐土原 遼",
+     "position": "SF/PF",
+     "min": "43:27",
+     "pts": 10,
+     "reb": 5,
+     "ast": 1
+    },
+    {
+     "number": 11,
+     "starter": false,
+     "name": "キーファー・ラベナ",
+     "position": "PG/SG",
+     "min": "29:23",
+     "pts": 10,
+     "reb": 0,
+     "ast": 4
+    },
+    {
+     "number": 18,
+     "starter": false,
+     "name": "脇 真大",
+     "position": "SG",
+     "min": "18:46",
+     "pts": 2,
+     "reb": 2,
+     "ast": 1
+    },
+    {
+     "number": 21,
+     "starter": true,
+     "name": "ケビン・ジョーンズ",
+     "position": "PF",
+     "min": "33:09",
+     "pts": 6,
+     "reb": 6,
+     "ast": 3
+    },
+    {
+     "number": 32,
+     "starter": false,
+     "name": "山内 盛久",
+     "position": "PG",
+     "min": "08:16",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 34,
+     "starter": true,
+     "name": "小野寺 祥太",
+     "position": "PG/SG",
+     "min": "28:45",
+     "pts": 6,
+     "reb": 1,
+     "ast": 0
+    },
+    {
+     "number": 45,
+     "starter": true,
+     "name": "ジャック・クーリー",
+     "position": "C",
+     "min": "38:22",
+     "pts": 15,
+     "reb": 15,
+     "ast": 5
+    },
+    {
+     "number": 77,
+     "starter": false,
+     "name": "佐取 龍之介",
+     "position": "SG/SF",
+     "min": "00:00",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 99,
+     "starter": false,
+     "name": "川真田 紘也",
+     "position": "C",
+     "min": "10:17",
+     "pts": 0,
+     "reb": 4,
      "ast": 0
     }
    ]

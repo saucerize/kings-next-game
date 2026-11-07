@@ -110,6 +110,14 @@ SUMMARY:🏀 キングス 86-96 三遠ネオフェニックス（負）
 URL:https://www.bleague.jp/game_detail/?ScheduleKey=506544&tab=4
 END:VEVENT
 BEGIN:VEVENT
+UID:506551@kings-next-game
+DTSTAMP:20261107T070000Z
+DTSTART:20261107T070000Z
+DTEND:20261107T090000Z
+SUMMARY:🏀 キングス 76-79 宇都宮ブレックス（負）
+URL:https://www.bleague.jp/game_detail/?ScheduleKey=506551&tab=4
+END:VEVENT
+BEGIN:VEVENT
 UID:506560@kings-next-game
 DTSTAMP:20261109T100500Z
 DTSTART:20261109T100500Z
