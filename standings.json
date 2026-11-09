@@ -1,30 +1,30 @@
 {
  "division": "西地区",
- "updated": "2026/11/08 21:58",
+ "updated": "2026/11/10 00:02",
  "source": "https://www.bleague.jp/standings/?tab=1",
  "rows": [
   {
    "rank": 1,
-   "team": "名古屋ダイヤモンドドルフィンズ",
-   "short": "名古屋D",
-   "w": 11,
-   "l": 0,
-   "pct": "1.000",
-   "gb": "--",
-   "last5": "5-0",
-   "streak": "W11",
-   "kings": false
-  },
-  {
-   "rank": 2,
    "team": "広島ドラゴンフライズ",
    "short": "広島",
    "w": 13,
    "l": 1,
    "pct": ".929",
-   "gb": "0",
+   "gb": "--",
    "last5": "4-1",
    "streak": "W4",
+   "kings": false
+  },
+  {
+   "rank": 2,
+   "team": "名古屋ダイヤモンドドルフィンズ",
+   "short": "名古屋D",
+   "w": 11,
+   "l": 1,
+   "pct": ".917",
+   "gb": "1",
+   "last5": "4-1",
+   "streak": "L1",
    "kings": false
   },
   {
@@ -34,7 +34,7 @@
    "w": 9,
    "l": 3,
    "pct": ".750",
-   "gb": "2.5",
+   "gb": "3",
    "last5": "4-1",
    "streak": "W1",
    "kings": false
@@ -46,7 +46,7 @@
    "w": 7,
    "l": 3,
    "pct": ".700",
-   "gb": "3.5",
+   "gb": "4",
    "last5": "2-3",
    "streak": "L1",
    "kings": false
@@ -56,11 +56,11 @@
    "team": "京都ハンナリーズ",
    "short": "京都",
    "w": 8,
-   "l": 5,
-   "pct": ".615",
-   "gb": "4",
-   "last5": "2-3",
-   "streak": "L3",
+   "l": 6,
+   "pct": ".571",
+   "gb": "5",
+   "last5": "1-4",
+   "streak": "L4",
    "kings": false
   },
   {
@@ -68,11 +68,11 @@
    "team": "琉球ゴールデンキングス",
    "short": "琉球",
    "w": 7,
-   "l": 7,
-   "pct": ".500",
-   "gb": "5.5",
-   "last5": "2-3",
-   "streak": "L2",
+   "l": 8,
+   "pct": ".467",
+   "gb": "6.5",
+   "last5": "1-4",
+   "streak": "L3",
    "kings": true
   },
   {
@@ -82,45 +82,45 @@
    "w": 6,
    "l": 8,
    "pct": ".429",
-   "gb": "6.5",
+   "gb": "7",
    "last5": "2-3",
    "streak": "L1",
    "kings": false
   },
   {
    "rank": 8,
-   "team": "長崎ヴェルカ",
-   "short": "長崎",
-   "w": 6,
-   "l": 9,
-   "pct": ".400",
-   "gb": "7",
-   "last5": "2-3",
-   "streak": "L2",
-   "kings": false
-  },
-  {
-   "rank": 9,
    "team": "信州ブレイブウォリアーズ",
    "short": "信州",
    "w": 6,
    "l": 9,
    "pct": ".400",
-   "gb": "7",
+   "gb": "7.5",
    "last5": "4-1",
    "streak": "W4",
    "kings": false
   },
   {
-   "rank": 10,
+   "rank": 9,
    "team": "島根スサノオマジック",
    "short": "島根",
-   "w": 4,
+   "w": 5,
    "l": 8,
-   "pct": ".333",
+   "pct": ".385",
    "gb": "7.5",
    "last5": "1-4",
-   "streak": "L4",
+   "streak": "W1",
+   "kings": false
+  },
+  {
+   "rank": 10,
+   "team": "長崎ヴェルカ",
+   "short": "長崎",
+   "w": 6,
+   "l": 10,
+   "pct": ".375",
+   "gb": "8",
+   "last5": "2-3",
+   "streak": "L3",
    "kings": false
   },
   {
@@ -130,7 +130,7 @@
    "w": 4,
    "l": 10,
    "pct": ".286",
-   "gb": "8.5",
+   "gb": "9",
    "last5": "2-3",
    "streak": "W2",
    "kings": false
@@ -142,7 +142,7 @@
    "w": 1,
    "l": 13,
    "pct": ".071",
-   "gb": "11.5",
+   "gb": "12",
    "last5": "0-5",
    "streak": "L8",
    "kings": false
@@ -154,7 +154,7 @@
    "w": 1,
    "l": 13,
    "pct": ".071",
-   "gb": "11.5",
+   "gb": "12",
    "last5": "0-5",
    "streak": "L13",
    "kings": false
