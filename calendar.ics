@@ -122,11 +122,8 @@ UID:506560@kings-next-game
 DTSTAMP:20261109T100500Z
 DTSTART:20261109T100500Z
 DTEND:20261109T120500Z
-SUMMARY:🏀 キングス vs 茨城ロボッツ（AWAY）
-LOCATION:アダストリアみとアリーナ
-URL:https://www.bleague.jp/game_detail/?ScheduleKey=506560&tab=1
-DESCRIPTION:ライブ配信: https://basketball.mb.softbank.jp/lives/50656
- 0/
+SUMMARY:🏀 キングス 72-80 茨城ロボッツ（負）
+URL:https://www.bleague.jp/game_detail/?ScheduleKey=506560&tab=4
 END:VEVENT
 BEGIN:VEVENT
 UID:506578@kings-next-game
@@ -172,5 +169,16 @@ LOCATION:バンダイナムコアリーナ松江(松江市総合体育館)
 URL:https://www.bleague.jp/game_detail/?ScheduleKey=506637&tab=1
 DESCRIPTION:チケット: https://ticket.bleague.jp/sales/ss/20261211\nラ
  イブ配信: https://basketball.mb.softbank.jp/lives/506637/
+END:VEVENT
+BEGIN:VEVENT
+UID:506656@kings-next-game
+DTSTAMP:20261213T043500Z
+DTSTART:20261213T043500Z
+DTEND:20261213T063500Z
+SUMMARY:🏀 キングス vs 島根スサノオマジック（AWAY）
+LOCATION:バンダイナムコアリーナ松江(松江市総合体育館)
+URL:https://www.bleague.jp/game_detail/?ScheduleKey=506656&tab=1
+DESCRIPTION:チケット: https://ticket.bleague.jp/sales/ss/20261213\nラ
+ イブ配信: https://basketball.mb.softbank.jp/lives/506656/
 END:VEVENT
 END:VCALENDAR

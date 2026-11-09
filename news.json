@@ -1,6 +1,15 @@
 {
- "updated": "2026/11/09 17:33",
+ "updated": "2026/11/09 22:22",
  "news": [
+  {
+   "title": "【結果】茨城の堅守に苦しみ敗戦[11/9(月)vs茨城ロボッツ]",
+   "url": "https://goldenkings.jp/news/detail/id=26483",
+   "date": "2026-11-09",
+   "tags": [
+    "GAME"
+   ],
+   "image": "https://goldenkings.bl.kuroco-img.app/v=1794227206/files/user/261109_finalscore%2CWbOS.png"
+  },
   {
    "title": "#99 川真田紘也選手「FIBA バスケットボールワールドカップ2027」アジア地区予選 Window5 男子日本代表直前合宿メンバー選出のご報告",
    "url": "https://goldenkings.jp/news/detail/id=26487",
@@ -75,15 +84,6 @@
    "image": "https://goldenkings.bl.kuroco-img.app/v=1793783180/files/user/261104_Matsuwaki.jpg"
   },
   {
-   "title": "お誕生日おめでとう！NEWゴーディーグッズ販売開始！",
-   "url": "https://goldenkings.jp/news/detail/id=26459",
-   "date": "2026-11-03",
-   "tags": [
-    "GOODS"
-   ],
-   "image": "https://goldenkings.bl.kuroco-img.app/v=1793702981/files/user/261103_GORDYGOODSKV_WbOS%2CWbO1.jpg"
-  },
-  {
    "title": "ハロウィンイベントへゴーディー参加のご報告",
    "url": "https://goldenkings.jp/news/detail/id=26453",
    "date": "2026-11-03",
@@ -139,6 +139,13 @@
   }
  ],
  "videos": [
+  {
+   "id": "FYB4ncAwVv0",
+   "title": "【アウェーでの一戦】茨城の激しい守備に屈せず攻め続け、勝機を見出せるか...？【vs茨城ロボッツ】",
+   "published": "2026-11-09T12:34:03+00:00",
+   "thumb": "https://i3.ytimg.com/vi/FYB4ncAwVv0/hqdefault.jpg",
+   "url": "https://www.youtube.com/watch?v=FYB4ncAwVv0"
+  },
   {
    "id": "tge5AukGNNI",
    "title": "【首里城復興2026】 #32 山内選手、#45 クーリー選手が首里城を訪問。それぞれが語る首里城と沖縄への想い",
@@ -215,13 +222,6 @@
    "published": "2026-10-20T03:52:06+00:00",
    "thumb": "https://i2.ytimg.com/vi/9BWfN6sVkzw/hqdefault.jpg",
    "url": "https://www.youtube.com/watch?v=9BWfN6sVkzw"
-  },
-  {
-   "id": "_KuUFYZDkR0",
-   "title": "【#99 川真田選手復帰後初ホーム戦！】多彩なオフェンスで滋賀との再戦を制することができるか【vs滋賀レイクス】",
-   "published": "2026-10-19T12:59:00+00:00",
-   "thumb": "https://i4.ytimg.com/vi/_KuUFYZDkR0/hqdefault.jpg",
-   "url": "https://www.youtube.com/watch?v=_KuUFYZDkR0"
   }
  ],
  "x": "https://x.com/RyukyuKings",
