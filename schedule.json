@@ -1,6 +1,6 @@
 {
   "team": "琉球ゴールデンキングス",
-  "note": "B.LEAGUE 公式サイトから自動で更新しています（最終更新 2026/11/07 18:54）",
+  "note": "B.LEAGUE 公式サイトから自動で更新しています（最終更新 2026/11/09 19:06）",
   "games": [
     {
       "datetime": "2026-11-09T19:05:00+09:00",
@@ -8,7 +8,7 @@
       "venue": "アダストリアみとアリーナ",
       "home": false,
       "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506560&tab=1",
-      "ticket": "https://ticket.bleague.jp/sales/ir/20261109",
+      "ticket": "",
       "live": "https://basketball.mb.softbank.jp/lives/506560/"
     },
     {
