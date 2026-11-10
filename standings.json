@@ -1,6 +1,6 @@
 {
  "division": "西地区",
- "updated": "2026/11/10 00:02",
+ "updated": "2026/11/10 23:20",
  "source": "https://www.bleague.jp/standings/?tab=1",
  "rows": [
   {
@@ -31,12 +31,12 @@
    "rank": 3,
    "team": "シーホース三河",
    "short": "三河",
-   "w": 9,
+   "w": 10,
    "l": 3,
-   "pct": ".750",
-   "gb": "3",
+   "pct": ".769",
+   "gb": "2.5",
    "last5": "4-1",
-   "streak": "W1",
+   "streak": "W2",
    "kings": false
   },
   {
@@ -89,18 +89,6 @@
   },
   {
    "rank": 8,
-   "team": "信州ブレイブウォリアーズ",
-   "short": "信州",
-   "w": 6,
-   "l": 9,
-   "pct": ".400",
-   "gb": "7.5",
-   "last5": "4-1",
-   "streak": "W4",
-   "kings": false
-  },
-  {
-   "rank": 9,
    "team": "島根スサノオマジック",
    "short": "島根",
    "w": 5,
@@ -112,7 +100,7 @@
    "kings": false
   },
   {
-   "rank": 10,
+   "rank": 9,
    "team": "長崎ヴェルカ",
    "short": "長崎",
    "w": 6,
@@ -124,15 +112,27 @@
    "kings": false
   },
   {
+   "rank": 10,
+   "team": "信州ブレイブウォリアーズ",
+   "short": "信州",
+   "w": 6,
+   "l": 10,
+   "pct": ".375",
+   "gb": "8",
+   "last5": "4-1",
+   "streak": "L1",
+   "kings": false
+  },
+  {
    "rank": 11,
    "team": "神戸ストークス",
    "short": "神戸",
    "w": 4,
-   "l": 10,
-   "pct": ".286",
-   "gb": "9",
+   "l": 11,
+   "pct": ".267",
+   "gb": "9.5",
    "last5": "2-3",
-   "streak": "W2",
+   "streak": "L1",
    "kings": false
   },
   {
@@ -152,11 +152,11 @@
    "team": "大阪エヴェッサ",
    "short": "大阪",
    "w": 1,
-   "l": 13,
-   "pct": ".071",
-   "gb": "12",
+   "l": 14,
+   "pct": ".067",
+   "gb": "12.5",
    "last5": "0-5",
-   "streak": "L13",
+   "streak": "L14",
    "kings": false
   }
  ]
