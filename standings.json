@@ -1,6 +1,6 @@
 {
  "division": "西地区",
- "updated": "2026/11/11 23:58",
+ "updated": "2026/11/13 03:19",
  "source": "https://www.bleague.jp/standings/?tab=1",
  "rows": [
   {
@@ -67,12 +67,12 @@
    "rank": 6,
    "team": "琉球ゴールデンキングス",
    "short": "琉球",
-   "w": 7,
+   "w": 8,
    "l": 8,
-   "pct": ".467",
-   "gb": "5.5",
-   "last5": "1-4",
-   "streak": "L3",
+   "pct": ".500",
+   "gb": "5",
+   "last5": "2-3",
+   "streak": "W1",
    "kings": true
   },
   {
@@ -92,11 +92,11 @@
    "team": "滋賀レイクス",
    "short": "滋賀",
    "w": 6,
-   "l": 8,
-   "pct": ".429",
-   "gb": "6",
-   "last5": "2-3",
-   "streak": "L1",
+   "l": 9,
+   "pct": ".400",
+   "gb": "6.5",
+   "last5": "1-4",
+   "streak": "L2",
    "kings": false
   },
   {
@@ -152,11 +152,11 @@
    "team": "大阪エヴェッサ",
    "short": "大阪",
    "w": 1,
-   "l": 14,
-   "pct": ".067",
-   "gb": "11.5",
+   "l": 15,
+   "pct": ".063",
+   "gb": "12",
    "last5": "0-5",
-   "streak": "L14",
+   "streak": "L15",
    "kings": false
   }
  ]

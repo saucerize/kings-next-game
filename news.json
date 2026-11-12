@@ -1,6 +1,24 @@
 {
- "updated": "2026/11/11 22:19",
+ "updated": "2026/11/13 03:19",
  "news": [
+  {
+   "title": "【コメント】東京SR戦 試合後コメント[11/12(木)]",
+   "url": "https://goldenkings.jp/news/detail/id=26499",
+   "date": "2026-11-12",
+   "tags": [
+    "GAME"
+   ],
+   "image": "https://goldenkings.bl.kuroco-img.app/v=1794493172/files/user/261112_11_Comment.jpg"
+  },
+  {
+   "title": "【結果】ブザービーターで接戦を制す！[11/12(木)vs東京サンロッカーズ]",
+   "url": "https://goldenkings.jp/news/detail/id=26498",
+   "date": "2026-11-12",
+   "tags": [
+    "GAME"
+   ],
+   "image": "https://goldenkings.bl.kuroco-img.app/v=1794488855/files/user/261112_WEB_Home.jpg"
+  },
   {
    "title": "キングスウィンターウェア 第1弾 11/11(水)より販売開始！",
    "url": "https://goldenkings.jp/news/detail/id=26491",
@@ -145,27 +163,16 @@
     "CSR"
    ],
    "image": "https://goldenkings.bl.kuroco-img.app/v=1793510570/files/user/261102_Gordy_WbO1.jpg"
-  },
-  {
-   "title": "【コメント】三遠戦 試合後コメント[11/1(日)]",
-   "url": "https://goldenkings.jp/news/detail/id=26456",
-   "date": "2026-11-01",
-   "tags": [
-    "GAME"
-   ],
-   "image": "https://goldenkings.bl.kuroco-img.app/v=1793536562/files/user/261101_34Comment.jpg"
-  },
-  {
-   "title": "【結果】チーム一丸で挑むも悔しい敗戦[11/1(日)vs三遠ネオフェニックス]",
-   "url": "https://goldenkings.jp/news/detail/id=26454",
-   "date": "2026-11-01",
-   "tags": [
-    "GAME"
-   ],
-   "image": "https://goldenkings.bl.kuroco-img.app/v=1793532806/files/user/261101_finalscore%2CWbOS.png"
   }
  ],
  "videos": [
+  {
+   "id": "FQmkZzCjuTc",
+   "title": "【最後の一瞬まで目が離せない！】ブザーと同時に決まった一投の行方は…【vs東京サンロッカーズ】",
+   "published": "2026-11-12T13:18:38+00:00",
+   "thumb": "https://i3.ytimg.com/vi/FQmkZzCjuTc/hqdefault.jpg",
+   "url": "https://www.youtube.com/watch?v=FQmkZzCjuTc"
+  },
   {
    "id": "FYB4ncAwVv0",
    "title": "【アウェーでの一戦】茨城の激しい守備に屈せず攻め続け、勝機を見出せるか...？【vs茨城ロボッツ】",
@@ -242,13 +249,6 @@
    "published": "2026-10-21T13:15:54+00:00",
    "thumb": "https://i4.ytimg.com/vi/kx4ccbPyPWM/hqdefault.jpg",
    "url": "https://www.youtube.com/watch?v=kx4ccbPyPWM"
-  },
-  {
-   "id": "9BWfN6sVkzw",
-   "title": "【EASL2026-27】 マクヘンリー指揮官が語る「EASL出場の意義 【沖縄を世界へ】",
-   "published": "2026-10-20T03:52:06+00:00",
-   "thumb": "https://i2.ytimg.com/vi/9BWfN6sVkzw/hqdefault.jpg",
-   "url": "https://www.youtube.com/watch?v=9BWfN6sVkzw"
   }
  ],
  "x": "https://x.com/RyukyuKings",
