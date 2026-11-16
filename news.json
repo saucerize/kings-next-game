@@ -1,6 +1,24 @@
 {
- "updated": "2026/11/14 19:27",
+ "updated": "2026/11/17 05:28",
  "news": [
+  {
+   "title": "【コメント】富山戦 試合後コメント[11/16(月)]",
+   "url": "https://goldenkings.jp/news/detail/id=26514",
+   "date": "2026-11-16",
+   "tags": [
+    "GAME"
+   ],
+   "image": "https://goldenkings.bl.kuroco-img.app/v=1794838869/files/user/26116_3_Comment.jpg"
+  },
+  {
+   "title": "【結果】勝負どころで得点を重ね、富山との接戦を制す！[11/16(月)vs富山グラウジーズ]",
+   "url": "https://goldenkings.jp/news/detail/id=26512",
+   "date": "2026-11-16",
+   "tags": [
+    "GAME"
+   ],
+   "image": "https://goldenkings.bl.kuroco-img.app/v=1794835611/files/user/261116_WEB_Home.jpg"
+  },
   {
    "title": "「ARENA SHOP」及び「ARENA CAFE」臨時休業のお知らせ",
    "url": "https://goldenkings.jp/news/detail/id=26508",
@@ -147,27 +165,16 @@
     "INFO"
    ],
    "image": "https://goldenkings.bl.kuroco-img.app/v=1793783180/files/user/261104_Matsuwaki.jpg"
-  },
-  {
-   "title": "お誕生日おめでとう！NEWゴーディーグッズ販売開始！",
-   "url": "https://goldenkings.jp/news/detail/id=26459",
-   "date": "2026-11-03",
-   "tags": [
-    "GOODS"
-   ],
-   "image": "https://goldenkings.bl.kuroco-img.app/v=1793702981/files/user/261103_GORDYGOODSKV_WbOS%2CWbO1.jpg"
-  },
-  {
-   "title": "ハロウィンイベントへゴーディー参加のご報告",
-   "url": "https://goldenkings.jp/news/detail/id=26453",
-   "date": "2026-11-03",
-   "tags": [
-    "CSR"
-   ],
-   "image": "https://goldenkings.bl.kuroco-img.app/v=1793521308/files/user/261103_Gordy_WbO3%2CWbOS%2CSNS.jpg"
   }
  ],
  "videos": [
+  {
+   "id": "5jJIKbJ9YkQ",
+   "title": "【白熱の一戦】激しい3Pシュートの応酬！一進一退の攻防を制し、ホームで勝利を掴めるか【vs富山グラウジーズ】",
+   "published": "2026-11-16T14:07:19+00:00",
+   "thumb": "https://i2.ytimg.com/vi/5jJIKbJ9YkQ/hqdefault.jpg",
+   "url": "https://www.youtube.com/watch?v=5jJIKbJ9YkQ"
+  },
   {
    "id": "FQmkZzCjuTc",
    "title": "【最後の一瞬まで目が離せない！】ブザーと同時に決まった一投の行方は…【vs東京サンロッカーズ】",
@@ -244,13 +251,6 @@
    "published": "2026-10-23T13:44:57+00:00",
    "thumb": "https://i4.ytimg.com/vi/_EZgSkhJKNM/hqdefault.jpg",
    "url": "https://www.youtube.com/watch?v=_EZgSkhJKNM"
-  },
-  {
-   "id": "kx4ccbPyPWM",
-   "title": "【チーム一丸で躍動！】攻守で強度高く挑み、ホームで連勝を掴み取る！【vsアルティーリ千葉】",
-   "published": "2026-10-21T13:15:54+00:00",
-   "thumb": "https://i4.ytimg.com/vi/kx4ccbPyPWM/hqdefault.jpg",
-   "url": "https://www.youtube.com/watch?v=kx4ccbPyPWM"
   }
  ],
  "x": "https://x.com/RyukyuKings",
