@@ -1,6 +1,6 @@
 {
  "team": "琉球ゴールデンキングス",
- "updated": "2026/11/17 05:28",
+ "updated": "2026/11/18 22:56",
  "games": [
   {
    "key": "506381",
@@ -2096,6 +2096,127 @@
      "pts": 4,
      "reb": 1,
      "ast": 0
+    }
+   ]
+  },
+  {
+   "key": "506608",
+   "datetime": "2026-11-18T19:05:00+09:00",
+   "opponent": "名古屋ダイヤモンドドルフィンズ",
+   "home": false,
+   "kings": 76,
+   "opp": 93,
+   "url": "https://www.bleague.jp/game_detail/?ScheduleKey=506608&tab=4",
+   "players": [
+    {
+     "number": 2,
+     "starter": false,
+     "name": "小針 幸也",
+     "position": "PG",
+     "min": "00:00",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 3,
+     "starter": true,
+     "name": "大浦 颯太",
+     "position": "PG",
+     "min": "28:18",
+     "pts": 10,
+     "reb": 1,
+     "ast": 6
+    },
+    {
+     "number": 8,
+     "starter": true,
+     "name": "佐土原 遼",
+     "position": "SF/PF",
+     "min": "30:28",
+     "pts": 10,
+     "reb": 1,
+     "ast": 0
+    },
+    {
+     "number": 11,
+     "starter": false,
+     "name": "キーファー・ラベナ",
+     "position": "PG/SG",
+     "min": "23:57",
+     "pts": 11,
+     "reb": 2,
+     "ast": 4
+    },
+    {
+     "number": 18,
+     "starter": true,
+     "name": "脇 真大",
+     "position": "SG",
+     "min": "24:34",
+     "pts": 5,
+     "reb": 2,
+     "ast": 2
+    },
+    {
+     "number": 21,
+     "starter": true,
+     "name": "ケビン・ジョーンズ",
+     "position": "PF",
+     "min": "32:40",
+     "pts": 5,
+     "reb": 8,
+     "ast": 2
+    },
+    {
+     "number": 32,
+     "starter": false,
+     "name": "山内 盛久",
+     "position": "PG",
+     "min": "01:43",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 34,
+     "starter": false,
+     "name": "小野寺 祥太",
+     "position": "PG/SG",
+     "min": "13:30",
+     "pts": 0,
+     "reb": 0,
+     "ast": 1
+    },
+    {
+     "number": 45,
+     "starter": true,
+     "name": "ジャック・クーリー",
+     "position": "C",
+     "min": "29:55",
+     "pts": 29,
+     "reb": 16,
+     "ast": 1
+    },
+    {
+     "number": 77,
+     "starter": false,
+     "name": "佐取 龍之介",
+     "position": "SG/SF",
+     "min": "00:00",
+     "pts": 0,
+     "reb": 0,
+     "ast": 0
+    },
+    {
+     "number": 99,
+     "starter": false,
+     "name": "川真田 紘也",
+     "position": "C",
+     "min": "14:55",
+     "pts": 6,
+     "reb": 1,
+     "ast": 2
     }
    ]
   }
