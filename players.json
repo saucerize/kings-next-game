@@ -1,8 +1,8 @@
 {
   "team": "琉球ゴールデンキングス",
-  "updated": "2026/11/18 07:22",
+  "updated": "2026/11/19 06:55",
   "source": "https://www.bleague.jp/roster/?tab=1&club=701",
-  "details_date": "2026-11-18",
+  "details_date": "2026-11-19",
   "players": [
     {
       "id": "51000252",
@@ -50,16 +50,16 @@
       ],
       "birthday": "1997-12-23",
       "career": {
-        "games": 347,
-        "pts": 2592,
-        "reb": 599,
-        "ast": 1320
+        "games": 348,
+        "pts": 2602,
+        "reb": 600,
+        "ast": 1327
       },
       "season": {
-        "games": 17,
-        "pts": 214,
-        "reb": 28,
-        "ast": 82
+        "games": 18,
+        "pts": 224,
+        "reb": 29,
+        "ast": 89
       }
     },
     {
@@ -72,15 +72,15 @@
       "sns": [],
       "birthday": "1999-10-24",
       "career": {
-        "games": 289,
-        "pts": 2000,
-        "reb": 680,
+        "games": 290,
+        "pts": 2010,
+        "reb": 681,
         "ast": 344
       },
       "season": {
-        "games": 16,
-        "pts": 114,
-        "reb": 34,
+        "games": 17,
+        "pts": 124,
+        "reb": 35,
         "ast": 19
       }
     },
@@ -99,16 +99,16 @@
       ],
       "birthday": "1993-10-27",
       "career": {
-        "games": 294,
-        "pts": 3408,
-        "reb": 675,
-        "ast": 1306
+        "games": 295,
+        "pts": 3419,
+        "reb": 678,
+        "ast": 1310
       },
       "season": {
-        "games": 17,
-        "pts": 193,
-        "reb": 33,
-        "ast": 64
+        "games": 18,
+        "pts": 204,
+        "reb": 36,
+        "ast": 68
       }
     },
     {
@@ -159,13 +159,13 @@
       "career": {
         "games": 127,
         "pts": 2379,
-        "reb": 936,
+        "reb": 935,
         "ast": 416
       },
       "season": {
         "games": 14,
         "pts": 241,
-        "reb": 100,
+        "reb": 99,
         "ast": 58
       }
     },
@@ -188,16 +188,16 @@
       ],
       "birthday": "2002-03-11",
       "career": {
-        "games": 134,
-        "pts": 757,
-        "reb": 382,
-        "ast": 256
+        "games": 135,
+        "pts": 762,
+        "reb": 384,
+        "ast": 258
       },
       "season": {
-        "games": 17,
-        "pts": 90,
-        "reb": 48,
-        "ast": 34
+        "games": 18,
+        "pts": 95,
+        "reb": 50,
+        "ast": 36
       }
     },
     {
@@ -210,16 +210,16 @@
       "sns": [],
       "birthday": "1989-08-25",
       "career": {
-        "games": 364,
-        "pts": 4975,
-        "reb": 2565,
-        "ast": 608
+        "games": 365,
+        "pts": 4980,
+        "reb": 2573,
+        "ast": 610
       },
       "season": {
-        "games": 17,
-        "pts": 169,
-        "reb": 90,
-        "ast": 21
+        "games": 18,
+        "pts": 174,
+        "reb": 98,
+        "ast": 23
       }
     },
     {
@@ -241,13 +241,13 @@
       ],
       "birthday": "1990-03-23",
       "career": {
-        "games": 480,
+        "games": 481,
         "pts": 1588,
         "reb": 646,
         "ast": 1240
       },
       "season": {
-        "games": 9,
+        "games": 10,
         "pts": 10,
         "reb": 1,
         "ast": 2
@@ -295,16 +295,16 @@
       ],
       "birthday": "1994-11-06",
       "career": {
-        "games": 514,
+        "games": 515,
         "pts": 2376,
         "reb": 730,
-        "ast": 746
+        "ast": 747
       },
       "season": {
-        "games": 17,
+        "games": 18,
         "pts": 52,
         "reb": 20,
-        "ast": 14
+        "ast": 15
       }
     },
     {
@@ -322,16 +322,16 @@
       ],
       "birthday": "1991-04-12",
       "career": {
-        "games": 392,
-        "pts": 5780,
-        "reb": 4388,
-        "ast": 581
+        "games": 393,
+        "pts": 5809,
+        "reb": 4405,
+        "ast": 583
       },
       "season": {
-        "games": 17,
-        "pts": 256,
-        "reb": 189,
-        "ast": 42
+        "games": 18,
+        "pts": 285,
+        "reb": 206,
+        "ast": 44
       }
     },
     {
@@ -380,16 +380,16 @@
       ],
       "birthday": "1998-06-16",
       "career": {
-        "games": 258,
-        "pts": 731,
-        "reb": 457,
-        "ast": 51
+        "games": 259,
+        "pts": 737,
+        "reb": 458,
+        "ast": 53
       },
       "season": {
-        "games": 11,
-        "pts": 33,
-        "reb": 30,
-        "ast": 3
+        "games": 12,
+        "pts": 39,
+        "reb": 31,
+        "ast": 5
       }
     }
   ]
