@@ -1,6 +1,6 @@
 {
  "division": "西地区",
- "updated": "2026/11/19 06:55",
+ "updated": "2026/11/21 10:33",
  "source": "https://www.bleague.jp/standings/?tab=1",
  "rows": [
   {
@@ -115,12 +115,12 @@
    "rank": 10,
    "team": "信州ブレイブウォリアーズ",
    "short": "信州",
-   "w": 6,
+   "w": 7,
    "l": 12,
-   "pct": ".333",
-   "gb": "8.5",
+   "pct": ".368",
+   "gb": "8",
    "last5": "2-3",
-   "streak": "L3",
+   "streak": "L1",
    "kings": false
   },
   {
