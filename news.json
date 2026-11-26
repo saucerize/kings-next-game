@@ -1,6 +1,24 @@
 {
- "updated": "2026/11/25 21:52",
+ "updated": "2026/11/26 14:01",
  "news": [
+  {
+   "title": "キングスの舞台裏に迫る 「KINGS DOCUMENTARY 2026-27 SEASON」 公開のお知らせ",
+   "url": "https://goldenkings.jp/news/detail/id=26592",
+   "date": "2026-11-26",
+   "tags": [
+    "INFO"
+   ],
+   "image": "https://goldenkings.bl.kuroco-img.app/v=1795668627/files/user/KINGS%20DOCUMENTARY_Ep.1_thumbnail_B_2.jpg"
+  },
+  {
+   "title": "「オレンジリボン・フェスタ2026 in沖縄」 イベント参加のご報告",
+   "url": "https://goldenkings.jp/news/detail/id=26578",
+   "date": "2026-11-26",
+   "tags": [
+    "CSR"
+   ],
+   "image": "https://goldenkings.bl.kuroco-img.app/v=1795485286/files/user/261126_orange_WbO2%2CWbOS%2CSNS.jpg"
+  },
   {
    "title": "キングスU18「インフロニア B.LEAGUE U18 CHAMPIONSHIP 2026」大会結果のご報告",
    "url": "https://goldenkings.jp/news/detail/id=26582",
@@ -152,27 +170,16 @@
     "INFO"
    ],
    "image": "https://goldenkings.bl.kuroco-img.app/v=1794532283/files/user/202611131011_1.jpg"
-  },
-  {
-   "title": "【コメント】東京SR戦 試合後コメント[11/12(木)]",
-   "url": "https://goldenkings.jp/news/detail/id=26499",
-   "date": "2026-11-12",
-   "tags": [
-    "GAME"
-   ],
-   "image": "https://goldenkings.bl.kuroco-img.app/v=1794493172/files/user/261112_11_Comment.jpg"
-  },
-  {
-   "title": "【結果】ブザービーターで接戦を制す！[11/12(木)vs東京サンロッカーズ]",
-   "url": "https://goldenkings.jp/news/detail/id=26498",
-   "date": "2026-11-12",
-   "tags": [
-    "GAME"
-   ],
-   "image": "https://goldenkings.bl.kuroco-img.app/v=1794488855/files/user/261112_WEB_Home.jpg"
   }
  ],
  "videos": [
+  {
+   "id": "V5SAWPIrYWE",
+   "title": "【キングスドキュメンタリー】Ep.1 | THE BEGINNING~新体制で挑む、新時代の幕開け~【2026-27 SEASON】",
+   "published": "2026-11-26T02:54:52+00:00",
+   "thumb": "https://i3.ytimg.com/vi/V5SAWPIrYWE/hqdefault.jpg",
+   "url": "https://www.youtube.com/watch?v=V5SAWPIrYWE"
+  },
   {
    "id": "0MNOy-eNNfU",
    "title": "【首里城復興2026】首里城への想いを込めた2試合【11/12 東京SR戦・11/16 富山戦】",
@@ -249,13 +256,6 @@
    "published": "2026-10-31T11:39:30+00:00",
    "thumb": "https://i2.ytimg.com/vi/qHJFx8yonJs/hqdefault.jpg",
    "url": "https://www.youtube.com/watch?v=qHJFx8yonJs"
-  },
-  {
-   "id": "IGwAPVa0mPQ",
-   "title": "【激闘のEASL初戦】最終盤まで一進一退の攻防を繰り返す接戦！手に汗握る勝負の行方は...【vs桃園パウイアン・パイロッツ】",
-   "published": "2026-10-28T13:39:34+00:00",
-   "thumb": "https://i2.ytimg.com/vi/IGwAPVa0mPQ/hqdefault.jpg",
-   "url": "https://www.youtube.com/watch?v=IGwAPVa0mPQ"
   }
  ],
  "x": "https://x.com/RyukyuKings",
